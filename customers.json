@@ -1,0 +1,18 @@
+{
+  "a964744d-ea43-47aa-b528-4acfc3a434c7" : {
+    "userID" : "a964744d-ea43-47aa-b528-4acfc3a434c7",
+    "username" : "john ",
+    "email" : "jd@gmail.com",
+    "password" : "abcd12343",
+    "address" : "0123412322",
+    "phoneNum" : "dafdsf"
+  },
+  "42048c34-e5f4-4cd5-9541-c909338f786a" : {
+    "userID" : "42048c34-e5f4-4cd5-9541-c909338f786a",
+    "username" : "fengzi",
+    "email" : "fz@ghmail.com",
+    "password" : "abcd12341k",
+    "address" : "012341232",
+    "phoneNum" : "akdjf"
+  }
+}
