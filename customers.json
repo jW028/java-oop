@@ -1,4 +1,12 @@
 {
+  "5fddd5b9-64c8-4f3a-83a3-ac320638a6f8" : {
+    "userID" : "5fddd5b9-64c8-4f3a-83a3-ac320638a6f8",
+    "username" : "SuperIdol",
+    "email" : "super@gmail.com",
+    "password" : "Super1234",
+    "address" : "0123456789",
+    "phoneNum" : "eqweqweq"
+  },
   "a964744d-ea43-47aa-b528-4acfc3a434c7" : {
     "userID" : "a964744d-ea43-47aa-b528-4acfc3a434c7",
     "username" : "john ",
