@@ -55,4 +55,34 @@ public class JsonDataHandler {
             return new HashMap<>();
         }
     }
+
+    public static void saveAdmins(Map<String, Admin> admins) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File ("admins.json");
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(file, admins);
+        } catch (IOException e) {
+            System.out.println("Error saving admin data: " + e.getMessage());
+        }
+    }
+
+    public static Map<String, Admin> loadAdmins() {
+        Map<String, Admin> admins = new HashMap<>();
+        try {
+            File file = new File("admins.json");
+            if (file.exists()) {
+                ObjectMapper readerMapper = mapper.copy();
+                admins = readerMapper.readValue(file, 
+                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Admin.class));
+            } else {
+                Admin defaultAdmin = new Admin("A001", "admin", "admin@gmail.com", "admin123", "superadmin");
+                admins.put(defaultAdmin.getUserID(), defaultAdmin);
+                saveAdmins(admins);
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading admin data: " + e.getMessage());
+        }
+        return admins;
+    }
 }

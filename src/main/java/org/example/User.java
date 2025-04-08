@@ -1,19 +1,21 @@
 package org.example;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Scanner;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type",
-        defaultImpl = Customer.class
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value=Customer.class, name="customer")
-})
+// @JsonTypeInfo(
+//         use = JsonTypeInfo.Id.NAME,
+//         include = JsonTypeInfo.As.PROPERTY,
+//         property = "type",
+//         defaultImpl = Customer.class
+// )
+// @JsonSubTypes({
+//         @JsonSubTypes.Type(value=Customer.class, name="customer"),
+//         @JsonSubTypes.Type(value=Admin.class, name="admin")
+// })
+
+@JsonDeserialize(using = UserDeserializer.class)
 
 public abstract class User {
     private String userID;
@@ -28,23 +30,6 @@ public abstract class User {
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public Boolean login (String username, String password) {
-        return this.username.equals(username) && this.password.equals(password);
-    }
-
-    public void logout() {
-        System.out.println("User " + username + " logged out.");
-        System.out.println("\033[H\033[2J");
-    }
-
-    public static String maskPassword(Scanner scanner) {
-        if (System.console() != null) {
-            return new String(System.console().readPassword());
-        } else {
-            return scanner.nextLine();
-        }
     }
 
     public String getUserID() { return userID; }

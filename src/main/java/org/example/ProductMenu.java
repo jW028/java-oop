@@ -22,11 +22,11 @@ public class ProductMenu {
         int choice;
         do {
             System.out.println("\nProducts Menu:");
-            System.out.println("1. Display Products");
+            System.out.println("1. Display All Products");
             System.out.println("2. Search Product by Name");
             System.out.println("3. Search Product by Category");
             System.out.println("4. Sort Products by Price");
-            System.out.println("5. Exit");
+            System.out.println("5. Back");
             System.out.print("Enter your choice: ");
     
             choice = MenuUtils.getMenuChoice(1, 5);
@@ -60,7 +60,7 @@ public class ProductMenu {
     
                 case 5:
                     System.out.println("Exiting program...");
-                    break;
+                    return;
     
                 default:
                     System.out.println("Invalid choice, please try again.");

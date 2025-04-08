@@ -30,4 +30,12 @@ public class MenuUtils {
         } while (choice < minChoice || choice > maxChoice);
         return choice;
     }
+
+    public static String maskPassword(Scanner scanner) {
+        if (System.console() != null) {
+            return new String(System.console().readPassword());
+        } else {
+            return scanner.nextLine();
+        }
+    }
 }
