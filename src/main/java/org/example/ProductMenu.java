@@ -1,6 +1,10 @@
 package org.example;
 
 import java.util.Scanner;
+
+// Move this into UserMenu (all menu under one class)
+
+
 public class ProductMenu {
     Scanner s = new Scanner(System.in);
 
@@ -14,7 +18,6 @@ public class ProductMenu {
             new Product("P03", "NIGGA Charger", "SuperIdol Nigga Charge Speed", accessories, 100.0, 40)
     };
 
-    
     
 
     public void displayMenu() {

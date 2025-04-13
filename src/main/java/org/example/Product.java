@@ -1,4 +1,5 @@
 package org.example;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Product {
     private String prodID;
@@ -7,6 +8,8 @@ public class Product {
     private Category category;
     private double unitPrice;
     private int stock;
+
+    public Product() {}
 
     public Product(String prodID, String prodName, String prodDesc, Category category, double unitPrice, int stock) {
         this.prodID = prodID;
@@ -26,10 +29,15 @@ public class Product {
         }
     }
 
+    @JsonIgnore
     public String getDetails() {
         return "Product Name: " + prodName + "\nCategory: " + category.getCategoryName() +
                 "\n" + prodDesc + "\nPrice: $" + unitPrice + "\nStock Left: "
                 + stock;
+    }
+
+    public String getProdID() {
+        return prodID;
     }
 
     public String getProdName() {

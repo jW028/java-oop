@@ -1,7 +1,5 @@
 package org.example;
 
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
@@ -84,5 +82,37 @@ public class JsonDataHandler {
             System.out.println("Error loading admin data: " + e.getMessage());
         }
         return admins;
+    }
+
+    public static Map<String, Product> loadProducts() {
+        Map<String, Product> products = new HashMap<>();
+        try {
+            File file = new File("products.json");
+            if (file.exists()) {
+                ObjectMapper readerMapper = mapper.copy();
+                products = readerMapper.readValue(file,
+                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Product.class));
+            } else {
+                Product defaultProduct = new Product("P001", "Laptop", "High-end laptop", new Category("C01", "Laptops", "Laptops Specs"), 1500.00, 20);
+                products.put(defaultProduct.getProdID(), defaultProduct);
+                saveProducts(products);
+                System.out.println("No existing product data found. Starting with an empty dataset.");
+            }
+            return products;
+        } catch (IOException e) {
+            System.out.println("Error loading product data: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
+    public static void saveProducts(Map<String, Product> products) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File("products.json");
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(file, products);
+        } catch (IOException e) {
+            System.out.println("Error saving product data: " + e.getMessage());
+        }
     }
 }

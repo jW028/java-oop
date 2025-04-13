@@ -13,11 +13,13 @@ public class Main {
     public static void main(String[] args) {
         Map<String,User> customers = JsonDataHandler.loadCustomers();
         Map<String,Admin> admins = JsonDataHandler.loadAdmins();
-        System.out.println(admins);
+        Map<String,Product> products = JsonDataHandler.loadProducts();
 
         UserMenu userMenu = new UserMenu(customers, admins);
         userMenu.displayMenu();
 
+
     }
 
 }
+

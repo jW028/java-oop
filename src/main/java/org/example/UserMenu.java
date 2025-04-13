@@ -8,6 +8,8 @@ public class UserMenu {
     private Scanner scanner;
     private Map<String, User> customers;
     private Map<String, Admin> admins;
+    public static User currentUser = null; 
+
 
     public UserMenu(Map<String, User> customers, Map<String, Admin> admins) {
         this.scanner = MenuUtils.getScanner();
@@ -28,15 +30,22 @@ public class UserMenu {
             registerCustomer();
             break;
         case 2:
-            login();
+            if (login()) {
+                if (currentUser instanceof Admin) {
+                    adminMenu();
+                } else {
+                    productMenu();
+                }
+            }
             break;
         case 3:
             JsonDataHandler.saveCustomers(customers);
             System.out.println("Exiting...");
             MenuUtils.closeScanner();
-            return;
+            break;
+            }
         }
-    }
+    
 
     private void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
@@ -72,7 +81,7 @@ public class UserMenu {
         }
     }
 
-    private void login() {
+    private boolean login() {
         System.out.println("\n=== Login ===");
 
         System.out.print("Enter Email: ");
@@ -88,7 +97,6 @@ public class UserMenu {
 
         // Check if the user is an admin
         if (matchingUser == null) {
-            System.out.println("Checking admin credentials...");
             matchingUser = admins.values().stream()
                     .filter(user -> email.equals(user.getEmail()))
                     .findFirst()
@@ -97,20 +105,16 @@ public class UserMenu {
 
         if (matchingUser != null) {
             if (password.equals(matchingUser.getPassword())) {
+                currentUser = matchingUser;
                 System.out.println("Login successful! Welcome, " + matchingUser.getUsername() + ".");
-                if ( matchingUser instanceof Admin) {
-                    System.out.println("You are logged in as an Admin.");
-                    adminMenu();
-                } else {
-                    ProductMenu productMenu = new ProductMenu();
-                    productMenu.displayMenu();
-                }
+                return true;
             } else {
                 System.out.println("Login failed! Wrong password.");
             }
         } else {
             System.out.println("Login failed! User not found.");
         }
+        return false;
     }
 
     public void adminMenu() {
@@ -121,11 +125,61 @@ public class UserMenu {
         System.out.println("4. Manage Products");
         System.out.println("5. Manage Customers");
         System.out.println("6. Manage Orders");
-        System.out.println("7. Logout");
-        System.out.println("8. Exit");
+        System.out.println("7. Manage Categories");
+        System.out.println("8. Logout");
+        System.out.println("9. Exit");
         int choice = MenuUtils.getMenuChoice(1, 8);
+
+        switch (choice) {
+            case 4:
+                Admin admin = (Admin) currentUser;
+                manageProductsMenu();
+                break;
+
+            case 8:
+                currentUser = null;
+                System.out.println("Logged out successfully.");
+                displayMenu();
+                break;
+
+            case 9:
+                JsonDataHandler.saveCustomers(customers);
+                JsonDataHandler.saveAdmins(admins);
+                System.out.println("Exiting...");
+                MenuUtils.closeScanner();
+                break;
+        }
+    }
+
+    private void manageProductsMenu() {
+        if (!(currentUser instanceof Admin)) {
+            System.out.println("Access denied. Admin privileges required.");
+            return;
+        }
+
+        Map<String, Product> products = JsonDataHandler.loadProducts();
+        if (products == null || products.isEmpty()) {
+            System.out.println("No products available.");
+            return;
+        }
+
+        System.out.println("=== Manage Products ===");
+        System.out.println("1. Add Product");
+        System.out.println("2. Update Product");
+        System.out.println("3. Delete Product");
+        System.out.println("4. View All Products");
+        System.out.println("5. Back");
+
+        int choice = MenuUtils.getMenuChoice(1, 5);
+
+        switch (choice) {
+            case 1:
+                ((Admin) currentUser).addProduct(products);
+        }
+
+    }
+
+    public void productMenu() {
+
     }
 }
-
-
-

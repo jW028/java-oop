@@ -1,0 +1,11 @@
+{
+  "P001" : {
+    "prodID" : "P001",
+    "prodName" : "Laptop",
+    "category" : {
+      "categoryName" : "Laptops"
+    },
+    "unitPrice" : 1500.0,
+    "details" : "Product Name: Laptop\nCategory: Laptops\nHigh-end laptop\nPrice: $1500.0\nStock Left: 20"
+  }
+}

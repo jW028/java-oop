@@ -1,0 +1,9 @@
+{
+  "A001" : {
+    "userID" : "A001",
+    "username" : "admin",
+    "email" : "admin@gmail.com",
+    "password" : "admin123",
+    "accessLevel" : "superadmin"
+  }
+}
