@@ -1,0 +1,17 @@
+{
+  "C02" : {
+    "categoryID" : "C02",
+    "categoryName" : "Mice",
+    "description" : "Mouses Specs"
+  },
+  "C01" : {
+    "categoryID" : "C01",
+    "categoryName" : "Laptops",
+    "description" : "Laptops"
+  },
+  "C03" : {
+    "categoryID" : "C03",
+    "categoryName" : "Accessories",
+    "description" : "Chargers"
+  }
+}

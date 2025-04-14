@@ -18,32 +18,35 @@ public class UserMenu {
     }
 
     public void displayMenu() {
-        System.out.println("\n=== Welcome to GSports Retail System ===");
-        System.out.println("1. Register");
-        System.out.println("2. Login");
-        System.out.println("3. Exit");
-        
-        int choice = MenuUtils.getMenuChoice(1, 3);
-
-        switch (choice) {
-        case 1:
-            registerCustomer();
-            break;
-        case 2:
-            if (login()) {
-                if (currentUser instanceof Admin) {
-                    adminMenu();
-                } else {
-                    productMenu();
+        int choice;
+        do {
+            System.out.println("\n=== Welcome to GSports Retail System ===");
+            System.out.println("1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+            
+            choice = MenuUtils.getMenuChoice(1, 3);
+            switch (choice) {
+                case 1:
+                    registerCustomer();
+                    break;
+                case 2:
+                    if (login()) {
+                        if (currentUser instanceof Admin) {
+                            adminMenu();
+                        } else {
+                            productMenu();
+                        }
+                    }
+                    break;
+                case 3:
+                    JsonDataHandler.saveCustomers(customers);
+                    System.out.println("Exiting...");
+                    MenuUtils.closeScanner();
+                    break;
                 }
-            }
-            break;
-        case 3:
-            JsonDataHandler.saveCustomers(customers);
-            System.out.println("Exiting...");
-            MenuUtils.closeScanner();
-            break;
-            }
+        } while (choice != 3);
+        System.out.println("Thank you for using GSports Retail System!");
         }
     
 
@@ -118,6 +121,8 @@ public class UserMenu {
     }
 
     public void adminMenu() {
+        int choice;
+        do {
         System.out.println("\n=== Admin Dashboard ===");
         System.out.println("1. View All Orders");
         System.out.println("2. View All Products");
@@ -128,12 +133,19 @@ public class UserMenu {
         System.out.println("7. Manage Categories");
         System.out.println("8. Logout");
         System.out.println("9. Exit");
-        int choice = MenuUtils.getMenuChoice(1, 8);
+        choice = MenuUtils.getMenuChoice(1, 8);
 
         switch (choice) {
+            case 2:
+                viewAllProducts();
+                break;
+            
             case 4:
-                Admin admin = (Admin) currentUser;
                 manageProductsMenu();
+                break;
+
+            case 7:
+                manageCategoriesMenu();
                 break;
 
             case 8:
@@ -149,6 +161,8 @@ public class UserMenu {
                 MenuUtils.closeScanner();
                 break;
         }
+        } while (choice != 8 && choice != 9);
+        System.out.println("Thank you for using GSports Retail System!");
     }
 
     private void manageProductsMenu() {
@@ -175,8 +189,86 @@ public class UserMenu {
         switch (choice) {
             case 1:
                 ((Admin) currentUser).addProduct(products);
+                break;
+
+            case 2:
+                viewAllProducts();
+                ((Admin) currentUser).updateProduct(products);
+                break;
+
+            case 3:
+                viewAllProducts();
+                ((Admin) currentUser).deleteProduct(products);
+                break;
+
+            case 4:
+                viewAllProducts();
+                break;
+
+            case 5:
+                System.out.println("Returning to Admin Dashboard...");
+                break;
+        }   
+
+    }
+
+    private void manageCategoriesMenu() {
+        if (!(currentUser instanceof Admin)) {
+            System.out.println("Access denied. Admin privileges required.");
+            return;
         }
 
+        Map<String, Category> categories = JsonDataHandler.loadCategories();
+        if (categories == null || categories.isEmpty()) {
+            System.out.println("No Categorys available.");
+            return;
+        }
+
+        System.out.println("=== Manage Categories ===");
+        System.out.println("1. Add Category");
+        System.out.println("2. Update Category");
+        System.out.println("3. Delete Category");
+        System.out.println("4. View All Categories");
+        System.out.println("5. Back");
+
+        int choice = MenuUtils.getMenuChoice(1, 5);
+
+        switch (choice) {
+            case 1:
+                ((Admin) currentUser).addCategory(categories);
+                break;
+
+            case 2:
+                viewAllCategories();
+                ((Admin) currentUser).updateCategory(categories);
+                break;
+
+            case 3:
+                viewAllCategories();
+                ((Admin) currentUser).deleteCategory(categories);
+                break;
+        }
+
+    }
+
+    public void viewAllProducts() {
+        Map<String, Product> products = JsonDataHandler.loadProducts();
+        System.out.println("=== Product List ===");
+        int index = 1;
+        for (Map.Entry<String, Product> entry : products.entrySet()) {
+            System.out.println(index + ". " + entry.getValue().getProdName());
+            index++;
+        }
+    }
+
+    public void viewAllCategories() {
+        Map<String, Category> categories = JsonDataHandler.loadCategories();
+        System.out.println("=== Category List ===");
+        int index = 1;
+        for (Map.Entry<String, Category> entry : categories.entrySet()) {
+            System.out.println(index + ". " + entry.getValue().getCategoryName());
+            index++;
+        }
     }
 
     public void productMenu() {

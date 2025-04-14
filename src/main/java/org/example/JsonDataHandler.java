@@ -115,4 +115,43 @@ public class JsonDataHandler {
             System.out.println("Error saving product data: " + e.getMessage());
         }
     }
+
+    // load categories
+    public static Map<String, Category> loadCategories() {
+        Map<String, Category> categories = new HashMap<>();
+        try {
+            File file = new File("categories.json");
+            if (file.exists()) {
+                ObjectMapper readerMapper = mapper.copy();
+                categories = readerMapper.readValue(file,
+                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Category.class));
+            } else {
+                Category[] defaultCategories = {
+                        new Category("C01", "Laptops", "Laptops Specs"),
+                        new Category("C02", "Mouses", "Mouses Specs"),
+                        new Category("C03", "Accessories", "Chargers")
+                };
+                for (Category category: defaultCategories) {
+                    categories.put(category.getCategoryID(), category);
+                }
+                saveCategories(categories);
+                System.out.println("No existing category data found. Starting with an empty dataset.");
+            }
+            return categories;
+        } catch (IOException e) {
+            System.out.println("Error loading category data: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
+    public static void saveCategories(Map<String, Category> categories) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File("categories.json");
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(file, categories);
+        } catch (IOException e) {
+            System.out.println("Error saving category data: " + e.getMessage());
+        }
+    }
 }

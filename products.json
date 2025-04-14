@@ -1,11 +1,38 @@
 {
-  "P001" : {
-    "prodID" : "P001",
-    "prodName" : "Laptop",
+  "P004" : {
+    "prodID" : "P004",
+    "prodName" : "Macbook Pro",
+    "prodDesc" : "14-inch M4 Pro MacBook Pro with LiquiR Display",
     "category" : {
-      "categoryName" : "Laptops"
+      "categoryID" : null,
+      "categoryName" : "Laptops",
+      "description" : null
     },
-    "unitPrice" : 1500.0,
-    "details" : "Product Name: Laptop\nCategory: Laptops\nHigh-end laptop\nPrice: $1500.0\nStock Left: 20"
+    "unitPrice" : 6999.99,
+    "stock" : 15
+  },
+  "P003" : {
+    "prodID" : "P003",
+    "prodName" : "Alienware G14",
+    "prodDesc" : null,
+    "category" : {
+      "categoryID" : null,
+      "categoryName" : "Laptops",
+      "description" : null
+    },
+    "unitPrice" : 3999.99,
+    "stock" : 0
+  },
+  "P002" : {
+    "prodID" : "P002",
+    "prodName" : "ROG Zephyrus G14",
+    "prodDesc" : "NVIDIA® GeForce RTX™ 5080 Laptop GPU in a 1.59cm chassis",
+    "category" : {
+      "categoryID" : null,
+      "categoryName" : "Laptops",
+      "description" : null
+    },
+    "unitPrice" : 8299.0,
+    "stock" : 12
   }
 }

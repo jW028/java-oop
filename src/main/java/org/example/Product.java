@@ -44,6 +44,10 @@ public class Product {
         return prodName;
     }
 
+    public String getProdDesc() {
+        return prodDesc;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -51,4 +55,37 @@ public class Product {
     public double getUnitPrice() {
         return unitPrice;
     }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setProdID(String prodID) {
+        this.prodID = prodID;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+
+    public void setProdDesc(String prodDesc) {
+        this.prodDesc = prodDesc;
+    }
+
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
+    }
+
+
+
+    
 }
