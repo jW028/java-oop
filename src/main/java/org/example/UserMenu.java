@@ -3,6 +3,8 @@ package org.example;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class UserMenu {
     private Scanner scanner;
@@ -248,25 +250,29 @@ public class UserMenu {
                 ((Admin) currentUser).deleteCategory(categories);
                 break;
         }
-
     }
 
     public void viewAllProducts() {
         Map<String, Product> products = JsonDataHandler.loadProducts();
+        Product[] productsArray = products.values().toArray(new Product[0]);
+        Arrays.sort(productsArray, Comparator.comparing(Product::getProdID));
+        
         System.out.println("=== Product List ===");
         int index = 1;
-        for (Map.Entry<String, Product> entry : products.entrySet()) {
-            System.out.println(index + ". " + entry.getValue().getProdName());
+        for (Product product : productsArray) {
+            System.out.println(index + ". " + product.getProdName());
             index++;
         }
     }
 
     public void viewAllCategories() {
         Map<String, Category> categories = JsonDataHandler.loadCategories();
+        Category[] categoriesArray = categories.values().toArray(new Category[0]);
+        Arrays.sort(categoriesArray, Comparator.comparing(Category::getCategoryID));
         System.out.println("=== Category List ===");
         int index = 1;
-        for (Map.Entry<String, Category> entry : categories.entrySet()) {
-            System.out.println(index + ". " + entry.getValue().getCategoryName());
+        for (Category category : categoriesArray) {
+            System.out.println(index + ". " + category.getCategoryName());
             index++;
         }
     }
