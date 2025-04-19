@@ -1,26 +1,77 @@
 {
-  "5fddd5b9-64c8-4f3a-83a3-ac320638a6f8" : {
-    "userID" : "5fddd5b9-64c8-4f3a-83a3-ac320638a6f8",
-    "username" : "SuperIdol",
-    "email" : "super@gmail.com",
-    "password" : "Super1234",
-    "address" : "0123456789",
-    "phoneNum" : "eqweqweq"
+  "CUST-6559FC39" : {
+    "userID" : "CUST-6559FC39",
+    "username" : "shawn",
+    "email" : "shawn@gmail.com",
+    "password" : "12345678",
+    "address" : "23,2323",
+    "phoneNum" : "0168981275",
+    "cart" : {
+      "cartId" : "CART-bbf7f30c",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-db6a30cf",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ {
+      "orderId" : "ORD-0A04AFA2",
+      "customerId" : "CUST-6559FC39",
+      "items" : [ {
+        "product" : {
+          "laptop" : {
+            "prodID" : "P001",
+            "prodName" : "Default Laptop",
+            "prodDesc" : "High-end laptop",
+            "category" : {
+              "categoryID" : "C01",
+              "categoryName" : "Laptops",
+              "description" : "Laptops Specs"
+            },
+            "unitPrice" : 1500.0,
+            "stock" : 19,
+            "processor" : "Intel i7",
+            "graphicsCard" : "NVIDIA RTX 3060",
+            "ramGB" : 16,
+            "storageGB" : 512,
+            "displaySize" : "15.6 inch",
+            "operatingSystem" : "Windows 11",
+            "productType" : "laptop"
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 1500.0
+      } ],
+      "totalAmount" : 1500.0,
+      "orderDate" : "2025-04-20T04:36:05.7313997",
+      "status" : "Pending",
+      "shippingAddress" : "23,2323",
+      "paymentMethod" : "Cash on Delivery"
+    } ]
   },
-  "a964744d-ea43-47aa-b528-4acfc3a434c7" : {
-    "userID" : "a964744d-ea43-47aa-b528-4acfc3a434c7",
-    "username" : "john ",
-    "email" : "jd@gmail.com",
-    "password" : "abcd1234",
-    "address" : "0123412322",
-    "phoneNum" : "dafdsf"
-  },
-  "42048c34-e5f4-4cd5-9541-c909338f786a" : {
-    "userID" : "42048c34-e5f4-4cd5-9541-c909338f786a",
-    "username" : "fengzi",
-    "email" : "fz@ghmail.com",
-    "password" : "abcd12341k",
-    "address" : "012341232",
-    "phoneNum" : "akdjf"
+  "CUST-05B7A5B4" : {
+    "userID" : "CUST-05B7A5B4",
+    "username" : "shawn",
+    "email" : "shawn@gmail.com",
+    "password" : "12345678",
+    "address" : "23,sd",
+    "phoneNum" : "0168981275",
+    "cart" : {
+      "cartId" : "CART-543f6066",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-5118fd83",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
   }
 }

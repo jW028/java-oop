@@ -38,4 +38,13 @@ public abstract class User {
     }
     public String getEmail() { return email; }
     public Object getPassword() { return password; }
+
+    // These setter methods look good
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

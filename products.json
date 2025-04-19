@@ -1,38 +1,21 @@
 {
-  "P004" : {
-    "prodID" : "P004",
-    "prodName" : "Macbook Pro",
-    "prodDesc" : "14-inch M4 Pro MacBook Pro with LiquiR Display",
+  "P001" : {
+    "prodID" : "P001",
+    "prodName" : "Default Laptop",
+    "prodDesc" : "High-end laptop",
     "category" : {
-      "categoryID" : null,
+      "categoryID" : "C01",
       "categoryName" : "Laptops",
-      "description" : null
+      "description" : "Laptops Specs"
     },
-    "unitPrice" : 6999.99,
-    "stock" : 15
-  },
-  "P003" : {
-    "prodID" : "P003",
-    "prodName" : "Alienware G14",
-    "prodDesc" : null,
-    "category" : {
-      "categoryID" : null,
-      "categoryName" : "Laptops",
-      "description" : null
-    },
-    "unitPrice" : 3999.99,
-    "stock" : 0
-  },
-  "P002" : {
-    "prodID" : "P002",
-    "prodName" : "ROG Zephyrus G14",
-    "prodDesc" : "NVIDIA® GeForce RTX™ 5080 Laptop GPU in a 1.59cm chassis",
-    "category" : {
-      "categoryID" : null,
-      "categoryName" : "Laptops",
-      "description" : null
-    },
-    "unitPrice" : 8299.0,
-    "stock" : 12
+    "unitPrice" : 1500.0,
+    "stock" : 19,
+    "processor" : "Intel i7",
+    "graphicsCard" : "NVIDIA RTX 3060",
+    "ramGB" : 16,
+    "storageGB" : 512,
+    "displaySize" : "15.6 inch",
+    "operatingSystem" : "Windows 11",
+    "productType" : "laptop"
   }
 }

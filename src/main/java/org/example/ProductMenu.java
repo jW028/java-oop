@@ -4,21 +4,21 @@ import java.util.Scanner;
 
 // Move this into UserMenu (all menu under one class)
 
-
 public class ProductMenu {
     Scanner s = new Scanner(System.in);
 
     Category laptops = new Category("C01", "Laptops", "Laptops Specs");
-    Category mouses = new Category("C02", "Mouses", "Mouses Specs");
+    Category mouses = new Category("C02", "Mice", "Mice Specs");
     Category accessories = new Category("C03", "Accessories", "Chargers");
 
     Product[] products = {
-            new Product("P01", "ROG NIGGA", "High-Performance Laptop", laptops, 7000.0, 10),
-            new Product("P02", "Logitech NIGGA Series", "Latest Black Mouse", mouses, 1000.0, 20),
-            new Product("P03", "NIGGA Charger", "SuperIdol Nigga Charge Speed", accessories, 100.0, 40)
+            new Laptop("P01", "ROG Gaming Laptop", "High-Performance Laptop", laptops, 7000.0, 10, 
+                      "Intel i9", "RTX 4080", 32, 1000, "17.3 inch", "Windows 11"),
+            new Mouse("P02", "Logitech G Pro", "Latest Gaming Mouse", mouses, 1000.0, 20,
+                     25000, true, 8, "Wireless", "Black"),
+            new Accessory("P03", "Fast Charger", "Super Fast Charging Speed", accessories, 100.0, 40,
+                         "All laptops", "Charger", "Plastic", "Black")
     };
-
-    
 
     public void displayMenu() {
         Productlisting productListing = new Productlisting(products);

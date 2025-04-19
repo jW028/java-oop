@@ -2,12 +2,12 @@
   "C02" : {
     "categoryID" : "C02",
     "categoryName" : "Mice",
-    "description" : "Mouses Specs"
+    "description" : "Mice Specs"
   },
   "C01" : {
     "categoryID" : "C01",
     "categoryName" : "Laptops",
-    "description" : "Laptops"
+    "description" : "Laptops Specs"
   },
   "C03" : {
     "categoryID" : "C03",

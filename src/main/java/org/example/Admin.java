@@ -63,7 +63,7 @@ public class Admin extends User {
             System.out.println(index + ". " + entry.getValue().getCategoryName());
             index++;
         }
-
+    
         int categoryChoice = MenuUtils.getMenuChoice(1, categories.size());
         Category category = categories.get((String) categories.keySet().toArray()[categoryChoice - 1]);
         
@@ -71,7 +71,7 @@ public class Admin extends User {
             System.out.println("Invalid category choice.");
             return;
         }
-        System.out.println(category.getCategoryName());
+        System.out.println("Selected category: " + category.getCategoryName());
         
         System.out.print("Enter Product Price: ");
         double price = Double.parseDouble(scanner.nextLine());
@@ -79,11 +79,80 @@ public class Admin extends User {
         System.out.print("Enter Product Stock: ");
         int stock = Integer.parseInt(scanner.nextLine());
         
-        Product newProduct = new Product(productId, productName, productDescription, category, price, stock);
-        products.put(productId, newProduct);
-        JsonDataHandler.saveProducts(products);
+        Product newProduct = null;
         
-        System.out.println("Product added successfully!");
+        // Create specific product type based on category
+        if (category.getCategoryName().equalsIgnoreCase("Laptops")) {
+            System.out.println("\n=== Enter Laptop Specific Details ===");
+            
+            System.out.print("Processor: ");
+            String processor = scanner.nextLine();
+            
+            System.out.print("Graphics Card: ");
+            String graphicsCard = scanner.nextLine();
+            
+            System.out.print("RAM (GB): ");
+            int ramGB = Integer.parseInt(scanner.nextLine());
+            
+            System.out.print("Storage (GB): ");
+            int storageGB = Integer.parseInt(scanner.nextLine());
+            
+            System.out.print("Display Size: ");
+            String displaySize = scanner.nextLine();
+            
+            System.out.print("Operating System: ");
+            String operatingSystem = scanner.nextLine();
+            
+            newProduct = new Laptop(productId, productName, productDescription, category, price, stock,
+                                  processor, graphicsCard, ramGB, storageGB, displaySize, operatingSystem);
+        } 
+        else if (category.getCategoryName().equalsIgnoreCase("Mice")) {
+            System.out.println("\n=== Enter Mouse Specific Details ===");
+            
+            System.out.print("DPI: ");
+            int dpi = Integer.parseInt(scanner.nextLine());
+            
+            System.out.print("Is Wireless (true/false): ");
+            boolean isWireless = Boolean.parseBoolean(scanner.nextLine());
+            
+            System.out.print("Number of Buttons: ");
+            int numButtons = Integer.parseInt(scanner.nextLine());
+            
+            System.out.print("Connectivity (USB/Bluetooth/etc): ");
+            String connectivity = scanner.nextLine();
+            
+            System.out.print("Color: ");
+            String color = scanner.nextLine();
+            
+            newProduct = new Mouse(productId, productName, productDescription, category, price, stock,
+                                 dpi, isWireless, numButtons, connectivity, color);
+        } 
+        else if (category.getCategoryName().equalsIgnoreCase("Accessories")) {
+            System.out.println("\n=== Enter Accessory Specific Details ===");
+            
+            System.out.print("Compatible With: ");
+            String compatibleWith = scanner.nextLine();
+            
+            System.out.print("Type (Charger/Cable/Case/etc): ");
+            String type = scanner.nextLine();
+            
+            System.out.print("Material: ");
+            String material = scanner.nextLine();
+            
+            System.out.print("Color: ");
+            String color = scanner.nextLine();
+            
+            newProduct = new Accessory(productId, productName, productDescription, category, price, stock,
+                                     compatibleWith, type, material, color);
+        }
+        
+        if (newProduct != null) {
+            products.put(productId, newProduct);
+            JsonDataHandler.saveProducts(products);
+            System.out.println("Product added successfully!");
+        } else {
+            System.out.println("Failed to create product. Category not supported for specific product types.");
+        }
     }
 
     public void updateProduct(Map<String, Product> products) {

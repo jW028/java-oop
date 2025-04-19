@@ -1,7 +1,20 @@
 package org.example;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Product {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.WRAPPER_OBJECT,  // Changed from PROPERTY to WRAPPER_OBJECT
+    property = "productType"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Laptop.class, name = "laptop"),
+    @JsonSubTypes.Type(value = Mouse.class, name = "mouse"),
+    @JsonSubTypes.Type(value = Accessory.class, name = "accessory")
+})
+public abstract class Product {
     private String prodID;
     private String prodName;
     private String prodDesc;
@@ -36,6 +49,11 @@ public class Product {
                 + stock;
     }
 
+    // Abstract method that each subclass must implement
+    @JsonIgnore
+    public abstract String getSpecificDetails();
+
+    // Getters and Setters
     public String getProdID() {
         return prodID;
     }
@@ -73,9 +91,13 @@ public class Product {
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        if (stock < 0) {
+            this.stock = 0;
+            System.out.println("Warning: " + this.prodName + " is now out of stock!");
+        } else {
+            this.stock = stock;
+        }
     }
-
 
     public void setProdDesc(String prodDesc) {
         this.prodDesc = prodDesc;
@@ -85,7 +107,5 @@ public class Product {
         this.prodName = prodName;
     }
 
-
-
-    
+    public abstract String getProductType();
 }
