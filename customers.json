@@ -73,5 +73,26 @@
       "items" : [ ]
     },
     "orderHistory" : [ ]
+  },
+  "CUST-0E6F231E" : {
+    "userID" : "CUST-0E6F231E",
+    "username" : "sigma",
+    "email" : "sigma@gmail.com",
+    "password" : "abcd1234",
+    "address" : "ohio",
+    "phoneNum" : "011123222",
+    "cart" : {
+      "cartId" : "CART-3bffe2f0",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-77f6d0c2",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
   }
 }

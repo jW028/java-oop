@@ -45,9 +45,10 @@ public class UserMenu {
             System.out.println("\n=== Welcome to GSports Retail System ===");
             System.out.println("1. Register");
             System.out.println("2. Login");
-            System.out.println("3. Exit");
+            System.out.println("3. AI Product Assistant");
+            System.out.println("4. Exit");
 
-            choice = MenuUtils.getMenuChoice(1, 3);
+            choice = MenuUtils.getMenuChoice(1, 4);
             switch (choice) {
                 case 1:
                     registerCustomer();
@@ -56,6 +57,9 @@ public class UserMenu {
                     login(); // The login method now handles directing to appropriate menus
                     break;
                 case 3:
+                    chatbotMenu();
+                    break;
+                case 4:
                     JsonDataHandler.saveCustomers(customers);
                     System.out.println("Exiting...");
                     MenuUtils.closeScanner();
@@ -72,8 +76,33 @@ public class UserMenu {
         System.out.print("Enter Full Name: ");
         String customerName = scanner.nextLine();
 
-        System.out.print("Enter Email: ");
-        String email = scanner.nextLine();
+        String email = "";
+        boolean validEmail = false;
+        do {
+            System.out.print("Enter Email: ");
+            String currentEmail = scanner.nextLine();
+            
+            // Validate email format with regex
+            if (!currentEmail.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                System.out.println("Invalid email format. Please try again.");
+                continue;
+            }
+            
+            // Check if email already exists in customers map
+            boolean emailExists = customers.values().stream()
+                    .anyMatch(user -> currentEmail.equalsIgnoreCase(user.getEmail()));
+                    
+            // Also check in admins map
+            boolean adminEmailExists = admins.values().stream()
+                    .anyMatch(admin -> currentEmail.equalsIgnoreCase(admin.getEmail()));
+                    
+            if (emailExists || adminEmailExists) {
+                System.out.println("Email already registered. Please use a different email.");
+            } else {
+                validEmail = true;
+                email = currentEmail;
+            }
+        } while (!validEmail);
 
         System.out.print("Enter Password: ");
         String password = MenuUtils.maskPassword(scanner);
@@ -770,4 +799,124 @@ public class UserMenu {
             System.out.println("\nOrder was not completed due to payment failure.");
         }
     }
-}
+
+    public void chatbotMenu() {
+        GeminiService gemini = GeminiService.getInstance();
+        Map<String, Product> products = JsonDataHandler.loadProducts();
+
+        if (products.isEmpty()) {
+            System.out.println("No products available for chatbot interaction.");
+            return;
+        }
+
+        while (true) {
+            System.out.println("\n=== GSports AI Assistant ===");
+            System.out.println("1. Ask about a specific product");
+            System.out.println("2. Get product recommendations");
+            System.out.println("3. Compare two products");
+            System.out.println("4. Return to main menu");
+
+            int choice = MenuUtils.getMenuChoice(1, 4);
+
+            switch (choice) {
+                case 1: askAboutProduct(gemini, products); break;
+                case 2: getProductRecommendations(gemini, products); break;
+                case 3: compareProducts(gemini, products); break;
+                case 4: return;
+            }
+        }
+    }
+
+    private void askAboutProduct(GeminiService gemini, Map<String, Product> products) {
+        viewAllProducts();
+        Product[] productsArray = products.values().toArray(new Product[0]);
+        System.out.print("Enter the product number to ask about: ");
+
+        int productIndex;
+
+        try {
+            productIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            if (productIndex < 0 || productIndex >= products.size()) {
+                System.out.println("Invalid product selection.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
+        }
+        
+        Product selectedProduct = productsArray[productIndex];
+
+        System.out.print("Enter your question about " + selectedProduct.getProdName() + ": ");  
+        String question = scanner.nextLine();
+
+        System.out.println("Asking AI Assistant...");
+        String response = gemini.askAboutProduct(question, selectedProduct);
+        System.out.println("AI Assistant: " + response);
+
+        System.out.println("Press Enter to continue...");
+        scanner.nextLine();
+
+    }
+
+    private void getProductRecommendations(GeminiService gemini, Map<String, Product> products) {
+        System.out.print("What are you looking for? (e.g., gaming laptop, wireless mouse): ");
+        String preference = scanner.nextLine();
+        
+        System.out.println("\nGenerating recommendations based on your preference...");
+        System.out.println("\n=== AI Recommendations ===");
+        String response = gemini.getProductRecommendations(products, preference);
+        System.out.println(response);
+        
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+    
+    private void compareProducts(GeminiService gemini, Map<String, Product> products) {
+        // Display available products
+        System.out.println("\nAvailable Products:");
+        Product[] productsArray = products.values().toArray(new Product[0]);
+        for (int i = 0; i < productsArray.length; i++) {
+            System.out.println((i + 1) + ". " + productsArray[i].getProdName());
+        }
+        
+        // Select first product
+        System.out.print("\nSelect first product number: ");
+        int firstIndex;
+        try {
+            firstIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            if (firstIndex < 0 || firstIndex >= productsArray.length) {
+                System.out.println("Invalid product selection.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number.");
+            return;
+        }
+        
+        // Select second product
+        System.out.print("Select second product number: ");
+        int secondIndex;
+        try {
+            secondIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            if (secondIndex < 0 || secondIndex >= productsArray.length || secondIndex == firstIndex) {
+                System.out.println("Invalid product selection or same as first product.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number.");
+            return;
+        }
+        
+        Product product1 = productsArray[firstIndex];
+        Product product2 = productsArray[secondIndex];
+        
+        System.out.println("\nComparing " + product1.getProdName() + " and " + product2.getProdName() + "...");
+        System.out.println("\n=== AI Comparison ===");
+        String response = gemini.compareProducts(product1, product2);
+        System.out.println(response);
+        
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+}    

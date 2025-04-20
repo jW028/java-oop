@@ -17,5 +17,24 @@
     "displaySize" : "15.6 inch",
     "operatingSystem" : "Windows 11",
     "productType" : "laptop"
+  },
+  "P002" : {
+    "prodID" : "P002",
+    "prodName" : "Asus ROG Strix",
+    "prodDesc" : "Gaming Laptop",
+    "category" : {
+      "categoryID" : "C01",
+      "categoryName" : "Laptops",
+      "description" : "Laptops Specs"
+    },
+    "unitPrice" : 6499.99,
+    "stock" : 20,
+    "processor" : "Intel i-9 13900H",
+    "graphicsCard" : "GeForce RTX 5090 Ti",
+    "ramGB" : 32,
+    "storageGB" : 1024,
+    "displaySize" : "16",
+    "operatingSystem" : "Windows",
+    "productType" : "laptop"
   }
 }
