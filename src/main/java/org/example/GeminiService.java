@@ -2,8 +2,11 @@ package org.example;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class GeminiService {
     private static GeminiService instance;
@@ -11,10 +14,27 @@ public class GeminiService {
     private final int maxRetries = 3;
     private final String model = "gemini-2.0-flash-001";
 
+    
     private GeminiService() {
-        this.client = Client.builder()
-                .apiKey("***REMOVED***")
-                .build();
+        try {
+            Properties props = new Properties();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+            
+            if (input == null) {
+                System.err.println("Unable to find config.properties");
+                return;
+            }
+            
+            props.load(input);
+            String apiKey = props.getProperty("gemini.api.key");
+            
+            this.client = Client.builder()
+                    .apiKey(apiKey)
+                    .build();
+                    
+        } catch (IOException ex) {
+            System.err.println("Error loading properties file: " + ex.getMessage());
+        }
     }
 
     public static synchronized GeminiService getInstance() {
