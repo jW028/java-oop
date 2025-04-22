@@ -1,4 +1,25 @@
 {
+  "CUST-4183EA31" : {
+    "userID" : "CUST-4183EA31",
+    "username" : "Sigma",
+    "email" : "sigma123@gmail.com",
+    "password" : "Sigma123",
+    "address" : "Sigma road 12",
+    "phoneNum" : "0123456789",
+    "cart" : {
+      "cartId" : "CART-692256b2",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-55b1a38c",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
+  },
   "CUST-6559FC39" : {
     "userID" : "CUST-6559FC39",
     "username" : "shawn",
