@@ -42,11 +42,15 @@ public class UserMenu {
     public void displayMenu() {
         int choice;
         do {
-            System.out.println("\n=== Welcome to GSports Retail System ===");
-            System.out.println("1. Register");
-            System.out.println("2. Login");
-            System.out.println("3. AI Product Assistant");
-            System.out.println("4. Exit");
+            System.out.println("\n===========================================");
+            System.out.println("|       Welcome to GSports Retail System   |");
+            System.out.println("===========================================");
+            System.out.println("| 1. Register                              |");
+            System.out.println("| 2. Login                                 |");
+            System.out.println("| 3. AI Product Assistant                  |");
+            System.out.println("| 4. Exit                                  |");
+            System.out.println("===========================================");
+            System.out.print("Please select an option (1-4): ");
 
             choice = MenuUtils.getMenuChoice(1, 4);
             switch (choice) {
@@ -188,16 +192,21 @@ public class UserMenu {
     public void adminMenu() {
         int choice;
         do {
-            System.out.println("\n=== Admin Dashboard ===");
-            System.out.println("1. View All Orders");
-            System.out.println("2. View All Products");
-            System.out.println("3. View All Customers");
-            System.out.println("4. Manage Products");
-            System.out.println("5. Manage Customers");
-            System.out.println("6. Manage Orders");
-            System.out.println("7. Manage Categories");
-            System.out.println("8. Logout");
-            System.out.println("9. Exit");
+            System.out.println("\n============================================");
+            System.out.println("|             Admin Dashboard              |");
+            System.out.println("============================================");
+            System.out.println("| 1. View All Orders                       |");
+            System.out.println("| 2. View All Products                     |");
+            System.out.println("| 3. View All Customers                    |");
+            System.out.println("| 4. Manage Products                       |");
+            System.out.println("| 5. Manage Customers                      |");
+            System.out.println("| 6. Manage Orders                         |");
+            System.out.println("| 7. Manage Categories                     |");
+            System.out.println("| 8. Logout                                |");
+            System.out.println("| 9. Exit                                  |");
+            System.out.println("============================================");
+            System.out.print("Select an option (1-9): ");
+
             choice = MenuUtils.getMenuChoice(1, 9);
 
             switch (choice) {
@@ -246,12 +255,17 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("=== Manage Products ===");
-        System.out.println("1. Add Product");
-        System.out.println("2. Update Product");
-        System.out.println("3. Delete Product");
-        System.out.println("4. View All Products");
-        System.out.println("5. Back");
+        System.out.println("\n=====================================");
+        System.out.println("|         Manage Products           |");
+        System.out.println("=====================================");
+        System.out.println("| 1. Add Product                    |");
+        System.out.println("| 2. Update Product                 |");
+        System.out.println("| 3. Delete Product                 |");
+        System.out.println("| 4. View All Products              |");
+        System.out.println("| 5. Back                           |");
+        System.out.println("=====================================");
+        System.out.print("Select an option (1-5): ");
+
 
         int choice = MenuUtils.getMenuChoice(1, 5);
 
@@ -292,12 +306,17 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("=== Manage Categories ===");
-        System.out.println("1. Add Category");
-        System.out.println("2. Update Category");
-        System.out.println("3. Delete Category");
-        System.out.println("4. View All Categories");
-        System.out.println("5. Back");
+        System.out.println("\n=======================================");
+        System.out.println("|         Manage Categories           |");
+        System.out.println("=======================================");
+        System.out.println("| 1. Add Category                     |");
+        System.out.println("| 2. Update Category                  |");
+        System.out.println("| 3. Delete Category                  |");
+        System.out.println("| 4. View All Categories              |");
+        System.out.println("| 5. Back                             |");
+        System.out.println("=======================================");
+        System.out.print("Select an option (1-5): ");
+
 
         int choice = MenuUtils.getMenuChoice(1, 5);
 
@@ -379,12 +398,15 @@ public class UserMenu {
         Productlisting productListing = new Productlisting(products);
         int choice;
         do {
-            System.out.println("\nProducts Menu:");
-            System.out.println("1. Display All Products");
-            System.out.println("2. Search Product by Name");
-            System.out.println("3. Search Product by Category");
-            System.out.println("4. Sort Products by Price");
-            System.out.println("5. Back");
+            System.out.println("\n==========================================");
+            System.out.println("|             Products Menu              |");
+            System.out.println("==========================================");
+            System.out.println("| 1. Display All Products                |");
+            System.out.println("| 2. Search Product by Name              |");
+            System.out.println("| 3. Search Product by Category          |");
+            System.out.println("| 4. Sort Products by Price              |");
+            System.out.println("| 5. Back                                |");
+            System.out.println("==========================================");
             System.out.print("Enter your choice: ");
 
             choice = MenuUtils.getMenuChoice(1, 5);
@@ -437,13 +459,18 @@ public class UserMenu {
     }
 
     private void customerMenu() {
-        System.out.println("\n=== Customer Menu ===");
-        System.out.println("1. View Products");
-        System.out.println("2. View Cart");
-        System.out.println("3. View Wishlist");
-        System.out.println("4. View Order History");
-        System.out.println("5. Edit Profile");
-        System.out.println("6. Logout");
+        System.out.println("\n=====================================");
+        System.out.println("|           Customer Menu           |");
+        System.out.println("=====================================");
+        System.out.println("| 1. View Products                  |");
+        System.out.println("| 2. View Cart                      |");
+        System.out.println("| 3. View Wishlist                  |");
+        System.out.println("| 4. View Order History             |");
+        System.out.println("| 5. Edit Profile                   |");
+        System.out.println("| 6. Logout                         |");
+        System.out.println("=====================================");
+        System.out.print("Select an option (1-6): ");
+
 
         int choice = MenuUtils.getMenuChoice(1, 6);
 
@@ -484,11 +511,15 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("\n=== Manage Cart ===");
-        System.out.println("1. Update Item Quantity");
-        System.out.println("2. Remove Item");
-        System.out.println("3. Clear Cart");
-        System.out.println("4. Back");
+        System.out.println("\n======================================");
+        System.out.println("|            Manage Cart             |");
+        System.out.println("======================================");
+        System.out.println("| 1. Update Item Quantity            |");
+        System.out.println("| 2. Remove Item                     |");
+        System.out.println("| 3. Clear Cart                      |");
+        System.out.println("| 4. Back                            |");
+        System.out.println("======================================");
+        System.out.print("Select an option (1-4): ");
 
         int choice = MenuUtils.getMenuChoice(1, 4);
 
@@ -533,14 +564,18 @@ public class UserMenu {
     private void customerHomepage() {
         int choice;
         do {
-            System.out.println("\n=== GSports Customer Homepage ===");
-            System.out.println("1. Browse Products");
-            System.out.println("2. View Wishlist");
-            System.out.println("3. View Cart");
-            System.out.println("4. Order History");
-            System.out.println("5. My Profile");
-            System.out.println("6. Logout");
-            System.out.println("7. Exit");
+            System.out.println("\n===============================================");
+            System.out.println("|         GSports Customer Homepage           |");
+            System.out.println("===============================================");
+            System.out.println("| 1. Browse Products                          |");
+            System.out.println("| 2. View Wishlist                            |");
+            System.out.println("| 3. View Cart                                |");
+            System.out.println("| 4. Order History                            |");
+            System.out.println("| 5. My Profile                               |");
+            System.out.println("| 6. Logout                                   |");
+            System.out.println("| 7. Exit                                     |");
+            System.out.println("===============================================");
+            System.out.print("Select an option (1-7): ");
 
             choice = MenuUtils.getMenuChoice(1, 7);
 
@@ -617,12 +652,16 @@ public class UserMenu {
     }
 
     private void editProfile(Customer customer) {
-        System.out.println("\n=== Edit Profile ===");
-        System.out.println("1. Edit Name");
-        System.out.println("2. Edit Address");
-        System.out.println("3. Edit Phone Number");
-        System.out.println("4. Change Password");
-        System.out.println("5. Back to Profile");
+        System.out.println("\n=====================================");
+        System.out.println("|           Edit Profile            |");
+        System.out.println("=====================================");
+        System.out.println("| 1. Edit Name                      |");
+        System.out.println("| 2. Edit Address                   |");
+        System.out.println("| 3. Edit Phone Number              |");
+        System.out.println("| 4. Change Password                |");
+        System.out.println("| 5. Back to Profile                |");
+        System.out.println("=====================================");
+        System.out.print("Select an option (1-5): ");
 
         int choice = MenuUtils.getMenuChoice(1, 5);
 
@@ -684,15 +723,17 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("Your Order History:");
-        System.out.println("------------------");
+        System.out.println("\n=====================================");
+        System.out.println("|          Your Order History       |");
+        System.out.println("=====================================");
 
         for (int i = 0; i < orders.size(); i++) {
             Order order = orders.get(i);
-            System.out.println((i + 1) + ". Order ID: " + order.getOrderId() +
-                    " | Date: " + order.getFormattedOrderDate() +
-                    " | Status: " + order.getStatus() +
-                    " | Total: $" + String.format("%.2f", order.getTotalAmount()));
+            System.out.println("| " + (i + 1) + ". Order ID : " + order.getOrderId());
+            System.out.println("|    Date     : " + order.getFormattedOrderDate());
+            System.out.println("|    Status   : " + order.getStatus());
+            System.out.println("|    Total    : $" + String.format("%.2f", order.getTotalAmount()));
+            System.out.println("-------------------------------------");
         }
 
         System.out.println("\nEnter order number to view details (0 to go back): ");
@@ -717,12 +758,17 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("\n=== Checkout ===");
-        System.out.println("Your cart total: $" + String.format("%.2f", cart.getTotalAmount()));
+        System.out.println("\n=====================================");
+        System.out.println("|             Checkout              |");
+        System.out.println("=====================================");
+        System.out.println("| Your cart total: $" + String.format("%.2f", cart.getTotalAmount()) + " |");
+        System.out.println("=====================================");
 
-        // Confirm shipping address
+// Confirm shipping address
         System.out.println("\nCurrent shipping address: " + customer.getAddress());
-        System.out.println("Would you like to use this address? (Y/N)");
+        System.out.println("=====================================");
+
+        System.out.println("\nWould you like to use this address? (Y/N)");
         String addressChoice = scanner.nextLine().trim().toUpperCase();
 
         String shippingAddress;
@@ -734,10 +780,14 @@ public class UserMenu {
         }
 
         // Select payment method
-        System.out.println("\nSelect payment method:");
-        System.out.println("1. Credit Card");
-        System.out.println("2. PayPal");
-        System.out.println("3. Cash on Delivery");
+        System.out.println("\n=========================================");
+        System.out.println("|          Select Payment Method       |");
+        System.out.println("=========================================");
+        System.out.println("| 1. Credit Card                       |");
+        System.out.println("| 2. PayPal                            |");
+        System.out.println("| 3. Cash on Delivery                  |");
+        System.out.println("=========================================");
+        System.out.print("Please select an option (1-3): ");
 
         int paymentChoice = MenuUtils.getMenuChoice(1, 3);
         String paymentMethod;
@@ -755,6 +805,8 @@ public class UserMenu {
             default:
                 paymentMethod = "Cash on Delivery";
         }
+
+        System.out.println("\nSelected Payment Method: " + paymentMethod);
 
         // Process payment
         Payment payment = new Payment(
@@ -810,11 +862,15 @@ public class UserMenu {
         }
 
         while (true) {
-            System.out.println("\n=== GSports AI Assistant ===");
-            System.out.println("1. Ask about a specific product");
-            System.out.println("2. Get product recommendations");
-            System.out.println("3. Compare two products");
-            System.out.println("4. Return to main menu");
+            System.out.println("\n===========================================");
+            System.out.println("|         GSports AI Assistant           |");
+            System.out.println("===========================================");
+            System.out.println("| 1. Ask about a specific product       |");
+            System.out.println("| 2. Get product recommendations        |");
+            System.out.println("| 3. Compare two products               |");
+            System.out.println("| 4. Return to main menu               |");
+            System.out.println("===========================================");
+            System.out.print("Select an option (1-4): ");
 
             int choice = MenuUtils.getMenuChoice(1, 4);
 
@@ -847,12 +903,16 @@ public class UserMenu {
         
         Product selectedProduct = productsArray[productIndex];
 
-        System.out.print("Enter your question about " + selectedProduct.getProdName() + ": ");  
+        System.out.println("\n===========================================");
+        System.out.print("Enter your question about " + selectedProduct.getProdName() + ": ");
+        System.out.println("===========================================");
         String question = scanner.nextLine();
 
+        System.out.println("\n===========================================");
         System.out.println("Asking AI Assistant...");
+        System.out.println("===========================================");
         String response = gemini.askAboutProduct(question, selectedProduct);
-        System.out.println("AI Assistant: " + response);
+        System.out.println("\nAI Assistant: " + response);
 
         System.out.println("Press Enter to continue...");
         scanner.nextLine();
@@ -860,10 +920,15 @@ public class UserMenu {
     }
 
     private void getProductRecommendations(GeminiService gemini, Map<String, Product> products) {
-        System.out.print("What are you looking for? (e.g., gaming laptop, wireless mouse): ");
+        System.out.print("\n===========================================");
+        System.out.println("\n|      What are you looking for?         |");
+        System.out.println("|  (e.g., gaming laptop, wireless mouse) |");
+        System.out.print("===========================================\n");
         String preference = scanner.nextLine();
-        
-        System.out.println("\nGenerating recommendations based on your preference...");
+
+        System.out.println("\n===========================================");
+        System.out.println("| Generating recommendations based on your preference... |");
+        System.out.println("===========================================");
         System.out.println("\n=== AI Recommendations ===");
         String response = gemini.getProductRecommendations(products, preference);
         System.out.println(response);
@@ -874,14 +939,17 @@ public class UserMenu {
     
     private void compareProducts(GeminiService gemini, Map<String, Product> products) {
         // Display available products
-        System.out.println("\nAvailable Products:");
+        System.out.println("\n===========================================");
+        System.out.println("|         Available Products             |");
+        System.out.println("===========================================");
         Product[] productsArray = products.values().toArray(new Product[0]);
         for (int i = 0; i < productsArray.length; i++) {
-            System.out.println((i + 1) + ". " + productsArray[i].getProdName());
+            System.out.println("| " + (i + 1) + ". " + productsArray[i].getProdName());
         }
-        
-        // Select first product
-        System.out.print("\nSelect first product number: ");
+        System.out.println("===========================================");
+
+// Select first product
+        System.out.print("\nSelect the number of the first product: ");
         int firstIndex;
         try {
             firstIndex = Integer.parseInt(scanner.nextLine()) - 1;
@@ -893,9 +961,9 @@ public class UserMenu {
             System.out.println("Please enter a valid number.");
             return;
         }
-        
-        // Select second product
-        System.out.print("Select second product number: ");
+
+// Select second product
+        System.out.print("Select the number of the second product: ");
         int secondIndex;
         try {
             secondIndex = Integer.parseInt(scanner.nextLine()) - 1;
@@ -907,15 +975,15 @@ public class UserMenu {
             System.out.println("Please enter a valid number.");
             return;
         }
-        
+
         Product product1 = productsArray[firstIndex];
         Product product2 = productsArray[secondIndex];
-        
+
         System.out.println("\nComparing " + product1.getProdName() + " and " + product2.getProdName() + "...");
         System.out.println("\n=== AI Comparison ===");
         String response = gemini.compareProducts(product1, product2);
         System.out.println(response);
-        
+
         System.out.print("\nPress Enter to continue...");
         scanner.nextLine();
     }

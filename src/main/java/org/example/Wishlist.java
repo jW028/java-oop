@@ -80,11 +80,16 @@ public class Wishlist {
     
     private void promptWishlistActions() {
         Scanner scanner = MenuUtils.getScanner();
-        System.out.println("\nWhat would you like to do?");
-        System.out.println("1. Move an item to cart");
-        System.out.println("2. Remove an item from wishlist");
-        System.out.println("3. Return to previous menu");
-        
+        System.out.println("\n===========================================");
+        System.out.println("|         What would you like to do?      |");
+        System.out.println("===========================================");
+        System.out.println("| 1. Move an item to cart                |");
+        System.out.println("| 2. Remove an item from wishlist         |");
+        System.out.println("| 3. Return to previous menu             |");
+        System.out.println("===========================================");
+        System.out.print("Please select an option (1-3): ");
+
+
         int choice = MenuUtils.getMenuChoice(1, 3);
         
         if (choice == 3) {

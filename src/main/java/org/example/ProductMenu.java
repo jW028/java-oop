@@ -24,14 +24,17 @@ public class ProductMenu {
         Productlisting productListing = new Productlisting(products);
         int choice;
         do {
-            System.out.println("\nProducts Menu:");
-            System.out.println("1. Display All Products");
-            System.out.println("2. Search Product by Name");
-            System.out.println("3. Search Product by Category");
-            System.out.println("4. Sort Products by Price");
-            System.out.println("5. Back");
-            System.out.print("Enter your choice: ");
-    
+            System.out.println("\n===========================================");
+            System.out.println("|            Products Menu               |");
+            System.out.println("===========================================");
+            System.out.println("| 1. Display All Products               |");
+            System.out.println("| 2. Search Product by Name             |");
+            System.out.println("| 3. Search Product by Category         |");
+            System.out.println("| 4. Sort Products by Price             |");
+            System.out.println("| 5. Back                               |");
+            System.out.println("===========================================");
+            System.out.print("Please enter your choice (1-5): ");
+
             choice = MenuUtils.getMenuChoice(1, 5);
     
             switch (choice) {
