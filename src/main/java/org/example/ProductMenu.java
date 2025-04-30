@@ -33,7 +33,6 @@ public class ProductMenu {
             System.out.println("| 4. Sort Products by Price             |");
             System.out.println("| 5. Back                               |");
             System.out.println("===========================================");
-            System.out.print("Please enter your choice (1-5): ");
 
             choice = MenuUtils.getMenuChoice(1, 5);
     

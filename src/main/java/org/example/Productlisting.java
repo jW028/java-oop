@@ -35,7 +35,6 @@ public class Productlisting {
         System.out.println("| 2. Add a product to wishlist           |");
         System.out.println("| 3. Return to previous menu             |");
         System.out.println("===========================================");
-        System.out.print("Please select an option (1-3): ");
 
         int choice = MenuUtils.getMenuChoice(1, 3);
         

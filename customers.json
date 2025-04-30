@@ -60,7 +60,40 @@
       "userId" : null,
       "items" : [ ]
     },
-    "orderHistory" : [ ]
+    "orderHistory" : [ {
+      "orderId" : "ORD-702D7F8E",
+      "customerId" : "CUST-7E268B77",
+      "items" : [ {
+        "product" : {
+          "laptop" : {
+            "prodID" : "P003",
+            "prodName" : "MSI Titan GT77",
+            "prodDesc" : "High-end Gaming Laptop",
+            "category" : {
+              "categoryID" : "C01",
+              "categoryName" : "Laptops",
+              "description" : "Laptops Specs"
+            },
+            "unitPrice" : 7299.99,
+            "stock" : 8,
+            "processor" : "Intel i9-13980HX",
+            "graphicsCard" : "NVIDIA GeForce RTX 4090",
+            "ramGB" : 64,
+            "storageGB" : 2048,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows",
+            "productType" : "laptop"
+          }
+        },
+        "quantity" : 2,
+        "subtotal" : 14599.98
+      } ],
+      "totalAmount" : 14599.98,
+      "orderDate" : "2025-04-30T22:11:32.1324496",
+      "status" : "Pending",
+      "shippingAddress" : "3413131",
+      "paymentMethod" : "Credit Card"
+    } ]
   },
   "CUST-682169F7" : {
     "userID" : "CUST-682169F7",

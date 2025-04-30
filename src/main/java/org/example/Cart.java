@@ -141,9 +141,9 @@ public class Cart {
             return;
         }
 
-        System.out.println("\n===== Your Shopping Cart =====");
-        System.out.printf("%-25s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
-        System.out.println("------------------------------------------------------");
+        System.out.println("\n+-------------------------- YOUR SHOPPING CART --------------------------+");
+        System.out.printf("| %-25s %-12s %-12s %-12s |\n", "Product", "Price", "Quantity", "Subtotal");
+        System.out.println("+--------------------------------------------------------------------------+");
         
         for (CartItem item : items) {
             System.out.printf("%-25s $%-9.2f %-10d $%-9.2f\n", 
@@ -152,12 +152,17 @@ public class Cart {
                 item.getQuantity(),
                 item.getSubtotal());
         }
-        
-        System.out.println("------------------------------------------------------");
-        System.out.printf("Total: $%.2f\n", totalAmount);
-        System.out.println("1. Proceed to Checkout");
-        System.out.println("2. Continue Shopping");
-        System.out.println("3. Update Cart");
+
+        System.out.println("\n+------------------------------------------------------+");
+        System.out.println("|                    SHOPPING CART                     |");
+        System.out.println("+------------------------------------------------------+");
+        System.out.printf("|  CART TOTAL: $%-40.2f |\n", totalAmount);
+        System.out.println("+------------------------------------------------------+");
+        System.out.println("|  1. Proceed to Checkout                              |");
+        System.out.println("|  2. Continue Shopping                                |");
+        System.out.println("|  3. Update Cart                                      |");
+        System.out.println("+------------------------------------------------------+");
+        System.out.print("\nPlease select an option (1-3): ");
         
         int choice = MenuUtils.getMenuChoice(1, 3);
         
