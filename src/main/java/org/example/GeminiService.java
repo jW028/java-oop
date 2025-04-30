@@ -26,7 +26,7 @@ public class GeminiService {
             }
             
             props.load(input);
-            String apiKey = props.getProperty("gemini.api.key");
+            String apiKey = props.getProperty("AIzaSyBEV432Xyd6201GieGos5KPIUHXFuJ518o");
             
             this.client = Client.builder()
                     .apiKey(apiKey)

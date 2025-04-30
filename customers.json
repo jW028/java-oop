@@ -20,6 +20,90 @@
     },
     "orderHistory" : [ ]
   },
+  "CUST-EC2C4FF8" : {
+    "userID" : "CUST-EC2C4FF8",
+    "username" : "abc",
+    "email" : "abc@gmail.com",
+    "password" : "Abc",
+    "address" : "abc",
+    "phoneNum" : "abc",
+    "cart" : {
+      "cartId" : "CART-5a6a6682",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-640e00ba",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
+  },
+  "CUST-7E268B77" : {
+    "userID" : "CUST-7E268B77",
+    "username" : "Sam",
+    "email" : "sam123@gmail.com",
+    "password" : "Sam12345!",
+    "address" : "SAMUEL",
+    "phoneNum" : "0123456789",
+    "cart" : {
+      "cartId" : "CART-afb9a12c",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-ea7658e2",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
+  },
+  "CUST-682169F7" : {
+    "userID" : "CUST-682169F7",
+    "username" : "Sam",
+    "email" : "sam@gmail.com",
+    "password" : "Abcd1234!",
+    "address" : "Sigma",
+    "phoneNum" : "0123456789",
+    "cart" : {
+      "cartId" : "CART-c643d498",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-c83c0cd9",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
+  },
+  "CUST-9D9CF91D" : {
+    "userID" : "CUST-9D9CF91D",
+    "username" : "",
+    "email" : "A@gna.co",
+    "password" : "1233",
+    "address" : "sdgsrgsrhgerhe",
+    "phoneNum" : "01312312312",
+    "cart" : {
+      "cartId" : "CART-2b4e1923",
+      "userId" : null,
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-75c211b3",
+      "userId" : null,
+      "items" : [ ]
+    },
+    "orderHistory" : [ ]
+  },
   "CUST-6559FC39" : {
     "userID" : "CUST-6559FC39",
     "username" : "shawn",

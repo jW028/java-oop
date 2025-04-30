@@ -50,7 +50,6 @@ public class UserMenu {
             System.out.println("| 3. AI Product Assistant                  |");
             System.out.println("| 4. Exit                                  |");
             System.out.println("===========================================");
-            System.out.print("Please select an option (1-4): ");
 
             choice = MenuUtils.getMenuChoice(1, 4);
             switch (choice) {
@@ -108,14 +107,23 @@ public class UserMenu {
             }
         } while (!validEmail);
 
-        System.out.print("Enter Password: ");
-        String password = MenuUtils.maskPassword(scanner);
+        String password = "";
+        do {
+            System.out.print("Enter password (min 8 chars, must include uppercase, lowercase, digit, and special character): ");
+            password = MenuUtils.maskPassword(scanner);
+        } while (!isValidPassword(password));
 
-        System.out.print("Enter Phone Number: ");
-        String phoneNum = scanner.nextLine();
+        String phoneNum = "";
+        do {
+            System.out.print("Enter phone number (10-15 digits): ");
+            phoneNum = scanner.nextLine();
+        } while (!isValidPhoneNumber(phoneNum));
 
-        System.out.print("Enter Address: ");
-        String address = scanner.nextLine();
+        String address = "";
+        do {
+            System.out.print("Enter Address: ");
+            address = scanner.nextLine();
+        } while (!isValidAddress(address));
 
         // Register the customer
         try {
@@ -139,6 +147,83 @@ public class UserMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Registration failed: " + e.getMessage());
         }
+    }
+    /**
+     * Validates a password for strength requirements
+     * @param password The password to validate
+     * @return true if password meets requirements, false otherwise
+     */
+    private boolean isValidPassword(String password) {
+        // Check minimum length
+        if (password.length() < 8) {
+            System.out.println("Password must be at least 8 characters long");
+            return false;
+        }
+
+        // Check for at least one uppercase letter
+        if (!password.matches(".*[A-Z].*")) {
+            System.out.println("Password must contain at least one uppercase letter");
+            return false;
+        }
+
+        // Check for at least one lowercase letter
+        if (!password.matches(".*[a-z].*")) {
+            System.out.println("Password must contain at least one lowercase letter");
+            return false;
+        }
+
+        // Check for at least one digit
+        if (!password.matches(".*\\d.*")) {
+            System.out.println("Password must contain at least one digit");
+            return false;
+        }
+
+        // Check for at least one special character
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+            System.out.println("Password must contain at least one special character");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates a phone number
+     * @param phoneNumber The phone number to validate
+     * @return true if phone number is valid, false otherwise
+     */
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        // Remove any spaces or common formatting characters
+        String cleanedNumber = phoneNumber.replaceAll("[\\s\\-\\(\\)]", "");
+
+        // Check if the number consists of 10-15 digits (typical range for international numbers)
+        if (!cleanedNumber.matches("\\d{10,15}")) {
+            System.out.println("Phone number must contain 10-15 digits only");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates an address
+     * @param address The address to validate
+     * @return true if address is valid, false otherwise
+     */
+    private boolean isValidAddress(String address) {
+        // Check if address is not empty and has minimum length
+        if (address == null || address.trim().length() < 5) {
+            System.out.println("Please enter a valid address (minimum 5 characters)");
+            return false;
+        }
+
+        // Check if address contains at least some basic elements (alphanumeric characters)
+        if (!address.matches(".*[a-zA-Z0-9].*")) {
+            System.out.println("Address must contain alphanumeric characters");
+            return false;
+        }
+
+        return true;
     }
 
     private boolean login() {
@@ -205,7 +290,6 @@ public class UserMenu {
             System.out.println("| 8. Logout                                |");
             System.out.println("| 9. Exit                                  |");
             System.out.println("============================================");
-            System.out.print("Select an option (1-9): ");
 
             choice = MenuUtils.getMenuChoice(1, 9);
 
@@ -264,7 +348,6 @@ public class UserMenu {
         System.out.println("| 4. View All Products              |");
         System.out.println("| 5. Back                           |");
         System.out.println("=====================================");
-        System.out.print("Select an option (1-5): ");
 
 
         int choice = MenuUtils.getMenuChoice(1, 5);
@@ -315,7 +398,6 @@ public class UserMenu {
         System.out.println("| 4. View All Categories              |");
         System.out.println("| 5. Back                             |");
         System.out.println("=======================================");
-        System.out.print("Select an option (1-5): ");
 
 
         int choice = MenuUtils.getMenuChoice(1, 5);
@@ -407,7 +489,6 @@ public class UserMenu {
             System.out.println("| 4. Sort Products by Price              |");
             System.out.println("| 5. Back                                |");
             System.out.println("==========================================");
-            System.out.print("Enter your choice: ");
 
             choice = MenuUtils.getMenuChoice(1, 5);
 
@@ -469,8 +550,6 @@ public class UserMenu {
         System.out.println("| 5. Edit Profile                   |");
         System.out.println("| 6. Logout                         |");
         System.out.println("=====================================");
-        System.out.print("Select an option (1-6): ");
-
 
         int choice = MenuUtils.getMenuChoice(1, 6);
 
@@ -519,7 +598,6 @@ public class UserMenu {
         System.out.println("| 3. Clear Cart                      |");
         System.out.println("| 4. Back                            |");
         System.out.println("======================================");
-        System.out.print("Select an option (1-4): ");
 
         int choice = MenuUtils.getMenuChoice(1, 4);
 
@@ -575,7 +653,6 @@ public class UserMenu {
             System.out.println("| 6. Logout                                   |");
             System.out.println("| 7. Exit                                     |");
             System.out.println("===============================================");
-            System.out.print("Select an option (1-7): ");
 
             choice = MenuUtils.getMenuChoice(1, 7);
 
@@ -661,7 +738,6 @@ public class UserMenu {
         System.out.println("| 4. Change Password                |");
         System.out.println("| 5. Back to Profile                |");
         System.out.println("=====================================");
-        System.out.print("Select an option (1-5): ");
 
         int choice = MenuUtils.getMenuChoice(1, 5);
 
@@ -680,8 +756,15 @@ public class UserMenu {
                 System.out.println("Address updated successfully!");
                 break;
             case 3:
-                System.out.print("Enter new phone number: ");
-                String newPhone = scanner.nextLine();
+                String newPhone = "";
+                do {
+                    System.out.print("Enter new phone number: ");
+                    newPhone = scanner.nextLine();
+                    if (newPhone.isEmpty()) {
+                        return;
+                    }
+                } while (!isValidPhoneNumber(newPhone));
+
                 customer.setPhoneNum(newPhone);
                 System.out.println("Phone number updated successfully!");
                 break;
@@ -690,14 +773,16 @@ public class UserMenu {
                 System.out.print("Enter current password: ");
                 String currentPassword = MenuUtils.maskPassword(scanner);
                 if (currentPassword.equals(customer.getPassword())) {
-                    System.out.print("Enter new password (minimum 8 characters): ");
-                    String newPassword = MenuUtils.maskPassword(scanner);
-                    if (newPassword.length() >= 8) {
-                        customer.setPassword(newPassword);
-                        System.out.println("Password updated successfully!");
-                    } else {
-                        System.out.println("Password must be at least 8 characters long.");
-                    }
+                    String newPassword = "";
+                    do {
+                        System.out.print("Enter new password (min 8 chars, must include uppercase, lowercase, digit, and special character): ");
+                        newPassword = MenuUtils.maskPassword(scanner);
+                        if (newPassword.isEmpty()) {
+                            return; // Allow user to cancel
+                        }
+                    } while (!isValidPassword(newPassword));
+                    customer.setPassword(newPassword);
+                    System.out.println("Password updated successfully!");
                 } else {
                     System.out.println("Incorrect current password.");
                 }
@@ -787,7 +872,6 @@ public class UserMenu {
         System.out.println("| 2. PayPal                            |");
         System.out.println("| 3. Cash on Delivery                  |");
         System.out.println("=========================================");
-        System.out.print("Please select an option (1-3): ");
 
         int paymentChoice = MenuUtils.getMenuChoice(1, 3);
         String paymentMethod;
@@ -870,7 +954,6 @@ public class UserMenu {
             System.out.println("| 3. Compare two products               |");
             System.out.println("| 4. Return to main menu               |");
             System.out.println("===========================================");
-            System.out.print("Select an option (1-4): ");
 
             int choice = MenuUtils.getMenuChoice(1, 4);
 

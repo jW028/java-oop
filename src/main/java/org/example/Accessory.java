@@ -25,10 +25,20 @@ public class Accessory extends Product {
     
     @Override
     public String getSpecificDetails() {
-        return "Compatible With: " + compatibleWith + 
-               "\nType: " + type + 
-               "\nMaterial: " + material +
-               "\nColor: " + color;
+        return String.format(
+                "\n╔═════════════════════════════════════════╗\n" +
+                        "║         ACCESSORY SPECIFICATIONS        ║\n" +
+                        "╠══════════════════╦══════════════════════╣\n" +
+                        "║ %-16s ║ %-2s\n" +
+                        "║ %-16s ║ %-2s\n" +
+                        "║ %-16s ║ %-2s\n" +
+                        "║ %-16s ║ %-2s\n" +
+                        "╚══════════════════╩══════════════════════╝",
+                "Compatible With:", compatibleWith,
+                "Type:", type,
+                "Material:", material,
+                "Color:", color
+        );
     }
     
     @Override

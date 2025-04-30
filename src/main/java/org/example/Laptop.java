@@ -29,12 +29,24 @@ public class Laptop extends Product {
     
     @Override
     public String getSpecificDetails() {
-        return "Processor: " + processor + 
-               "\nGraphics: " + graphicsCard + 
-               "\nRAM: " + ramGB + "GB" +
-               "\nStorage: " + storageGB + "GB" +
-               "\nDisplay: " + displaySize +
-               "\nOS: " + operatingSystem;
+        return String.format(
+                "\n╔═════════════════════════════════════════╗\n" +
+                        "║          LAPTOP SPECIFICATIONS          ║\n" +
+                        "╠══════════════════╦══════════════════════╣\n" +
+                        "║ %-16s ║ %-2s \n" +
+                        "║ %-16s ║ %-2s \n" +
+                        "║ %-16s ║ %-2dGB \n" +
+                        "║ %-16s ║ %-2dGB \n" +
+                        "║ %-16s ║ %-2s \n" +
+                        "║ %-16s ║ %-2s \n" +
+                        "╚══════════════════╩══════════════════════╝",
+                "Processor:", processor,
+                "Graphics:", graphicsCard,
+                "RAM:", ramGB,
+                "Storage:", storageGB,
+                "Display:", displaySize,
+                "OS:", operatingSystem
+        );
     }
     
     @Override

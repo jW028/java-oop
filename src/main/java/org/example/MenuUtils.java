@@ -18,7 +18,7 @@ public class MenuUtils {
         do {
             System.out.print("Enter your choice (" + minChoice + "-" + maxChoice + "): ");
             while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input. Please enter a number:");
                 scanner.next();
             }
             choice = scanner.nextInt();
