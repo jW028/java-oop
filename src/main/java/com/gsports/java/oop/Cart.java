@@ -71,6 +71,7 @@ public class Cart {
         for (CartItem item : items) {
             if (item.getProduct().getProdID().equals(product.getProdID())) {
                 item.setQuantity(item.getQuantity() + quantity);
+                recalculateTotal();
                 System.out.println("Added " + quantity + " of " + product.getProdName() + " to your cart.");
                 return;
             }

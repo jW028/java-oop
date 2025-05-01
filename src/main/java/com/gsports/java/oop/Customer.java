@@ -92,11 +92,10 @@ public class Customer extends User {
     }
 
     public void addOrder(Order order) {
-        if (order != null) {
-            this.orderHistory.add(order);
-        } else {
-            System.out.println("Invalid order.");
-        }
+        if (this.orderHistory == null) {
+            this.orderHistory = new ArrayList<>();
+        } 
+        this.orderHistory.add(order);
     }
 
     @Override

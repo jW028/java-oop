@@ -321,6 +321,9 @@ public class UserMenu {
         System.out.println("Thank you for using GSports Retail System!");
     }
 
+    // admin viewOrders method
+    
+
     private void manageProductsMenu() {
         if (!(currentUser instanceof Admin)) {
             System.out.println("Access denied. Admin privileges required.");
