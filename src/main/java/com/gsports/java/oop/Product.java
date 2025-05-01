@@ -96,14 +96,39 @@ public abstract class Product {
         this.prodName = prodName;
     }
 
+    public static class Utils {
+        public static String wrapText(String text, int maxLineLength) {
+            StringBuilder wrappedText = new StringBuilder();
+            int length = text.length();
+            for (int i = 0; i < length; i += maxLineLength) {
+                int end = Math.min(i + maxLineLength, length);
+                wrappedText.append(text, i, end).append("\n");
+            }
+            return wrappedText.toString().trim();
+        }
+    }
+
     @JsonIgnore
-    public String getDetails() {
-        return "Product ID: " + this.prodID + "\n" +
-               "Product Name: " + this.prodName + "\n" +
-               "Product Description: " + this.prodDesc + "\n" +
-               "Unit Price: $" + this.unitPrice + "\n" +
-               "Selling Price: $" + this.sellingPrice + "\n" +
-               "Stock: " + this.stock;
+    // public String getDetails() {
+    //     return " Product ID: " + this.prodID + "\n" +
+    //            " Product Name: " + this.prodName + "\n" +
+    //            " Product Description: " + this.prodDesc + "\n" +
+    //            " Unit Price: $" + this.unitPrice + "\n" +
+    //            " Selling Price: $" + this.sellingPrice + "\n" +
+    //            " Stock: " + this.stock;
+    // }
+
+    public String getDetails(){
+        String formattedDescription = Utils.wrapText(this.prodDesc, 49);
+        return String.format("""
+                        │ Product ID: %-35s │
+                        │ Product Name: %-33s │
+                        │ Product Description:                            │
+                        │ %-47s │
+                        │ Unit Price: $%-34s │
+                        │ Selling Price: $%-31s │
+                        │ Stock: %-40s │""",
+        this.prodID, this.prodName, formattedDescription, this.unitPrice, this.sellingPrice, this.stock);
     }
 
     @JsonIgnore

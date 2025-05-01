@@ -1,7 +1,9 @@
 package com.gsports.java.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -40,14 +42,14 @@ public class UserMenu {
     public void displayMenu() {
         int choice;
         do {
-            System.out.println("\n===========================================");
-            System.out.println("|       Welcome to GSports Retail System   |");
-            System.out.println("===========================================");
+            System.out.println("\n============================================");
+            System.out.println("|     Welcome to GSports Retail System     |");
+            System.out.println("============================================");
             System.out.println("| 1. Register                              |");
             System.out.println("| 2. Login                                 |");
             System.out.println("| 3. AI Product Assistant                  |");
             System.out.println("| 4. Exit                                  |");
-            System.out.println("===========================================");
+            System.out.println("============================================");
 
             choice = MenuUtils.validateDigit(1, 4);
             switch (choice) {
@@ -75,6 +77,8 @@ public class UserMenu {
 
     private void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
+        System.out.println("┌──────────────────────────────────────────────────────────┐");
+        System.out.println("");
 
         // Collect input
         String customerName = "";
@@ -328,10 +332,6 @@ public class UserMenu {
                     viewAllProducts();
                     break;
 
-                case 3: 
-                    viewAllCustomers();
-                    break;
-
                 case 4:
                     manageProductsMenu();
                     break;
@@ -379,7 +379,7 @@ public class UserMenu {
         while (true) {
             // Table header with formatting
             System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-            System.out.println("│                                 ORDER LISTINGS                               │");
+            System.out.println("│                                 ORDER LISTINGS                              │");
             System.out.println("├────┬──────────────┬─────────────┬────────────┬──────────────┬───────────────┤");
             System.out.println("│ #  │ Order ID     │ Customer    │ Date       │ Total Amount │ Status        │");
             System.out.println("├────┼──────────────┼─────────────┼────────────┼──────────────┼───────────────┤");
@@ -542,7 +542,7 @@ public class UserMenu {
             System.out.println("│ " + String.format("%-2d", i + 1) + ". " + 
                     String.format("%-25s", item.getProduct().getProdName()) + 
                     " | Qty: " + String.format("%-3d", item.getQuantity()) + 
-                    " | Price: $" + String.format("%-8.2f", item.getProduct().getSellingPrice()) + 
+                    " | Price: $" + String.format("%-8.2f", item.getProduct().getUnitPrice()) + 
                     " | Subtotal: $" + String.format("%-8.2f", item.getSubtotal()) + " │");
         }
         
@@ -606,210 +606,6 @@ public class UserMenu {
         scanner.nextLine();
     }
 
-    private void viewAllCustomers() {
-        // Check admin privileges
-        if (!(currentUser instanceof Admin)) {
-            System.out.println("Access denied. Admin privileges required.");
-            return;
-        }
-    
-        if (customers.isEmpty()) {
-            System.out.println("No customers found in the system.");
-            return;
-        }
-
-        List<User> regularCustomers = customers.stream()
-                    .filter(user -> user instanceof Customer)
-                    .collect(java.util.stream.Collectors.toList());
-    
-        while (true) {
-            // Display customer list with formatted table
-            displayCustomersTable(regularCustomers);
-            
-            // Customer management menu
-            System.out.println("\n=====================================");
-            System.out.println("|        Customer Management        |");
-            System.out.println("=====================================");
-            System.out.println("| 1. View Customer Details          |");
-            System.out.println("| 2. View Customer Order History    |");
-            System.out.println("| 3. Sort by Name                   |");
-            System.out.println("| 4. Sort by Most Orders            |");
-            System.out.println("| 5. Back to Admin Menu             |");
-            System.out.println("=====================================");
-    
-            int choice = MenuUtils.validateDigit(1, 5);
-    
-            switch (choice) {
-                case 1 -> viewCustomerDetails(regularCustomers);
-                case 2 -> viewCustomerOrders(regularCustomers);
-                case 3 -> {
-                    regularCustomers.sort((c1, c2) -> c1.getUsername().compareToIgnoreCase(c2.getUsername()));
-                    System.out.println("Customers sorted by namsdfdsfsd.");
-                }
-                case 4 -> {
-                    regularCustomers.sort((c1, c2) -> {
-                        long c1Orders = orders.stream()
-                                .filter(order -> order.getCustomerId().equals(c1.getUserID()))
-                                .count();
-                        long c2Orders = orders.stream()
-                                .filter(order -> order.getCustomerId().equals(c2.getUserID()))
-                                .count();
-                        return Long.compare(c2Orders, c1Orders); // Descending order
-                    });
-                    System.out.println("Customers sorted by most orders.");
-                }
-                case 5 -> {
-                    return;
-                }
-            }
-        }
-    }
-
-    // Extract display code to a separate method
-private void displayCustomersTable(List<User> regularCustomers) {
-    System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-    System.out.println("│                              CUSTOMER LISTINGS                               │");
-    System.out.println("├────┬──────────────┬─────────────────────────┬────────────────┬──────────────┤");
-    System.out.println("│ #  │ Customer ID  │ Name                    │ Email          │ Total Orders │");
-    System.out.println("├────┼──────────────┼─────────────────────────┼────────────────┼──────────────┤");
-
-    for (int i = 0; i < regularCustomers.size(); i++) {
-        Customer customer = (Customer) regularCustomers.get(i);
-        
-        // Count orders for this customer
-        long orderCount = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
-                .count();
-        
-        String formattedId = String.format("%-12s", customer.getUserID());
-        String formattedName = String.format("%-23s", 
-                customer.getUsername().length() > 21 ? 
-                customer.getUsername().substring(0, 18) + "..." : 
-                customer.getUsername());
-        String formattedEmail = String.format("%-14s", 
-                customer.getEmail().length() > 12 ? 
-                customer.getEmail().substring(0, 9) + "..." : 
-                customer.getEmail());
-        String formattedOrders = String.format("%-12d", orderCount);
-        
-        System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
-                i + 1, formattedId, formattedName, formattedEmail, formattedOrders);
-    }
-    
-    // Table footer
-    System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
-}
-
-    private void viewCustomerDetails(List<User> customers) {
-        System.out.print("Enter customer number to view details: ");
-        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
-        
-        Customer customer = (Customer) customers.get(customerIndex);
-        
-        // Calculate total spent
-        double totalSpent = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
-                .mapToDouble(Order::getTotalAmount)
-                .sum();
-        
-        // Count total orders
-        long orderCount = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
-                .count();
-        
-        // Display detailed information about the customer
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                             CUSTOMER DETAILS                                 │");
-        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-        System.out.println("│ Customer ID: " + String.format("%-63s", customer.getUserID()) + " │");
-        System.out.println("│ Name: " + String.format("%-69s", customer.getUsername()) + " │");
-        System.out.println("│ Email: " + String.format("%-68s", customer.getEmail()) + " │");
-        System.out.println("│ Phone: " + String.format("%-68s", customer.getPhoneNum()) + " │");
-        System.out.println("│ Address: " + String.format("%-66s", customer.getAddress()) + " │");
-        System.out.println("│ Total Orders: " + String.format("%-62d", orderCount) + " │");
-        System.out.println("│ Total Spent: RM" + String.format("%-61.2f", totalSpent) + " │");
-        
-        // Cart items if any
-        if (customer.getCart() != null && !customer.getCart().getItems().isEmpty()) {
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            System.out.println("│                              CURRENT CART                                    │");
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            
-            List<CartItem> cartItems = customer.getCart().getItems();
-            for (CartItem item : cartItems) {
-                System.out.println("│ • " + String.format("%-30s", item.getProduct().getProdName()) + 
-                        " | Qty: " + String.format("%-3d", item.getQuantity()) + 
-                        " | Price: RM" + String.format("%-8.2f", item.getProduct().getSellingPrice()) + 
-                        " | Subtotal: RM" + String.format("%-8.2f", item.getSubtotal()) + " │");
-            }
-            
-            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", customer.getCart().getTotalAmount()) + " │");
-        }
-        
-        // Wishlist items if any
-        if (customer.getWishlist() != null && !customer.getWishlist().getItems().isEmpty()) {
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            System.out.println("│                             CURRENT WISHLIST                                │");
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            
-            List<Product> wishlistItems = customer.getWishlist().getItems();
-            for (Product item : wishlistItems) {
-                System.out.println("│ • " + String.format("%-68s", item.getProdName()) + " │");
-            }
-        }
-        
-        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
-        
-        System.out.println("Press Enter to continue...");
-        scanner.nextLine();
-    }
-
-    private void viewCustomerOrders(List<User> customers) {
-        System.out.print("Enter customer number to view orders: ");
-        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
-        
-        Customer customer = (Customer) customers.get(customerIndex);
-        
-        List<Order> customerOrders = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
-                .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate())) // Newest first
-                .collect(java.util.stream.Collectors.toList());
-        
-        if (customerOrders.isEmpty()) {
-            System.out.println("This customer has no orders.");
-            System.out.println("Press Enter to continue...");
-            scanner.nextLine();
-            return;
-        }
-        
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│ Customer: " + String.format("%-65s", customer.getUsername()) + " │");
-        System.out.println("│ Order History                                                                │");
-        System.out.println("├────┬──────────────┬────────────┬──────────────┬───────────────────────────────┤");
-        System.out.println("│ #  │ Order ID     │ Date       │ Total Amount │ Status                        │");
-        System.out.println("├────┼──────────────┼────────────┼──────────────┼───────────────────────────────┤");
-        
-        for (int i = 0; i < customerOrders.size(); i++) {
-            Order order = customerOrders.get(i);
-            String formattedId = String.format("%-12s", order.getOrderId());
-            String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
-            String formattedAmount = String.format("RM %-10.2f", order.getTotalAmount());
-            String formattedStatus = String.format("%-27s", order.getStatus());
-            
-            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
-                    i + 1, formattedId, formattedDate, formattedAmount, formattedStatus);
-        }
-        
-        System.out.println("└────┴──────────────┴────────────┴──────────────┴───────────────────────────────┘");
-        
-        System.out.println("\nEnter order number to view details (0 to go back): ");
-        int choice = MenuUtils.validateDigit(0, customerOrders.size());
-        
-        if (choice > 0) {
-            viewOrderDetailsAdmin(customerOrders);
-        }
-    }
-
     private void manageProductsMenu() {
         if (!(currentUser instanceof Admin)) {
             System.out.println("Access denied. Admin privileges required.");
@@ -867,11 +663,11 @@ private void displayCustomersTable(List<User> regularCustomers) {
         }
     
         // Table header with formatting
-        System.out.println("\n┌───────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("\n┌────────────────────────────────────────────────────────────────────────────┐");
         System.out.println("│                               PRODUCT LISTING                              │");
-        System.out.println("├────┬──────────┬─────────────────────────────┬───────────┬─────────────────┤");
-        System.out.println("│ #  │ ID       │ Product Name                │ Price     │ Type           │");
-        System.out.println("├────┼──────────┼─────────────────────────────┼───────────┼─────────────────┤");
+        System.out.println("├────┬──────────┬─────────────────────────────┬────────────┬─────────────────┤");
+        System.out.println("│ #  │ ID       │ Product Name                │ Price      │ Type            │");
+        System.out.println("├────┼──────────┼─────────────────────────────┼────────────┼─────────────────┤");
     
         // Format the output for each product
         int index = 1;
@@ -891,7 +687,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
         }
         
         // Table footer
-        System.out.println("└────┴──────────┴─────────────────────────────┴───────────┴─────────────────┘");
+        System.out.println("└────┴──────────┴─────────────────────────────┴────────────┴─────────────────┘");
 
     }
 
@@ -917,7 +713,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
             case 1 -> {
                 // Add to cart
                 System.out.print("Enter quantity to add: ");
-                int quantity = MenuUtils.validateDigit(1, selectedProduct.getStock());
+                int quantity = MenuUtils.validateDigit(1, 100);
                 
                 if (quantity > selectedProduct.getStock()) {
                     System.out.println("Sorry, there are only " + selectedProduct.getStock() + " items available.");
@@ -973,7 +769,11 @@ private void displayCustomersTable(List<User> regularCustomers) {
                     int productIndex = MenuUtils.validateDigit(0, products.size());
                     if (productIndex > 0) {
                         Product selectedProduct = products.get(productIndex - 1);
+                        System.out.println("┌─────────────────────────────────────────────────┐");
+                        System.out.println("|                 Product Details                 |");
+                        System.out.println("├─────────────────────────────────────────────────┤");
                         System.out.println(selectedProduct.getDetails());
+                        System.out.println("└─────────────────────────────────────────────────┘");
                         promptProductActions(selectedProduct);
                     } else {
                         System.out.println("Returning to product menu...");
@@ -1160,26 +960,12 @@ private void displayCustomersTable(List<User> regularCustomers) {
         
         Product item = items.get(index);
         
-        System.out.println("┌───────────────────────────────────────────────────┐");
-        System.out.println("│              WISHLIST ITEM DETAILS                │");
-        System.out.println("├───────────────────────────────────────────────────┤");
-        System.out.println("│ ID: " + String.format("%-41s", item.getProdID()) + " │");
-        System.out.println("│ Name: " + String.format("%-39s", item.getProdName()) + " │");
-        System.out.println("│ Price: RM" + String.format("%-36.2f", item.getSellingPrice()) + " │");
-        System.out.println("│ Category: " + String.format("%-35s", item.getProductType()) + " │");
-        System.out.println("│ Stock: " + String.format("%-38d", item.getStock()) + " │");
-        System.out.println("│                                                   │");
-        System.out.println("│ Description:                                      │");
-        
-        // Format description to fit within the box
-        String description = item.getProdDesc();
-        int maxLineLength = 45;
-        for (int i = 0; i < description.length(); i += maxLineLength) {
-            String line = description.substring(i, Math.min(i + maxLineLength, description.length()));
-            System.out.println("│ " + String.format("%-47s", line) + " │");
-        }
-        
-        System.out.println("└───────────────────────────────────────────────────┘");
+        System.out.println("┌─────────────────────────────────────────────────┐");
+        System.out.println("│              WISHLIST ITEM DETAILS              │");
+        System.out.println("├─────────────────────────────────────────────────┤");
+        System.out.println(item.getDetails());
+        System.out.println("└─────────────────────────────────────────────────┘");
+        System.out.println();
     }
 
     public void displayInteractiveWishlist() {
@@ -1291,16 +1077,10 @@ private void displayCustomersTable(List<User> regularCustomers) {
             case 1:
                 // Update quantity
                 displayCart(cart);
-                System.out.print("Enter item index to update: ");
+                System.out.print("~ Index of product to update ~\n");
                 int updateIndex = MenuUtils.validateDigit(1, cart.getItems().size()) - 1;
-                CartItem item = cart.getItems().get(updateIndex);
-                Product product = item.getProduct();
-                System.out.println("Available stock: " + product.getStock());
-                System.out.println("Current quantity: " + item.getQuantity());
-
-                System.out.print("Enter new quantity: ");
-
-                int newQuantity = MenuUtils.validateDigit(1, product.getStock());
+                System.out.print("~ New quantity ~\n");
+                int newQuantity = MenuUtils.validateDigit(1, 100);
                 cart.updateItemQuantity(updateIndex, newQuantity);
                 break;
 
@@ -1344,7 +1124,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
         for (CartItem item : items) {
             System.out.printf("%-25s $%-9.2f %-10d $%-9.2f\n", 
                 item.getProduct().getProdName(),
-                item.getProduct().getSellingPrice(),
+                item.getProduct().getUnitPrice(),
                 item.getQuantity(),
                 item.getSubtotal());
         }
@@ -1518,11 +1298,11 @@ private void displayCustomersTable(List<User> regularCustomers) {
 
         // Select payment method
         System.out.println("\n=========================================");
-        System.out.println("|          Select Payment Method       |");
+        System.out.println("|          Select Payment Method        |");
         System.out.println("=========================================");
-        System.out.println("| 1. Credit Card                       |");
-        System.out.println("| 2. PayPal                            |");
-        System.out.println("| 3. Bank Transfer                  |");
+        System.out.println("| 1. Credit Card                        |");
+        System.out.println("| 2. PayPal                             |");
+        System.out.println("| 3. Bank Transfer                      |");
         System.out.println("=========================================");
 
         int paymentChoice = MenuUtils.validateDigit(1, 3);
@@ -1601,20 +1381,16 @@ private void displayCustomersTable(List<User> regularCustomers) {
                 JsonDataHandler.saveOrdersList(orders);
     
                 // Update product stock
-                List<Product> allProducts = JsonDataHandler.getProductsList();
+                Map<String, Product> products = new HashMap<>();
                 for (CartItem item : cart.getItems()) {
-                    String productId = item.getProduct().getProdID();
-
-                    // Find the product in the full product list
-                    for (Product p : allProducts) {
-                        if (p.getProdID().equals(productId)) {
-                            p.setStock(p.getStock() - item.getQuantity());
-                            break;
-                        }
-                    }    
+                    Product product = item.getProduct();
+                    int newStock = product.getStock() - item.getQuantity();
+                    product.setStock(newStock);
+                    products.put(product.getProdID(), product);
                 }
+    
                 // Save updated product data
-                JsonDataHandler.saveProductsList(allProducts);
+                JsonDataHandler.saveProducts(products);
     
                 // Clear the cart
                 cart.clearCart();
@@ -1910,5 +1686,8 @@ private void displayCustomersTable(List<User> regularCustomers) {
             System.out.println("Invalid product selection.");
         }
     }
+
+
+
 
 }

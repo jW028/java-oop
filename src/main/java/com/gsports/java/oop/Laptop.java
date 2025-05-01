@@ -78,14 +78,26 @@ public class Laptop extends Product {
 
     @Override
     public String getDetails() {
-        return super.getDetails() + "\n" +
-                "Processor: " + processor + "\n" +
-                "Graphics Card: " + graphicsCard + "\n" +
-                "RAM: " + ramGB + " GB\n" +
-                "Storage: " + storageGB + " GB\n" +
-                "Display Size: " + displaySize + "\n" +
-                "Operating System: " + operatingSystem;
+        return super.getDetails() + String.format(
+            "\n│ Processor: %-36s │\n" +
+            "│ Graphics Card: %-32s │\n" +
+            "│ RAM: %-3dGB                                      │\n" +
+            "│ Storage: %-4dGB                                 │\n" +
+            "│ Display Size: %-33s │\n" +
+            "│ Operating System: %-29s │",
+            this.processor, this.graphicsCard, this.ramGB, this.storageGB, this.displaySize, this.operatingSystem
+        );
     }
+
+    // public String getDetails() {
+    //     return super.getDetails() + "\n" +
+    //             "Processor: " + processor + "\n" +
+    //             "Graphics Card: " + graphicsCard + "\n" +
+    //             "RAM: " + ramGB + " GB\n" +
+    //             "Storage: " + storageGB + " GB\n" +
+    //             "Display Size: " + displaySize + "\n" +
+    //             "Operating System: " + operatingSystem;
+    // }
 
 
     @Override

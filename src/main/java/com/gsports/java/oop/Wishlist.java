@@ -85,11 +85,11 @@ public class Wishlist {
         StringBuilder wishlistDetails = new StringBuilder();
         
         // Header
-        wishlistDetails.append("┌───────────────────────────────────────────────────────────────────────────┐\n");
+        wishlistDetails.append("\n┌───────────────────────────────────────────────────────────────────────────┐\n");
         wishlistDetails.append("│                               YOUR WISHLIST                               │\n");
-        wishlistDetails.append("├────┬──────────┬─────────────────────────────┬───────────┬───────────────┤\n");
-        wishlistDetails.append("│ #  │ ID       │ Product Name                │ Price     │ Stock Status  │\n");
-        wishlistDetails.append("├────┼──────────┼─────────────────────────────┼───────────┼───────────────┤\n");
+        wishlistDetails.append("├────┬──────────┬─────────────────────────────┬─────────────┬───────────────┤\n");
+        wishlistDetails.append("│ #  │ ID       │ Product Name                │ Price       │ Stock Status  │\n");
+        wishlistDetails.append("├────┼──────────┼─────────────────────────────┼─────────────┼───────────────┤\n");
     
         // Items
         int index = 1;
@@ -116,12 +116,12 @@ public class Wishlist {
             }
             String formattedStock = String.format("%-13s", stockStatus);
             
-            wishlistDetails.append(String.format("│ %-2d │ %s │ %s │ %s │ %s │\n", 
+            wishlistDetails.append(String.format("│ %-2d │ %s │ %s │ %-11s │ %s │\n",
                     index++, formattedId, formattedName, formattedPrice, formattedStock));
         }
         
         // Footer
-        wishlistDetails.append("└────┴──────────┴─────────────────────────────┴───────────┴───────────────┘\n");
+        wishlistDetails.append("└────┴──────────┴─────────────────────────────┴─────────────┴───────────────┘\n");
         
         return wishlistDetails.toString();
     }
