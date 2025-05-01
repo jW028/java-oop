@@ -1,4 +1,22 @@
 {
+  "CUST-68D3F4C2" : {
+    "userID" : "CUST-68D3F4C2",
+    "username" : "Samuel Chew Chun Hong",
+    "email" : "sam@gmail.com",
+    "password" : "Sam1234!",
+    "address" : "Samuel Address Testing",
+    "phoneNum" : "0123456789",
+    "cart" : {
+      "cartId" : "CART-7a3e9296",
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-2308ea30",
+      "items" : [ ]
+    }
+  },
   "CUST-3122FC4D" : {
     "userID" : "CUST-3122FC4D",
     "username" : "test",
@@ -8,16 +26,50 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "userId" : null,
+      "items" : [ {
+        "product" : {
+          "Laptop" : {
+            "prodID" : "P001",
+            "prodName" : "Asus ROG Strix",
+            "prodDesc" : "High-performance gaming laptop",
+            "unitPrice" : 6299.99,
+            "sellingPrice" : 7199.0,
+            "stock" : 20,
+            "processor" : "Intel i9",
+            "graphicsCard" : "NVIDIA RTX 3060",
+            "ramGB" : 16,
+            "storageGB" : 512,
+            "displaySize" : "15.6 inch",
+            "operatingSystem" : "Windows 11"
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 7199.0
+      } ],
+      "totalAmount" : 7199.0,
+      "empty" : false
+    },
+    "wishlist" : {
+      "wishlistId" : "WISH-0e831708",
+      "items" : [ ]
+    }
+  },
+  "CUST-611810DA" : {
+    "userID" : "CUST-611810DA",
+    "username" : "Peh Guan Soon",
+    "email" : "peh@gmail.com",
+    "password" : "Peh1234!",
+    "address" : "Peh Road 123, Guan Guan 47000 Soon Soon, Kuala Lumpur",
+    "phoneNum" : "0123456789",
+    "cart" : {
+      "cartId" : "CART-54cd4435",
       "items" : [ ],
       "totalAmount" : 0.0,
       "empty" : true
     },
     "wishlist" : {
-      "wishlistId" : "WISH-0e831708",
-      "userId" : null,
+      "wishlistId" : "WISH-bf533a3d",
       "items" : [ ]
-    },
-    "orderHistory" : [ ]
+    }
   }
 }

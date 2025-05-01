@@ -79,8 +79,12 @@ public class UserMenu {
         System.out.println("\n=== Customer Registration ===");
 
         // Collect input
-        System.out.print("Enter Full Name: ");
-        String customerName = scanner.nextLine();
+        String customerName = "";
+        do {
+            System.out.print("Enter Full Name: ");
+            customerName = scanner.nextLine();
+
+        } while (!isValidFullName(customerName));
 
         String email = "";
         boolean validEmail = false;
@@ -149,6 +153,36 @@ public class UserMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Registration failed: " + e.getMessage());
         }
+    }
+
+    private boolean isValidFullName(String fullName) {
+        if (fullName == null || fullName.trim().isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            return false;
+        }
+
+        // Check if the name contains at least two parts (first and last name)
+        String[] nameParts = fullName.trim().split("\\s+");
+        if (nameParts.length < 2) {
+            System.out.println("Please enter your full name (first and last name).");
+            return false;
+        }
+
+        // Check if name contains only valid characters (letters, spaces, hyphens, apostrophes)
+        if (!fullName.matches("^[a-zA-Z\\s\\-']+$")) {
+            System.out.println("Name should contain only letters, spaces, hyphens, and apostrophes.");
+            return false;
+        }
+
+        // Additional validation: check minimum length for each part
+        for (String part : nameParts) {
+            if (part.length() < 2) {
+                System.out.println("Each part of your name should be at least 2 characters long.");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean isValidPassword(String password) {
