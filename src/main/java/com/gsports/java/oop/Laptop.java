@@ -1,8 +1,8 @@
-package org.example;
+package com.gsports.java.oop;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("laptop")
+@JsonTypeName("Laptop")
 public class Laptop extends Product {
     private String processor;
     private String graphicsCard;
@@ -10,15 +10,15 @@ public class Laptop extends Product {
     private int storageGB;
     private String displaySize;
     private String operatingSystem;
-    
+
     public Laptop() {
         super();
     }
-    
-    public Laptop(String prodID, String prodName, String prodDesc, Category category, 
-                 double unitPrice, int stock, String processor, String graphicsCard, 
+
+    public Laptop(String prodID, String prodName, String prodDesc, 
+                 double unitPrice, double sellingPrice, int stock, String processor, String graphicsCard, 
                  int ramGB, int storageGB, String displaySize, String operatingSystem) {
-        super(prodID, prodName, prodDesc, category, unitPrice, stock);
+        super(prodID, prodName, prodDesc, unitPrice, sellingPrice, stock);
         this.processor = processor;
         this.graphicsCard = graphicsCard;
         this.ramGB = ramGB;
@@ -26,34 +26,7 @@ public class Laptop extends Product {
         this.displaySize = displaySize;
         this.operatingSystem = operatingSystem;
     }
-    
-    @Override
-    public String getSpecificDetails() {
-        return String.format(
-                "\n╔═════════════════════════════════════════╗\n" +
-                        "║          LAPTOP SPECIFICATIONS          ║\n" +
-                        "╠══════════════════╦══════════════════════╣\n" +
-                        "║ %-16s ║ %-2s \n" +
-                        "║ %-16s ║ %-2s \n" +
-                        "║ %-16s ║ %-2dGB \n" +
-                        "║ %-16s ║ %-2dGB \n" +
-                        "║ %-16s ║ %-2s \n" +
-                        "║ %-16s ║ %-2s \n" +
-                        "╚══════════════════╩══════════════════════╝",
-                "Processor:", processor,
-                "Graphics:", graphicsCard,
-                "RAM:", ramGB,
-                "Storage:", storageGB,
-                "Display:", displaySize,
-                "OS:", operatingSystem
-        );
-    }
-    
-    @Override
-    public String getDetails() {
-        return super.getDetails() + "\n\n" + getSpecificDetails();
-    }
-    
+
     // Getters and Setters
     public String getProcessor() {
         return processor;
@@ -102,9 +75,21 @@ public class Laptop extends Product {
     public void setOperatingSystem(String operatingSystem) {
         this.operatingSystem = operatingSystem;
     }
-    
+
+    @Override
+    public String getDetails() {
+        return super.getDetails() + "\n" +
+                "Processor: " + processor + "\n" +
+                "Graphics Card: " + graphicsCard + "\n" +
+                "RAM: " + ramGB + " GB\n" +
+                "Storage: " + storageGB + " GB\n" +
+                "Display Size: " + displaySize + "\n" +
+                "Operating System: " + operatingSystem;
+    }
+
+
     @Override
     public String getProductType() {
-        return "laptop";
+        return "Laptop";
     }
 }

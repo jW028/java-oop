@@ -1,4 +1,5 @@
-package org.example;
+package com.gsports.java.oop;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -34,7 +35,13 @@ public class UserDeserializer extends StdDeserializer<User> {
         } else {
             String address = node.has("address") ? node.get("address").asText() : "";
             String phoneNum = node.has("phoneNum") ? node.get("phoneNum").asText() : "";
-            Customer customer = new Customer(userID, username, email, password, address, phoneNum);
+            Customer customer = new Customer(true);
+            customer.setUserID(userID);
+            customer.setUsername(username);
+            customer.setEmail(email);
+            customer.setPassword(password);
+            customer.setAddress(address);
+            customer.setPhoneNum(phoneNum);
             
             // Deserialize cart if present
             if (node.has("cart")) {
@@ -65,3 +72,6 @@ public class UserDeserializer extends StdDeserializer<User> {
         }
     }
 }
+
+    
+

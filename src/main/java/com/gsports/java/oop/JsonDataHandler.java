@@ -1,19 +1,27 @@
-package org.example;
+package com.gsports.java.oop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale.Category;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 public class JsonDataHandler {
     private static final String CUSTOMER_FILE_PATH = "customers.json";
+    private static final String ADMIN_FILE_PATH = "admins.json";
+    private static final String PRODUCT_FILE_PATH = "products.json";
+    private static final String ORDER_FILE_PATH = "orders.json";
+    private static final String PAYMENTS_FILE_PATH = "payments.json";
     private static final ObjectMapper mapper = createObjectMapper();
     
     private static ObjectMapper createObjectMapper() {
@@ -24,29 +32,28 @@ public class JsonDataHandler {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         // Configure to ignore unknown properties during deserialization
         mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        mapper.configure(SerializationFeature.WRITE_SELF_REFERENCES_AS_NULL, true);
+
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(User.class, new UserDeserializer());
+        mapper.registerModule(module);
+
         return mapper;
     }
 
-    public static void saveCustomers(Map<String,User> newCustomers) {
+    public static void saveCustomers(Map<String,User> customers) {
         try {
-            Map<String, User> existingCustomers = new HashMap<>();
-            if (newCustomers != null && !newCustomers.isEmpty()) {
-                try {
-                    existingCustomers = loadCustomers();
-                } catch (Exception e) {
-                    System.out.println("Error loading users from customers.json" + e.getMessage());
+            if (customers != null && !customers.isEmpty()) {
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(new File(CUSTOMER_FILE_PATH), customers);
                 }
-
-                existingCustomers.putAll(newCustomers);
-
-                if (!existingCustomers.isEmpty()) {
-                    mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                    mapper.writeValue(new File(CUSTOMER_FILE_PATH), existingCustomers);
-                    System.out.println("Customer data is saved to " + CUSTOMER_FILE_PATH);
-                } else {
-                    System.out.println("Customer data is empty");
-                }
-            }
+                else {
+                   System.out.println("Customer data is empty");
+               }
         } catch (IOException e) {
             System.out.println("Error saving customer data: " + e.getMessage());
         }
@@ -75,7 +82,7 @@ public class JsonDataHandler {
         try {
             // Use the configured mapper instead of creating a new one
             ObjectMapper adminMapper = mapper.copy();
-            File file = new File("admins.json");
+            File file = new File(ADMIN_FILE_PATH);
             adminMapper.enable(SerializationFeature.INDENT_OUTPUT);
             adminMapper.writeValue(file, admins);
         } catch (IOException e) {
@@ -86,7 +93,7 @@ public class JsonDataHandler {
     public static Map<String, Admin> loadAdmins() {
         Map<String, Admin> admins = new HashMap<>();
         try {
-            File file = new File("admins.json");
+            File file = new File(ADMIN_FILE_PATH);
             if (file.exists()) {
                 ObjectMapper readerMapper = mapper.copy();
                 admins = readerMapper.readValue(file, 
@@ -106,7 +113,7 @@ public class JsonDataHandler {
         try {
             // Use the configured mapper instead of creating a new one
             ObjectMapper productMapper = mapper.copy();
-            File file = new File("products.json");
+            File file = new File(PRODUCT_FILE_PATH);
             productMapper.enable(SerializationFeature.INDENT_OUTPUT);
             
             // Make sure we're using the type info from the Product class annotations
@@ -123,7 +130,7 @@ public class JsonDataHandler {
     public static Map<String, Product> loadProducts() {
         Map<String, Product> products = new HashMap<>();
         try {
-            File file = new File("products.json");
+            File file = new File(PRODUCT_FILE_PATH);
             if (file.exists()) {
                 try {
                     // Use the configured mapper instead of creating a new one
@@ -131,11 +138,6 @@ public class JsonDataHandler {
                     
                     // Configure the mapper to be more lenient
                     readerMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    
-                    // Import these at the top of the file
-                    // import com.fasterxml.jackson.databind.JsonNode;
-                    // import com.fasterxml.jackson.databind.node.ObjectNode;
-                    // import java.util.Iterator;
                     
                     // Read the JSON as a generic tree first
                     com.fasterxml.jackson.databind.JsonNode rootNode = readerMapper.readTree(file);
@@ -176,6 +178,8 @@ public class JsonDataHandler {
                 createDefaultProducts(products);
                 // Save the newly created products
                 saveProducts(products);
+                // loadProducts again to ensure they are loaded correctly
+                products = loadProducts();
                 System.out.println("Created default products with proper type information.");
             }
             return products;
@@ -185,44 +189,19 @@ public class JsonDataHandler {
         }
     }
 
-    // Helper method to determine product type based on fields present
-    private static String determineProductType(com.fasterxml.jackson.databind.JsonNode node) {
-        if (node.has("processor") && node.has("graphicsCard") && node.has("ramGB")) {
-            return "laptop";
-        } else if (node.has("dpi") && node.has("numButtons")) {
-            return "mouse";
-        } else if (node.has("compatibleWith") && node.has("type") && node.has("material")) {
-            return "accessory";
-        }
-        // Default to accessory if can't determine
-        return "accessory";
-    }
-
     // Helper method to create default products
     private static void createDefaultProducts(Map<String, Product> products) {
-        // Create default categories
-        Category laptopCategory = new Category("C01", "Laptops", "Laptops Specs");
-        Category mouseCategory = new Category("C02", "Mice", "Mice Specs");
-        Category accessoryCategory = new Category("C03", "Accessories", "Chargers");
         
-        // Save categories
-        Map<String, Category> categories = new HashMap<>();
-        categories.put(laptopCategory.getCategoryID(), laptopCategory);
-        categories.put(mouseCategory.getCategoryID(), mouseCategory);
-        categories.put(accessoryCategory.getCategoryID(), accessoryCategory);
-        saveCategories(categories);
+        Laptop defaultLaptop = new Laptop("P001", "Asus ROG Strix", "High-performance gaming laptop", 
+                                    6299.99, 7199.00, 20, "Intel i9", 
+                                    "NVIDIA RTX 3060", 16, 512, "15.6 inch", "Windows 11");
+    
+        Mouse defaultMouse = new Mouse("P002", "Logitech G Pro", "Logitech gaming mouse", 
+                                    79.99, 99.99, 30, 16000, true, 
+                                    8, "Bluetooth", "Black");
         
-        // Create default products
-        Laptop defaultLaptop = new Laptop("P001", "Default Laptop", "High-end laptop", 
-                                        laptopCategory, 1500.00, 20, "Intel i7", 
-                                        "NVIDIA RTX 3060", 16, 512, "15.6 inch", "Windows 11");
-        
-        Mouse defaultMouse = new Mouse("P002", "Default Mouse", "Gaming mouse", 
-                                     mouseCategory, 99.99, 30, 16000, true, 
-                                     8, "Bluetooth", "Black");
-        
-        Accessory defaultAccessory = new Accessory("P003", "Default Charger", "Fast charger", 
-                                                accessoryCategory, 49.99, 50, "All laptops", 
+        Accessory defaultAccessory = new Accessory("P003", "Fast Charger", "20W fast charger", 
+                                                39.99, 49.99, 50, "All laptops", 
                                                 "Charger", "Plastic", "White");
         
         products.put(defaultLaptop.getProdID(), defaultLaptop);
@@ -233,43 +212,139 @@ public class JsonDataHandler {
         System.out.println("Created default products with proper type information.");
     }
 
-    // load categories
-    public static Map<String, Category> loadCategories() {
-        Map<String, Category> categories = new HashMap<>();
+    private static String determineProductType(com.fasterxml.jackson.databind.JsonNode node) {
+        if (node.has("processor") && node.has("graphicsCard") && node.has("ramGB")) {
+            return "Laptop";
+        } else if (node.has("dpi") && node.has("numButtons")) {
+            return "Mouse";
+        } else if (node.has("compatibleWith") && node.has("type") && node.has("material")) {
+            return "Accessory";
+        }
+        // Default to accessory if can't determine
+        return "Accessory";
+    }
+
+
+    // Customer adapters
+    public static List<User> getCustomersList() {
+        return new ArrayList<>(loadCustomers().values());
+    }
+
+    public static void saveCustomersList(List<User> customersList) {
+        Map<String, User> customersMap = new HashMap<>();
+        for (User user : customersList) {
+            customersMap.put(user.getUserID(), user);
+        }
+        saveCustomers(customersMap);
+    }
+
+    // Admin adapters
+    public static List<Admin> getAdminsList() {
+        return new ArrayList<>(loadAdmins().values());
+    }
+
+    public static void saveAdminsList(List<Admin> adminsList) {
+        Map<String, Admin> adminsMap = new HashMap<>();
+        for (Admin admin : adminsList) {
+            adminsMap.put(admin.getUserID(), admin);
+        }
+        saveAdmins(adminsMap);
+    }
+
+    // Product adapters
+    public static List<Product> getProductsList() {
+        return new ArrayList<>(loadProducts().values());
+    }
+
+    public static void saveProductsList(List<Product> productsList) {
+        Map<String, Product> productsMap = new HashMap<>();
+        for (Product product : productsList) {
+            productsMap.put(product.getProdID(), product);
+        }
+        saveProducts(productsMap);
+    }
+
+    public static void saveOrders(Map<String, Order> orders) {
         try {
-            File file = new File("categories.json");
-            if (file.exists()) {
-                ObjectMapper readerMapper = mapper.copy();
-                categories = readerMapper.readValue(file,
-                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Category.class));
-            } else {
-                Category[] defaultCategories = {
-                        new Category("C01", "Laptops", "Laptops Specs"),
-                        new Category("C02", "Mouses", "Mouses Specs"),
-                        new Category("C03", "Accessories", "Chargers")
-                };
-                for (Category category: defaultCategories) {
-                    categories.put(category.getCategoryID(), category);
-                }
-                saveCategories(categories);
-                System.out.println("No existing category data found. Starting with an empty dataset.");
-            }
-            return categories;
+            ObjectMapper orderMapper = mapper.copy();
+            File file = new File(ORDER_FILE_PATH);
+            orderMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            orderMapper.writeValue(file, orders);
         } catch (IOException e) {
-            System.out.println("Error loading category data: " + e.getMessage());
-            return new HashMap<>();
+            System.out.println("Error saving order data: " + e.getMessage());
         }
     }
 
-    public static void saveCategories(Map<String, Category> categories) {
+    public static Map<String, Order> loadOrders() {
+        Map<String, Order> orders = new HashMap<>();
         try {
-            // Use the configured mapper instead of creating a new one
-            ObjectMapper categoryMapper = mapper.copy();
-            File file = new File("categories.json");
-            categoryMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            categoryMapper.writeValue(file, categories);
+            File file = new File(ORDER_FILE_PATH);
+            if (file.exists()) {
+                ObjectMapper readerMapper = mapper.copy();
+                orders = readerMapper.readValue(file, 
+                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Order.class));
+            }
         } catch (IOException e) {
-            System.out.println("Error saving category data: " + e.getMessage());
+            System.out.println("Error loading order data: " + e.getMessage());
         }
+        return orders;
+    }
+
+    public static void saveOrdersList(List<Order> ordersList) {
+        Map<String, Order> ordersMap = new HashMap<>();
+        for (Order order : ordersList) {
+            ordersMap.put(order.getOrderId(), order);
+        }
+        saveOrders(ordersMap);
+    }
+
+    public static List<Order> getOrdersList() {
+        return new ArrayList<>(loadOrders().values());
+    }
+
+    public static List<Order> getOrderHistory(String customerId) {
+        List<Order> orderHistory = getOrdersList();
+
+        return orderHistory.stream()
+                .filter(order -> order.getCustomerId().equals(customerId))
+                .collect(Collectors.toList());
+    }
+
+    public static void savePayments(Map<String, Payment> payments) {
+        try {
+            ObjectMapper paymentMapper = mapper.copy();
+            File file = new File(PAYMENTS_FILE_PATH);
+            paymentMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            paymentMapper.writeValue(file, payments);
+        } catch (IOException e) {
+            System.out.println("Error saving payment data: " + e.getMessage());
+        }
+    }
+
+    public static Map<String, Payment> loadPayments() {
+        Map<String, Payment> payments = new HashMap<>();
+        try {
+            File file = new File(PAYMENTS_FILE_PATH);
+            if (file.exists()) {
+                ObjectMapper readerMapper = mapper.copy();
+                payments = readerMapper.readValue(file, 
+                        readerMapper.getTypeFactory().constructMapType(HashMap.class, String.class, Payment.class));
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading payment data: " + e.getMessage());
+        }
+        return payments;
+    }
+
+    public static void savePaymentsList(List<Payment> paymentsList) {
+        Map<String, Payment> paymentsMap = new HashMap<>();
+        for (Payment payment : paymentsList) {
+            paymentsMap.put(payment.getPaymentId(), payment);
+        }
+        savePayments(paymentsMap);
+    }
+
+    public static List<Payment> getPaymentsList() {
+        return new ArrayList<>(loadPayments().values());
     }
 }

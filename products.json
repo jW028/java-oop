@@ -1,301 +1,56 @@
 {
-  "P002" : {
-    "prodID" : "P002",
-    "prodName" : "Asus ROG Strix",
-    "prodDesc" : "Gaming Laptop",
+  "P001" : {
+    "prodID" : "P001",
+    "prodName" : "Default Laptop",
+    "prodDesc" : "High-end laptop",
     "category" : {
       "categoryID" : "C01",
       "categoryName" : "Laptops",
       "description" : "Laptops Specs"
     },
-    "unitPrice" : 6499.99,
-    "stock" : 17,
-    "processor" : "Intel i-9 13900H",
-    "graphicsCard" : "GeForce RTX 5090 Ti",
-    "ramGB" : 32,
-    "storageGB" : 1024,
-    "displaySize" : "16",
-    "operatingSystem" : "Windows",
+    "unitPrice" : 1500.0,
+    "stock" : 20,
+    "processor" : "Intel i7",
+    "graphicsCard" : "NVIDIA RTX 3060",
+    "ramGB" : 16,
+    "storageGB" : 512,
+    "displaySize" : "15.6 inch",
+    "operatingSystem" : "Windows 11",
     "productType" : "laptop"
   },
-
-  "P003": {
-    "prodID": "P003",
-    "prodName": "MSI Titan GT77",
-    "prodDesc": "High-end Gaming Laptop",
-    "category": {
-      "categoryID": "C01",
-      "categoryName": "Laptops",
-      "description": "Laptops Specs"
+  "P003" : {
+    "prodID" : "P003",
+    "prodName" : "Default Charger",
+    "prodDesc" : "Fast charger",
+    "category" : {
+      "categoryID" : "C03",
+      "categoryName" : "Accessories",
+      "description" : "Chargers"
     },
-    "unitPrice": 7299.99,
-    "stock": 10,
-    "processor": "Intel i9-13980HX",
-    "graphicsCard": "NVIDIA GeForce RTX 4090",
-    "ramGB": 64,
-    "storageGB": 2048,
-    "displaySize": "17.3",
-    "operatingSystem": "Windows",
-    "productType": "laptop"
+    "unitPrice" : 49.99,
+    "stock" : 50,
+    "compatibleWith" : "All laptops",
+    "type" : "Charger",
+    "material" : "Plastic",
+    "color" : "White",
+    "productType" : "accessory"
   },
-
-  "P004": {
-    "prodID": "P004",
-    "prodName": "Razer Blade 16",
-    "prodDesc": "Slim yet powerful gaming laptop",
-    "category": {
-      "categoryID": "C01",
-      "categoryName": "Laptops",
-      "description": "Laptops Specs"
+  "P002" : {
+    "prodID" : "P002",
+    "prodName" : "Default Mouse",
+    "prodDesc" : "Gaming mouse",
+    "category" : {
+      "categoryID" : "C02",
+      "categoryName" : "Mice",
+      "description" : "Mice Specs"
     },
-    "unitPrice": 5999.99,
-    "stock": 15,
-    "processor": "Intel i9-13950HX",
-    "graphicsCard": "NVIDIA GeForce RTX 4080",
-    "ramGB": 32,
-    "storageGB": 1024,
-    "displaySize": "16",
-    "operatingSystem": "Windows",
-    "productType": "laptop"
-  },
-
-  "P005": {
-    "prodID": "P005",
-    "prodName": "Alienware x17 R2",
-    "prodDesc": "Next-gen gaming performance",
-    "category": {
-      "categoryID": "C01",
-      "categoryName": "Laptops",
-      "description": "Laptops Specs"
-    },
-    "unitPrice": 6699.00,
-    "stock": 8,
-    "processor": "Intel i9-12900HK",
-    "graphicsCard": "NVIDIA GeForce RTX 3080 Ti",
-    "ramGB": 32,
-    "storageGB": 2000,
-    "displaySize": "17.3",
-    "operatingSystem": "Windows",
-    "productType": "laptop"
-  },
-
-  "P006": {
-    "prodID": "P006",
-    "prodName": "Acer Predator Helios Neo",
-    "prodDesc": "Mid-range performance gaming",
-    "category": {
-      "categoryID": "C01",
-      "categoryName": "Laptops",
-      "description": "Laptops Specs"
-    },
-    "unitPrice": 4599.99,
-    "stock": 20,
-    "processor": "Intel i7-13700HX",
-    "graphicsCard": "NVIDIA GeForce RTX 4070",
-    "ramGB": 16,
-    "storageGB": 1024,
-    "displaySize": "15.6",
-    "operatingSystem": "Windows",
-    "productType": "laptop"
-  },
-
-  "P007": {
-    "prodID": "P007",
-    "prodName": "Lenovo Legion Pro 7i",
-    "prodDesc": "Advanced gaming and content creation",
-    "category": {
-      "categoryID": "C01",
-      "categoryName": "Laptops",
-      "description": "Laptops Specs"
-    },
-    "unitPrice": 5799.00,
-    "stock": 12,
-    "processor": "Intel i9-13900HX",
-    "graphicsCard": "NVIDIA GeForce RTX 4080",
-    "ramGB": 32,
-    "storageGB": 1000,
-    "displaySize": "16",
-    "operatingSystem": "Windows",
-    "productType": "laptop"
-  },
-
-  "P008": {
-    "prodID": "P008",
-    "prodName": "Anker 737 GaNPrime Charger",
-    "prodDesc": "High-speed USB-C charger with multi-device support",
-    "category": {
-      "categoryID": "C03",
-      "categoryName": "Accessories",
-      "description": "Chargers"
-    },
-    "unitPrice": 329.00,
-    "stock": 18,
-    "compatibleWith": "Laptops, Smartphones, Tablets",
-    "type": "Fast Charging USB-C GaN Charger",
-    "material": "Polycarbonate",
-    "color": "Black",
-    "productType": "accessory"
-  },
-
-  "P009": {
-    "prodID": "P009",
-    "prodName": "Apple 96W USB-C Power Adapter",
-    "prodDesc": "Official Apple charger for MacBook Pro",
-    "category": {
-      "categoryID": "C03",
-      "categoryName": "Accessories",
-      "description": "Chargers"
-    },
-    "unitPrice": 429.00,
-    "stock": 25,
-    "compatibleWith": "MacBook Pro, iPad Pro",
-    "type": "USB-C Power Adapter",
-    "material": "Plastic",
-    "color": "White",
-    "productType": "accessory"
-  },
-
-  "P010": {
-    "prodID": "P010",
-    "prodName": "Baseus 100W GaN Charger",
-    "prodDesc": "Portable charger with multiple USB-C ports",
-    "category": {
-      "categoryID": "C03",
-      "categoryName": "Accessories",
-      "description": "Chargers"
-    },
-    "unitPrice": 289.90,
-    "stock": 20,
-    "compatibleWith": "Laptops, Android Phones, iPads",
-    "type": "4-Port GaN Charger",
-    "material": "ABS + PC",
-    "color": "Gray",
-    "productType": "accessory"
-  },
-
-  "P011": {
-    "prodID": "P011",
-    "prodName": "Samsung 45W Super Fast Charger",
-    "prodDesc": "USB-C charger optimized for Samsung Galaxy devices",
-    "category": {
-      "categoryID": "C03",
-      "categoryName": "Accessories",
-      "description": "Chargers"
-    },
-    "unitPrice": 199.00,
-    "stock": 30,
-    "compatibleWith": "Samsung Galaxy Series, Tablets",
-    "type": "USB-C Super Fast Charger",
-    "material": "Plastic",
-    "color": "Black",
-    "productType": "accessory"
-  },
-
-  "P012": {
-    "prodID": "P012",
-    "prodName": "Lenovo 65W Travel Adapter",
-    "prodDesc": "Compact charger for Lenovo ThinkPads",
-    "category": {
-      "categoryID": "C03",
-      "categoryName": "Accessories",
-      "description": "Chargers"
-    },
-    "unitPrice": 149.00,
-    "stock": 16,
-    "compatibleWith": "Lenovo ThinkPad Series",
-    "type": "Slim Tip AC Adapter",
-    "material": "Plastic",
-    "color": "Black",
-    "productType": "accessory"
-  },
-
-  "P013": {
-    "prodID": "P013",
-    "prodName": "Logitech M331 Silent Plus",
-    "prodDesc": "Silent wireless mouse for everyday use",
-    "category": {
-      "categoryID": "C02",
-      "categoryName": "Mice",
-      "description": "Mice Specs"
-    },
-    "unitPrice": 149.00,
-    "stock": 16,
-    "isWireless": "Yes",
-    "numButtons": 3,
-    "connectivity": "2.4GHz Wireless USB Receiver",
-    "color": "Black",
-    "productType": "mouse"
-  },
-
-  "P014": {
-    "prodID": "P014",
-    "prodName": "Razer Basilisk V3",
-    "prodDesc": "Ergonomic gaming mouse with customizable buttons",
-    "category": {
-      "categoryID": "C02",
-      "categoryName": "Mice",
-      "description": "Mice Specs"
-    },
-    "unitPrice": 279.00,
-    "stock": 20,
-    "isWireless": "No",
-    "numButtons": 11,
-    "connectivity": "Wired USB",
-    "color": "Black with RGB",
-    "productType": "mouse"
-  },
-
-  "P015": {
-    "prodID": "P015",
-    "prodName": "SteelSeries Aerox 3 Wireless",
-    "prodDesc": "Ultra-light wireless gaming mouse with AquaBarrier™ protection",
-    "category": {
-      "categoryID": "C02",
-      "categoryName": "Mice",
-      "description": "Mice Specs"
-    },
-    "unitPrice": 379.00,
-    "stock": 18,
-    "isWireless": "Yes",
-    "numButtons": 6,
-    "connectivity": "2.4GHz Wireless & Bluetooth",
-    "color": "White",
-    "productType": "mouse"
-  },
-
-  "P016": {
-    "prodID": "P016",
-    "prodName": "Logitech MX Master 3S",
-    "prodDesc": "Advanced productivity mouse with ergonomic design",
-    "category": {
-      "categoryID": "C02",
-      "categoryName": "Mice",
-      "description": "Mice Specs"
-    },
-    "unitPrice": 499.00,
-    "stock": 15,
-    "isWireless": "Yes",
-    "numButtons": 7,
-    "connectivity": "Bluetooth & USB Receiver",
-    "color": "Graphite",
-    "productType": "mouse"
-  },
-
-  "P017": {
-    "prodID": "P017",
-    "prodName": "HP X1000 Wired Mouse",
-    "prodDesc": "Simple, budget-friendly wired mouse",
-    "category": {
-      "categoryID": "C02",
-      "categoryName": "Mice",
-      "description": "Mice Specs"
-    },
-    "unitPrice": 45.00,
-    "stock": 50,
-    "isWireless": "No",
-    "numButtons": 3,
-    "connectivity": "Wired USB",
-    "color": "Black",
-    "productType": "mouse"
+    "unitPrice" : 99.99,
+    "stock" : 30,
+    "dpi" : 16000,
+    "numButtons" : 8,
+    "connectivity" : "Bluetooth",
+    "color" : "Black",
+    "wireless" : true,
+    "productType" : "mouse"
   }
 }

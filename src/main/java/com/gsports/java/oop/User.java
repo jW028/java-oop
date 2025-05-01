@@ -1,19 +1,6 @@
-package org.example;
+package com.gsports.java.oop;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.util.Scanner;
-
-// @JsonTypeInfo(
-//         use = JsonTypeInfo.Id.NAME,
-//         include = JsonTypeInfo.As.PROPERTY,
-//         property = "type",
-//         defaultImpl = Customer.class
-// )
-// @JsonSubTypes({
-//         @JsonSubTypes.Type(value=Customer.class, name="customer"),
-//         @JsonSubTypes.Type(value=Admin.class, name="admin")
-// })
 
 @JsonDeserialize(using = UserDeserializer.class)
 
@@ -25,11 +12,15 @@ public abstract class User {
 
     public User() {}
 
-    public User(String userID, String username, String email, String password) {
-        this.userID = userID;
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getUserID() { return userID; }
@@ -47,4 +38,11 @@ public abstract class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    
+
 }
