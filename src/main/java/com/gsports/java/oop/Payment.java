@@ -1,8 +1,8 @@
 package com.gsports.java.oop;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Random;
 import java.util.UUID;
 
@@ -186,12 +186,30 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
+    public void setPaymentDate(String paymentDateStr) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            this.paymentDate = LocalDateTime.parse(paymentDateStr, formatter);
+        } catch (DateTimeParseException e) {
+            try {
+                this.paymentDate = LocalDateTime.parse(paymentDateStr);
+            } catch (Exception ex) {
+                System.err.println("Could not parse date: " + paymentDateStr + ". Using current date instead.@interface");
+                this.paymentDate = LocalDateTime.now();
+            }
+        }
+    }
+
     public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
     }
 
     public LocalDateTime getPaymentDate() {
         return paymentDate;
+    }
+
+    public String getFormattedPaymentDate() {
+        return paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -217,4 +235,6 @@ public class Payment {
     public User getUser() {
         return user;
     }
+
+
 }

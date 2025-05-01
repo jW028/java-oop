@@ -2,10 +2,6 @@ package com.gsports.java.oop;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.awt.Robot;
-import java.awt.AWTException;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class MenuUtils {
     private static final Scanner scanner = new Scanner(System.in);

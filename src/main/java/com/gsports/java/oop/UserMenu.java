@@ -3,12 +3,12 @@ package com.gsports.java.oop;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.gsports.java.oop.Payment.PaymentMethod;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
+
+import com.gsports.java.oop.Order.OrderStatus;
+import com.gsports.java.oop.Payment.PaymentMethod;
 
 public class UserMenu {
     private Scanner scanner;
@@ -323,6 +323,9 @@ public class UserMenu {
             choice = MenuUtils.validateDigit(1, 8);
 
             switch (choice) {
+                case 1: 
+                    viewAllOrders();
+                    break;
                 case 2:
                     viewAllProducts();
                     break;
@@ -356,7 +359,250 @@ public class UserMenu {
     }
 
     // admin viewOrders method
+    private void viewAllOrders() {
+        // Check admin privileges
+        if (!(currentUser instanceof Admin)) {
+            System.out.println("Access denied. Admin privileges required.");
+            return;
+        }
     
+        // Load all orders
+        List<Order> allOrders = orders;
+        
+        if (allOrders.isEmpty()) {
+            System.out.println("No orders found in the system.");
+            return;
+        }
+    
+        while (true) {
+            // Table header with formatting
+            System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+            System.out.println("│                                 ORDER LISTINGS                               │");
+            System.out.println("├────┬──────────────┬─────────────┬────────────┬──────────────┬───────────────┤");
+            System.out.println("│ #  │ Order ID     │ Customer    │ Date       │ Total Amount │ Status        │");
+            System.out.println("├────┼──────────────┼─────────────┼────────────┼──────────────┼───────────────┤");
+    
+            // Format the output for each order
+            for (int i = 0; i < allOrders.size(); i++) {
+                Order order = allOrders.get(i);
+                
+                // Find customer name
+                String customerName = "Unknown";
+                for (User user : customers) {
+                    if (user.getUserID().equals(order.getCustomerId())) {
+                        customerName = user.getUsername();
+                        if (customerName.length() > 9) {
+                            customerName = customerName.substring(0, 7) + "..";
+                        }
+                        break;
+                    }
+                }
+                
+                String formattedId = String.format("%-12s", order.getOrderId());
+                String formattedCustomer = String.format("%-11s", customerName);
+                String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
+                String formattedAmount = String.format("$%-12.2f", order.getTotalAmount());
+                String formattedStatus = String.format("%-13s", order.getStatus());
+                
+                System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │ %s │%n", 
+                        i + 1, formattedId, formattedCustomer, formattedDate, formattedAmount, formattedStatus);
+            }
+            
+            // Table footer
+            System.out.println("└────┴──────────────┴─────────────┴────────────┴──────────────┴───────────────┘");
+    
+            // Order management menu
+            System.out.println("\n=====================================");
+            System.out.println("|         Order Management          |");
+            System.out.println("=====================================");
+            System.out.println("| 1. View Order Details             |");
+            System.out.println("| 2. Update Order Status            |");
+            System.out.println("| 3. Filter by Status               |");
+            System.out.println("| 4. Sort by Date (Newest)          |");
+            System.out.println("| 5. Sort by Date (Oldest)          |");
+            System.out.println("| 6. Back to Admin Menu             |");
+            System.out.println("=====================================");
+    
+            int choice = MenuUtils.validateDigit(1, 6);
+    
+            switch (choice) {
+                case 1 -> viewOrderDetailsAdmin(allOrders);
+                case 2 -> updateOrderStatus(allOrders);
+                case 3 -> {
+                    allOrders = filterOrdersByStatus();
+                    continue;
+                }
+                case 4 -> {
+                    allOrders = JsonDataHandler.getOrdersList();
+                    allOrders.sort((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()));
+                    System.out.println("Orders sorted by date (newest first).");
+                    continue;
+                }
+                case 5 -> {
+                    allOrders = JsonDataHandler.getOrdersList();
+                    allOrders.sort((o1, o2) -> o1.getOrderDate().compareTo(o2.getOrderDate()));
+                    System.out.println("Orders sorted by date (oldest first).");
+                    continue;
+                }
+                case 6 -> {
+                    return;
+                }
+            }
+        }
+    }
+
+
+
+    private List<Order> filterOrdersByStatus() {
+        System.out.println("\n=====================================");
+        System.out.println("|         Filter by Status          |");
+        System.out.println("=====================================");
+        System.out.println("| 1. Pending                        |");
+        System.out.println("| 2. Processing                     |");
+        System.out.println("| 3. Shipped                        |");
+        System.out.println("| 4. Delivered                      |");
+        System.out.println("| 5. Cancelled                      |");
+        System.out.println("| 6. All Orders                     |");
+        System.out.println("=====================================");
+        
+        int choice = MenuUtils.validateDigit(1, 6);
+        
+        if (choice == 6) {
+            return JsonDataHandler.getOrdersList(); // Return all orders
+        }
+        
+        OrderStatus status;
+        switch (choice) {
+            case 1 -> status = OrderStatus.PENDING;
+            case 2 -> status = OrderStatus.PROCESSING;
+            case 3 -> status = OrderStatus.SHIPPED;
+            case 4 -> status = OrderStatus.DELIVERED;
+            case 5 -> status = OrderStatus.COMPLETED;
+            default -> status = OrderStatus.PENDING;
+        }
+        
+        List<Order> filteredOrders = orders.stream()
+            .filter(order -> order.getStatus().equals(status))
+            .collect(java.util.stream.Collectors.toList());
+            
+        System.out.println("Showing orders with status: " + status.toString());
+        return filteredOrders;
+    }
+
+    private void viewOrderDetailsAdmin(List<Order> allOrders) {
+        System.out.print("Enter order number to view details: ");
+        int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
+        Order selectedOrder = allOrders.get(orderIndex);
+        
+        // Find customer name
+        String customerName = "Unknown";
+        for (User user : customers) {
+            if (user.getUserID().equals(selectedOrder.getCustomerId())) {
+                customerName = user.getUsername();
+                break;
+            }
+        }
+        
+        // Display detailed information about the order
+        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                                 ORDER DETAILS                                │");
+        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("│ Order ID: " + String.format("%-65s", selectedOrder.getOrderId()) + " │");
+        System.out.println("│ Customer: " + String.format("%-65s", customerName) + " │");
+        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomerId()) + " │");
+        System.out.println("│ Order Date: " + String.format("%-64s", selectedOrder.getFormattedOrderDate()) + " │");
+        System.out.println("│ Status: " + String.format("%-68s", selectedOrder.getStatus()) + " │");
+        System.out.println("│ Total Amount: $" + String.format("%-61.2f", selectedOrder.getTotalAmount()) + " │");
+        System.out.println("│ Shipping Address: " + String.format("%-59s", selectedOrder.getShippingAddress()) + " │");
+        
+        // Payment information
+        Payment payment = payments.stream()
+                .filter(p -> p.getOrderId().equals(selectedOrder.getOrderId()))
+                .findFirst()
+                .orElse(null);
+        
+        if (payment != null) {
+            System.out.println("│ Payment Method: " + String.format("%-61s", payment.getPaymentMethod()) + " │");
+            System.out.println("│ Payment Status: " + String.format("%-61s", payment.getPaymentStatus()) + " │");
+            System.out.println("│ Payment Date: " + String.format("%-63s", payment.getFormattedPaymentDate()) + " │");
+        } else {
+            System.out.println("│ Payment: No payment information available                                   │");
+        }
+        
+        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("│                                  ITEMS                                       │");
+        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+        
+        // Display items in order
+        List<CartItem> items = selectedOrder.getItems();
+        for (int i = 0; i < items.size(); i++) {
+            CartItem item = items.get(i);
+            System.out.println("│ " + String.format("%-2d", i + 1) + ". " + 
+                    String.format("%-25s", item.getProduct().getProdName()) + 
+                    " | Qty: " + String.format("%-3d", item.getQuantity()) + 
+                    " | Price: $" + String.format("%-8.2f", item.getProduct().getUnitPrice()) + 
+                    " | Subtotal: $" + String.format("%-8.2f", item.getSubtotal()) + " │");
+        }
+        
+        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
+        
+        // Option to update status
+        System.out.println("\nWould you like to update the status of this order? (Y/N)");
+        String updateChoice = scanner.nextLine().trim().toUpperCase();
+        
+        if (updateChoice.equals("Y")) {
+            updateSingleOrderStatus(selectedOrder);
+        } else {
+            System.out.println("Press Enter to continue...");
+            scanner.nextLine();
+        }
+    }
+
+    private void updateOrderStatus(List<Order> allOrders) {
+        System.out.print("Enter order number to update status: ");
+        int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
+        Order selectedOrder = allOrders.get(orderIndex);
+        
+        updateSingleOrderStatus(selectedOrder);
+    }
+
+    private void updateSingleOrderStatus(Order order) {
+        System.out.println("\nCurrent Status: " + order.getStatus());
+        System.out.println("\n=====================================");
+        System.out.println("|         Select New Status         |");
+        System.out.println("=====================================");
+        System.out.println("| 1. Pending                        |");
+        System.out.println("| 2. Processing                     |");
+        System.out.println("| 3. Shipped                        |");
+        System.out.println("| 4. Delivered                      |");
+        System.out.println("| 5. Cancelled                      |");
+        System.out.println("=====================================");
+        
+        int statusChoice = MenuUtils.validateDigit(1, 5);
+        OrderStatus newStatus;
+        
+        switch (statusChoice) {
+            case 1 -> newStatus = OrderStatus.PENDING;
+            case 2 -> newStatus = OrderStatus.PROCESSING;
+            case 3 -> newStatus = OrderStatus.SHIPPED;
+            case 4 -> newStatus = OrderStatus.DELIVERED;
+            case 5 -> newStatus = OrderStatus.CANCELLED;
+            default -> {
+                System.out.println("Invalid choice. Status not updated.");
+                return;
+            }
+        }
+        
+        // Update status
+        order.setStatus(newStatus);
+        
+        // Save changes
+        JsonDataHandler.saveOrdersList(orders);
+        
+        System.out.println("Order status successfully updated to: " + newStatus);
+        System.out.println("Press Enter to continue...");
+        scanner.nextLine();
+    }
 
     private void manageProductsMenu() {
         if (!(currentUser instanceof Admin)) {
