@@ -26,28 +26,9 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "items" : [ {
-        "product" : {
-          "Laptop" : {
-            "prodID" : "P001",
-            "prodName" : "Asus ROG Strix",
-            "prodDesc" : "High-performance gaming laptop",
-            "unitPrice" : 6299.99,
-            "sellingPrice" : 7199.0,
-            "stock" : 20,
-            "processor" : "Intel i9",
-            "graphicsCard" : "NVIDIA RTX 3060",
-            "ramGB" : 16,
-            "storageGB" : 512,
-            "displaySize" : "15.6 inch",
-            "operatingSystem" : "Windows 11"
-          }
-        },
-        "quantity" : 1,
-        "subtotal" : 7199.0
-      } ],
-      "totalAmount" : 7199.0,
-      "empty" : false
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",

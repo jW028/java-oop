@@ -1,0 +1,95 @@
+{
+  "ORD-A9EA1F2C" : {
+    "orderId" : "ORD-A9EA1F2C",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P001",
+          "prodName" : "Asus ROG Strix",
+          "prodDesc" : "High-performance gaming laptop",
+          "unitPrice" : 6299.99,
+          "sellingPrice" : 7199.0,
+          "stock" : 19,
+          "processor" : "Intel i9",
+          "graphicsCard" : "NVIDIA RTX 3060",
+          "ramGB" : 16,
+          "storageGB" : 512,
+          "displaySize" : "15.6 inch",
+          "operatingSystem" : "Windows 11"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7199.0
+    } ],
+    "orderDate" : "2025-05-01T23:28:42.452969",
+    "totalAmount" : 7199.0,
+    "taxAmount" : 431.94,
+    "finalAmount" : 7630.94,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-01T23:28:42.453026"
+  },
+  "ORD-F74906C4" : {
+    "orderId" : "ORD-F74906C4",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P001",
+          "prodName" : "Asus ROG Strix",
+          "prodDesc" : "High-performance gaming laptop",
+          "unitPrice" : 6299.99,
+          "sellingPrice" : 7199.0,
+          "stock" : 20,
+          "processor" : "Intel i9",
+          "graphicsCard" : "NVIDIA RTX 3060",
+          "ramGB" : 16,
+          "storageGB" : 512,
+          "displaySize" : "15.6 inch",
+          "operatingSystem" : "Windows 11"
+        }
+      },
+      "quantity" : 2,
+      "subtotal" : 14398.0
+    } ],
+    "orderDate" : "2025-05-01T20:30:27.686439",
+    "totalAmount" : 14398.0,
+    "taxAmount" : 863.88,
+    "finalAmount" : 15261.88,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-01T22:30:02.490157"
+  },
+  "ORD-0F33F05C" : {
+    "orderId" : "ORD-0F33F05C",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P001",
+          "prodName" : "Asus ROG Strix",
+          "prodDesc" : "High-performance gaming laptop",
+          "unitPrice" : 6299.99,
+          "sellingPrice" : 7199.0,
+          "stock" : 19,
+          "processor" : "Intel i9",
+          "graphicsCard" : "NVIDIA RTX 3060",
+          "ramGB" : 16,
+          "storageGB" : 512,
+          "displaySize" : "15.6 inch",
+          "operatingSystem" : "Windows 11"
+        }
+      },
+      "quantity" : 12,
+      "subtotal" : 86388.0
+    } ],
+    "orderDate" : "2025-05-01T23:39:55.167897",
+    "totalAmount" : 86388.0,
+    "taxAmount" : 5183.28,
+    "finalAmount" : 91571.28,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-01T23:39:55.167928"
+  }
+}
