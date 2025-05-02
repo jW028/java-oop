@@ -61,11 +61,11 @@
   },
   "CUST-611810DA" : {
     "userID" : "CUST-611810DA",
-    "username" : "Peh Guan Soon",
+    "username" : "Elon Musk",
     "email" : "peh@gmail.com",
-    "password" : "Peh1234!",
-    "address" : "Peh Road 123, Guan Guan 47000 Soon Soon, Kuala Lumpur",
-    "phoneNum" : "0123456789",
+    "password" : "Peh12345!",
+    "address" : "Tunku Abdul Rahman University of Technology and Management",
+    "phoneNum" : "0121231234",
     "cart" : {
       "cartId" : "CART-54cd4435",
       "items" : [ ],

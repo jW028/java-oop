@@ -1412,40 +1412,78 @@ public class UserMenu {
                 // Edit name functionality
                 System.out.print("Enter new name: ");
                 String newName = scanner.nextLine();
-                customer.setUsername(newName);
-                System.out.println("Name updated successfully!");
+                if (isValidFullName(newName)) {
+                    customer.setUsername(newName);
+                    System.out.println("Name updated successfully!");
+                } else {
+                    System.out.println("Name update cancelled.");
+                }
                 break;
             case 2:
                 System.out.print("Enter new address: ");
                 String newAddress = scanner.nextLine();
-                customer.setAddress(newAddress);
-                System.out.println("Address updated successfully!");
+                if (isValidAddress(newAddress)) {
+                    customer.setAddress(newAddress);
+                    System.out.println("Address updated successfully!");
+                } else {
+                    System.out.println("Address update cancelled.");
+                }
+
                 break;
             case 3:
-            String newPhone = "";
-            do {
-                System.out.print("Enter new phone number: ");
-                newPhone = scanner.nextLine();
-                if (newPhone.isEmpty()) {
-                    return;
-                }
-            } while (!isValidPhoneNumber(newPhone));
+                String newPhone = "";
+                boolean validPhone = false;
+                do {
+                    System.out.print("Enter new phone number (leave empty to cancel): ");
+                    newPhone = scanner.nextLine();
+                    if (newPhone.isEmpty()) {
+                        System.out.println("Phone number update cancelled.");
+                        return;
+                    }
+                    validPhone = isValidPhoneNumber(newPhone);
+                } while (!validPhone);
+
                 customer.setPhoneNum(newPhone);
                 System.out.println("Phone number updated successfully!");
+
                 break;
             case 4:
                 // Change password functionality
                 System.out.print("Enter current password: ");
                 String currentPassword = MenuUtils.maskPassword(scanner);
+                if (currentPassword.isEmpty()) {
+                    System.out.println("Password update cancelled.");
+                    break;
+                }
+
                 if (currentPassword.equals(customer.getPassword())) {
-                    System.out.print("Enter new password (minimum 8 characters): ");
-                    String newPassword = MenuUtils.maskPassword(scanner);
-                    if (newPassword.length() >= 8) {
-                        customer.setPassword(newPassword);
-                        System.out.println("Password updated successfully!");
-                    } else {
-                        System.out.println("Password must be at least 8 characters long.");
+                    boolean validNewPassword = false;
+                    String newPassword = "";
+
+                    do {
+                        System.out.print("Enter new password: ");
+                        newPassword = MenuUtils.maskPassword(scanner);
+
+                        if (newPassword.isEmpty()) {
+                            System.out.println("Password update cancelled.");
+                            return;
+                        }
+
+                        validNewPassword = isValidPassword(newPassword);
+
+                    } while (!validNewPassword);
+
+                    // Confirm password
+                    System.out.print("Confirm new password: ");
+                    String confirmPassword = MenuUtils.maskPassword(scanner);
+
+                    if (!confirmPassword.equals(newPassword)) {
+                        System.out.println("Passwords do not match. Password update cancelled.");
+                        break;
                     }
+
+                    customer.setPassword(newPassword);
+                    System.out.println("Password updated successfully!");
                 } else {
                     System.out.println("Incorrect current password.");
                 }
