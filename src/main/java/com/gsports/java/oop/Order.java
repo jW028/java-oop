@@ -158,7 +158,6 @@ public class Order {
         this.lastUpdated = LocalDateTime.now();
     }
    
-
     /**
      * Schedules a status update to occur after the specified number of minutes
      * @param newStatus The status to update to
@@ -169,7 +168,7 @@ public class Order {
         this.scheduledStatusUpdateTime = LocalDateTime.now().plusMinutes(minutes);
     }
 
-/**
+    /**
      * Gets the remaining time in seconds until the scheduled status update
      * @return Remaining time in seconds, or 0 if no update is scheduled or time has passed
      */
@@ -215,7 +214,7 @@ public class Order {
      * @return Remaining time in seconds, or 0 if refund window has expired
      */
     public long getRemainingRefundTime() {
-// For PENDING orders, refund window is DEFAULT_REFUND_WINDOW_MINUTES from order creation
+        // For PENDING orders, refund window is DEFAULT_REFUND_WINDOW_MINUTES from order creation
         if (status == OrderStatus.PENDING) {
             LocalDateTime refundWindowEnd = orderDate.plusMinutes(DEFAULT_REFUND_WINDOW_MINUTES);
             LocalDateTime now = LocalDateTime.now();
@@ -243,20 +242,6 @@ public class Order {
         // For other statuses, no refund window
         return 0;
     }
-    @return
-    @JsonIgnore
-    public static double getTaxRate() {
-        return TAX_RATE;
-    }
-    
-    /**
-     * Sets the tax rate
-     * @param rate The new tax rate as a decimal (e.g., 0.06 for 6%)
-     */
-    public static void setTaxRate(double rate) {
-        TAX_RATE = rate;
-    }
-
     
     @JsonIgnore
     public String getStatusDisplay() {

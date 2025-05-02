@@ -27,10 +27,10 @@
     "taxAmount" : 431.94,
     "finalAmount" : 7630.94,
     "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "PENDING",
-    "lastUpdated" : "2025-05-01T23:28:42.453026",
+    "status" : "DELIVERED",
+    "lastUpdated" : "2025-05-02T11:29:21.35396",
     "remainingTimeForStatusUpdate" : 0,
-    "remainingRefundTime" : 0
+    "remainingRefundTime" : 604748
   },
   "ORD-F74906C4" : {
     "orderId" : "ORD-F74906C4",

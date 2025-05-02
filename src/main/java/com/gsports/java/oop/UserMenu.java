@@ -500,8 +500,10 @@ public class UserMenu {
                         " | Subtotal: RM" + String.format("%-8.2f", item.getSubtotal()) + " │");
             }
 
-            double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE;
-            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", customer.getCart().getTotalAmount() + taxAmount) + " │");
+            // Fix: Use the cart's total amount instead of undefined totalAmount variable
+            double cartTotal = customer.getCart().getTotalAmount();
+            double tax = cartTotal * Order.getTaxRate();
+            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", cartTotal + tax) + " │");
         }
 
         // Wishlist items if any
