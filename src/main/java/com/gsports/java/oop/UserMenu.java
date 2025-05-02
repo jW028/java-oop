@@ -3,8 +3,6 @@ package com.gsports.java.oop;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
 
 import com.gsports.java.oop.Order.OrderStatus;
 import com.gsports.java.oop.Payment.PaymentMethod;
@@ -14,7 +12,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;
 
 public class UserMenu {
     private Scanner scanner;
@@ -48,14 +46,14 @@ public class UserMenu {
     public void displayMenu() {
         int choice;
         do {
-            System.out.println("\n============================================");
-            System.out.println("|     Welcome to GSports Retail System     |");
-            System.out.println("============================================");
+            System.out.println("\n===========================================");
+            System.out.println("|       Welcome to GSports Retail System   |");
+            System.out.println("===========================================");
             System.out.println("| 1. Register                              |");
             System.out.println("| 2. Login                                 |");
             System.out.println("| 3. AI Product Assistant                  |");
             System.out.println("| 4. Exit                                  |");
-            System.out.println("============================================");
+            System.out.println("===========================================");
 
             choice = MenuUtils.validateDigit(1, 4);
             switch (choice) {
@@ -83,8 +81,6 @@ public class UserMenu {
 
     private void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
-        System.out.println("┌──────────────────────────────────────────────────────────┐");
-        System.out.println("");
 
         // Collect input
         String customerName = "";
@@ -331,15 +327,15 @@ public class UserMenu {
             choice = MenuUtils.validateDigit(1, 8);
 
             switch (choice) {
-                case 1: 
+                case 1:
                     viewAllOrders();
                     break;
+
                 case 2:
-                    viewProducts(JsonDataHandler.getProductsList());
-                    viewProducts(JsonDataHandler.getProductsList());
+                    viewAllProducts();
                     break;
 
-                case 3: 
+                case 3:
                     viewAllCustomers();
                     break;
 
@@ -370,6 +366,212 @@ public class UserMenu {
         } while (choice != 7 && choice != 9);
         System.out.println("Thank you for using GSports Retail System!");
     }
+    private void viewAllCustomers() {
+        // Check admin privileges
+        if (!(currentUser instanceof Admin)) {
+            System.out.println("Access denied. Admin privileges required.");
+            return;
+        }
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers found in the system.");
+            return;
+        }
+
+        List<User> regularCustomers = customers.stream()
+                .filter(user -> user instanceof Customer)
+                .collect(java.util.stream.Collectors.toList());
+
+        while (true) {
+            // Display customer list with formatted table
+            displayCustomersTable(regularCustomers);
+
+            // Customer management menu
+            System.out.println("\n=====================================");
+            System.out.println("|        Customer Management        |");
+            System.out.println("=====================================");
+            System.out.println("| 1. View Customer Details          |");
+            System.out.println("| 2. View Customer Order History    |");
+            System.out.println("| 3. Sort by Name                   |");
+            System.out.println("| 4. Sort by Most Orders            |");
+            System.out.println("| 5. Back to Admin Menu             |");
+            System.out.println("=====================================");
+
+            int choice = MenuUtils.validateDigit(1, 5);
+
+            switch (choice) {
+                case 1 -> viewCustomerDetails(regularCustomers);
+                case 2 -> viewCustomerOrders(regularCustomers);
+                case 3 -> {
+                    regularCustomers.sort((c1, c2) -> c1.getUsername().compareToIgnoreCase(c2.getUsername()));
+                    System.out.println("Customers sorted by namsdfdsfsd.");
+                }
+                case 4 -> {
+                    regularCustomers.sort((c1, c2) -> {
+                        long c1Orders = orders.stream()
+                                .filter(order -> order.getCustomerId().equals(c1.getUserID()))
+                                .count();
+                        long c2Orders = orders.stream()
+                                .filter(order -> order.getCustomerId().equals(c2.getUserID()))
+                                .count();
+                        return Long.compare(c2Orders, c1Orders); // Descending order
+                    });
+                    System.out.println("Customers sorted by most orders.");
+                }
+                case 5 -> {
+                    return;
+                }
+            }
+        }
+    }
+
+    // Extract display code to a separate method
+    private void displayCustomersTable(List<User> regularCustomers) {
+        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                              CUSTOMER LISTINGS                               │");
+        System.out.println("├────┬──────────────┬─────────────────────────┬────────────────┬──────────────┤");
+        System.out.println("│ #  │ Customer ID  │ Name                    │ Email          │ Total Orders │");
+        System.out.println("├────┼──────────────┼─────────────────────────┼────────────────┼──────────────┤");
+
+        for (int i = 0; i < regularCustomers.size(); i++) {
+            Customer customer = (Customer) regularCustomers.get(i);
+
+            // Count orders for this customer
+            long orderCount = orders.stream()
+                    .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                    .count();
+
+            String formattedId = String.format("%-12s", customer.getUserID());
+            String formattedName = String.format("%-23s",
+                    customer.getUsername().length() > 21 ?
+                            customer.getUsername().substring(0, 18) + "..." :
+                            customer.getUsername());
+            String formattedEmail = String.format("%-14s",
+                    customer.getEmail().length() > 12 ?
+                            customer.getEmail().substring(0, 9) + "..." :
+                            customer.getEmail());
+            String formattedOrders = String.format("%-12d", orderCount);
+
+            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n",
+                    i + 1, formattedId, formattedName, formattedEmail, formattedOrders);
+        }
+
+        // Table footer
+        System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
+    }
+
+    private void viewCustomerDetails(List<User> customers) {
+        System.out.print("Enter customer number to view details: ");
+        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
+
+        Customer customer = (Customer) customers.get(customerIndex);
+
+        // Calculate total spent
+        double totalSpent = orders.stream()
+                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+
+        // Count total orders
+        long orderCount = orders.stream()
+                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .count();
+
+        // Display detailed information about the customer
+        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                             CUSTOMER DETAILS                                 │");
+        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("│ Customer ID: " + String.format("%-63s", customer.getUserID()) + " │");
+        System.out.println("│ Name: " + String.format("%-69s", customer.getUsername()) + " │");
+        System.out.println("│ Email: " + String.format("%-68s", customer.getEmail()) + " │");
+        System.out.println("│ Phone: " + String.format("%-68s", customer.getPhoneNum()) + " │");
+        System.out.println("│ Address: " + String.format("%-66s", customer.getAddress()) + " │");
+        System.out.println("│ Total Orders: " + String.format("%-62d", orderCount) + " │");
+        System.out.println("│ Total Spent: RM" + String.format("%-61.2f", totalSpent) + " │");
+
+        // Cart items if any
+        if (customer.getCart() != null && !customer.getCart().getItems().isEmpty()) {
+            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+            System.out.println("│                              CURRENT CART                                    │");
+            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+
+            List<CartItem> cartItems = customer.getCart().getItems();
+            for (CartItem item : cartItems) {
+                System.out.println("│ • " + String.format("%-30s", item.getProduct().getProdName()) +
+                        " | Qty: " + String.format("%-3d", item.getQuantity()) +
+                        " | Price: RM" + String.format("%-8.2f", item.getProduct().getSellingPrice()) +
+                        " | Subtotal: RM" + String.format("%-8.2f", item.getSubtotal()) + " │");
+            }
+
+            // Fix: Use the cart's total amount instead of undefined totalAmount variable
+            double cartTotal = customer.getCart().getTotalAmount();
+            double tax = cartTotal * Order.getTaxRate();
+            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", cartTotal + tax) + " │");
+        }
+
+        // Wishlist items if any
+        if (customer.getWishlist() != null && !customer.getWishlist().getItems().isEmpty()) {
+            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+            System.out.println("│                             CURRENT WISHLIST                                │");
+            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
+
+            List<Product> wishlistItems = customer.getWishlist().getItems();
+            for (Product item : wishlistItems) {
+                System.out.println("│ • " + String.format("%-68s", item.getProdName()) + " │");
+            }
+        }
+
+        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
+
+        System.out.println("Press Enter to continue...");
+        scanner.nextLine();
+    }
+
+    private void viewCustomerOrders(List<User> customers) {
+        System.out.print("Enter customer number to view orders: ");
+        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
+
+        Customer customer = (Customer) customers.get(customerIndex);
+
+        List<Order> customerOrders = orders.stream()
+                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate())) // Newest first
+                .collect(java.util.stream.Collectors.toList());
+
+        if (customerOrders.isEmpty()) {
+            System.out.println("This customer has no orders.");
+            System.out.println("Press Enter to continue...");
+            scanner.nextLine();
+            return;
+        }
+
+        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│ Customer: " + String.format("%-65s", customer.getUsername()) + " │");
+        System.out.println("│ Order History                                                                │");
+        System.out.println("├────┬──────────────┬────────────┬──────────────┬───────────────────────────────┤");
+        System.out.println("│ #  │ Order ID     │ Date       │ Total Amount │ Status                        │");
+        System.out.println("├────┼──────────────┼────────────┼──────────────┼───────────────────────────────┤");
+
+        for (int i = 0; i < customerOrders.size(); i++) {
+            Order order = customerOrders.get(i);
+            String formattedId = String.format("%-12s", order.getOrderId());
+            String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
+            String formattedAmount = String.format("RM %-10.2f", order.getTotalAmount());
+            String formattedStatus = String.format("%-27s", order.getStatus());
+
+            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n",
+                    i + 1, formattedId, formattedDate, formattedAmount, formattedStatus);
+        }
+
+        System.out.println("└────┴──────────────┴────────────┴──────────────┴───────────────────────────────┘");
+
+        System.out.println("\nEnter order number to view details (0 to go back): ");
+        int choice = MenuUtils.validateDigit(0, customerOrders.size());
+
+        if (choice > 0) {
+            viewOrderDetailsAdmin(customerOrders);
+        }
+    }
 
     // admin viewOrders method
     private void viewAllOrders() {
@@ -378,15 +580,15 @@ public class UserMenu {
             System.out.println("Access denied. Admin privileges required.");
             return;
         }
-    
+
         // Load all orders
         List<Order> allOrders = orders;
-        
+
         if (allOrders.isEmpty()) {
             System.out.println("No orders found in the system.");
             return;
         }
-    
+
         while (true) {
             // Table header with formatting
             System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
@@ -394,15 +596,15 @@ public class UserMenu {
             System.out.println("├────┬──────────────┬─────────────┬────────────┬──────────────┬───────────────┤");
             System.out.println("│ #  │ Order ID     │ Customer    │ Date       │ Total Amount │ Status        │");
             System.out.println("├────┼──────────────┼─────────────┼────────────┼──────────────┼───────────────┤");
-    
+
             // Format the output for each order
             for (int i = 0; i < allOrders.size(); i++) {
                 Order order = allOrders.get(i);
-                
+
                 // Find customer name
                 String customerName = "Unknown";
                 for (User user : customers) {
-                    if (user.getUserID().equals(order.getCustomer().getUserID())) {
+                    if (user.getUserID().equals(order.getCustomerId())) {
                         customerName = user.getUsername();
                         if (customerName.length() > 9) {
                             customerName = customerName.substring(0, 7) + "..";
@@ -410,20 +612,20 @@ public class UserMenu {
                         break;
                     }
                 }
-                
+
                 String formattedId = String.format("%-12s", order.getOrderId());
                 String formattedCustomer = String.format("%-11s", customerName);
                 String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
                 String formattedAmount = String.format("$%-12.2f", order.getTotalAmount());
                 String formattedStatus = String.format("%-13s", order.getStatus());
-                
-                System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │ %s │%n", 
+
+                System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │ %s │%n",
                         i + 1, formattedId, formattedCustomer, formattedDate, formattedAmount, formattedStatus);
             }
-            
+
             // Table footer
             System.out.println("└────┴──────────────┴─────────────┴────────────┴──────────────┴───────────────┘");
-    
+
             // Order management menu
             System.out.println("\n=====================================");
             System.out.println("|         Order Management          |");
@@ -435,9 +637,9 @@ public class UserMenu {
             System.out.println("| 5. Sort by Date (Oldest)          |");
             System.out.println("| 6. Back to Admin Menu             |");
             System.out.println("=====================================");
-    
+
             int choice = MenuUtils.validateDigit(1, 6);
-    
+
             switch (choice) {
                 case 1 -> viewOrderDetailsAdmin(allOrders);
                 case 2 -> updateOrderStatus(allOrders);
@@ -477,13 +679,13 @@ public class UserMenu {
         System.out.println("| 5. Cancelled                      |");
         System.out.println("| 6. All Orders                     |");
         System.out.println("=====================================");
-        
+
         int choice = MenuUtils.validateDigit(1, 6);
-        
+
         if (choice == 6) {
             return JsonDataHandler.getOrdersList(); // Return all orders
         }
-        
+
         OrderStatus status;
         switch (choice) {
             case 1 -> status = OrderStatus.PENDING;
@@ -493,11 +695,11 @@ public class UserMenu {
             case 5 -> status = OrderStatus.COMPLETED;
             default -> status = OrderStatus.PENDING;
         }
-        
+
         List<Order> filteredOrders = orders.stream()
-            .filter(order -> order.getStatus().equals(status))
-            .collect(java.util.stream.Collectors.toList());
-            
+                .filter(order -> order.getStatus().equals(status))
+                .collect(java.util.stream.Collectors.toList());
+
         System.out.println("Showing orders with status: " + status.toString());
         return filteredOrders;
     }
@@ -506,34 +708,34 @@ public class UserMenu {
         System.out.print("Enter order number to view details: ");
         int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
         Order selectedOrder = allOrders.get(orderIndex);
-        
+
         // Find customer name
         String customerName = "Unknown";
         for (User user : customers) {
-            if (user.getUserID().equals(selectedOrder.getCustomer().getUserID())) {
+            if (user.getUserID().equals(selectedOrder.getCustomerId())) {
                 customerName = user.getUsername();
                 break;
             }
         }
-        
+
         // Display detailed information about the order
         System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
         System.out.println("│                                 ORDER DETAILS                                │");
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
         System.out.println("│ Order ID: " + String.format("%-65s", selectedOrder.getOrderId()) + " │");
         System.out.println("│ Customer: " + String.format("%-65s", customerName) + " │");
-        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomer().getUserID()) + " │");
+        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomerId()) + " │");
         System.out.println("│ Order Date: " + String.format("%-64s", selectedOrder.getFormattedOrderDate()) + " │");
         System.out.println("│ Status: " + String.format("%-68s", selectedOrder.getStatus()) + " │");
         System.out.println("│ Total Amount: $" + String.format("%-61.2f", selectedOrder.getTotalAmount()) + " │");
         System.out.println("│ Shipping Address: " + String.format("%-59s", selectedOrder.getShippingAddress()) + " │");
-        
+
         // Payment information
         Payment payment = payments.stream()
                 .filter(p -> p.getOrderId().equals(selectedOrder.getOrderId()))
                 .findFirst()
                 .orElse(null);
-        
+
         if (payment != null) {
             System.out.println("│ Payment Method: " + String.format("%-61s", payment.getPaymentMethod()) + " │");
             System.out.println("│ Payment Status: " + String.format("%-61s", payment.getPaymentStatus()) + " │");
@@ -541,28 +743,28 @@ public class UserMenu {
         } else {
             System.out.println("│ Payment: No payment information available                                   │");
         }
-        
+
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
         System.out.println("│                                  ITEMS                                       │");
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-        
+
         // Display items in order
         List<CartItem> items = selectedOrder.getItems();
         for (int i = 0; i < items.size(); i++) {
             CartItem item = items.get(i);
-            System.out.println("│ " + String.format("%-2d", i + 1) + ". " + 
-                    String.format("%-25s", item.getProduct().getProdName()) + 
-                    " | Qty: " + String.format("%-3d", item.getQuantity()) + 
-                    " | Price: $" + String.format("%-8.2f", item.getProduct().getSellingPrice()) + 
+            System.out.println("│ " + String.format("%-2d", i + 1) + ". " +
+                    String.format("%-25s", item.getProduct().getProdName()) +
+                    " | Qty: " + String.format("%-3d", item.getQuantity()) +
+                    " | Price: $" + String.format("%-8.2f", item.getProduct().getSellingPrice()) +
                     " | Subtotal: $" + String.format("%-8.2f", item.getSubtotal()) + " │");
         }
-        
+
         System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
-        
+
         // Option to update status
         System.out.println("\nWould you like to update the status of this order? (Y/N)");
         String updateChoice = scanner.nextLine().trim().toUpperCase();
-        
+
         if (updateChoice.equals("Y")) {
             updateSingleOrderStatus(selectedOrder);
         } else {
@@ -575,7 +777,7 @@ public class UserMenu {
         System.out.print("Enter order number to update status: ");
         int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
         Order selectedOrder = allOrders.get(orderIndex);
-        
+
         updateSingleOrderStatus(selectedOrder);
     }
 
@@ -590,10 +792,10 @@ public class UserMenu {
         System.out.println("| 4. Delivered                      |");
         System.out.println("| 5. Cancelled                      |");
         System.out.println("=====================================");
-        
+
         int statusChoice = MenuUtils.validateDigit(1, 5);
         OrderStatus newStatus;
-        
+
         switch (statusChoice) {
             case 1 -> newStatus = OrderStatus.PENDING;
             case 2 -> newStatus = OrderStatus.PROCESSING;
@@ -605,222 +807,30 @@ public class UserMenu {
                 return;
             }
         }
-        
+    
         // Update status
         order.setStatus(newStatus);
-        
+
         // Save changes
         JsonDataHandler.saveOrdersList(orders);
-        
-        System.out.println("Order status successfully updated to: " + newStatus);
-        System.out.println("Press Enter to continue...");
-        scanner.nextLine();
-    }
 
-    private void viewAllCustomers() {
-        // Check admin privileges
-        if (!(currentUser instanceof Admin)) {
-            System.out.println("Access denied. Admin privileges required.");
-            return;
-        }
-    
-        if (customers.isEmpty()) {
-            System.out.println("No customers found in the system.");
-            return;
-        }
-
-        List<User> regularCustomers = customers.stream()
-                    .filter(user -> user instanceof Customer)
-                    .collect(java.util.stream.Collectors.toList());
-    
-        while (true) {
-            // Display customer list with formatted table
-            displayCustomersTable(regularCustomers);
-            
-            // Customer management menu
-            System.out.println("\n=====================================");
-            System.out.println("|        Customer Management        |");
-            System.out.println("=====================================");
-            System.out.println("| 1. View Customer Details          |");
-            System.out.println("| 2. View Customer Order History    |");
-            System.out.println("| 3. Sort by Name                   |");
-            System.out.println("| 4. Sort by Most Orders            |");
-            System.out.println("| 5. Back to Admin Menu             |");
-            System.out.println("=====================================");
-    
-            int choice = MenuUtils.validateDigit(1, 5);
-    
-            switch (choice) {
-                case 1 -> viewCustomerDetails(regularCustomers);
-                case 2 -> viewCustomerOrders(regularCustomers);
-                case 3 -> {
-                    regularCustomers.sort((c1, c2) -> c1.getUsername().compareToIgnoreCase(c2.getUsername()));
-                    System.out.println("Customers sorted by namsdfdsfsd.");
-                }
-                case 4 -> {
-                    regularCustomers.sort((c1, c2) -> {
-                        long c1Orders = orders.stream()
-                                .filter(order -> order.getCustomer().getUserID().equals(c1.getUserID()))
-                                .count();
-                        long c2Orders = orders.stream()
-                                .filter(order -> order.getCustomer().getUserID().equals(c2.getUserID()))
-                                .count();
-                        return Long.compare(c2Orders, c1Orders); // Descending order
-                    });
-                    System.out.println("Customers sorted by most orders.");
-                }
-                case 5 -> {
-                    return;
-                }
-            }
-        }
-    }
-
-    // Extract display code to a separate method
-    private void displayCustomersTable(List<User> regularCustomers) {
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                              CUSTOMER LISTINGS                               │");
-        System.out.println("├────┬──────────────┬─────────────────────────┬────────────────┬──────────────┤");
-        System.out.println("│ #  │ Customer ID  │ Name                    │ Email          │ Total Orders │");
-        System.out.println("├────┼──────────────┼─────────────────────────┼────────────────┼──────────────┤");
-    
-        for (int i = 0; i < regularCustomers.size(); i++) {
-            Customer customer = (Customer) regularCustomers.get(i);
-            
-            // Count orders for this customer
-            long orderCount = orders.stream()
-                    .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
-                    .count();
-            
-            String formattedId = String.format("%-12s", customer.getUserID());
-            String formattedName = String.format("%-23s", 
-                    customer.getUsername().length() > 21 ? 
-                    customer.getUsername().substring(0, 18) + "..." : 
-                    customer.getUsername());
-            String formattedEmail = String.format("%-14s", 
-                    customer.getEmail().length() > 12 ? 
-                    customer.getEmail().substring(0, 9) + "..." : 
-                    customer.getEmail());
-            String formattedOrders = String.format("%-12d", orderCount);
-            
-            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
-                    i + 1, formattedId, formattedName, formattedEmail, formattedOrders);
-        }
-        
-        // Table footer
-        System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
-    }
-
-    private void viewCustomerDetails(List<User> customers) {
-        System.out.print("Enter customer number to view details: ");
-        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
-        
-        Customer customer = (Customer) customers.get(customerIndex);
-        
-        // Calculate total spent
-        double totalSpent = orders.stream()
-                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
-                .mapToDouble(Order::getTotalAmount)
-                .sum();
-        
-        // Count total orders
-        long orderCount = orders.stream()
-                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
-                .count();
-        
-        // Display detailed information about the customer
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                             CUSTOMER DETAILS                                 │");
-        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-        System.out.println("│ Customer ID: " + String.format("%-63s", customer.getUserID()) + " │");
-        System.out.println("│ Name: " + String.format("%-69s", customer.getUsername()) + " │");
-        System.out.println("│ Email: " + String.format("%-68s", customer.getEmail()) + " │");
-        System.out.println("│ Phone: " + String.format("%-68s", customer.getPhoneNum()) + " │");
-        System.out.println("│ Address: " + String.format("%-66s", customer.getAddress()) + " │");
-        System.out.println("│ Total Orders: " + String.format("%-62d", orderCount) + " │");
-        System.out.println("│ Total Spent: RM" + String.format("%-61.2f", totalSpent) + " │");
-        
-        // Cart items if any
-        if (customer.getCart() != null && !customer.getCart().getItems().isEmpty()) {
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            System.out.println("│                              CURRENT CART                                    │");
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            
-            List<CartItem> cartItems = customer.getCart().getItems();
-            for (CartItem item : cartItems) {
-                System.out.println("│ • " + String.format("%-30s", item.getProduct().getProdName()) + 
-                        " | Qty: " + String.format("%-3d", item.getQuantity()) + 
-                        " | Price: RM" + String.format("%-8.2f", item.getProduct().getSellingPrice()) + 
-                        " | Subtotal: RM" + String.format("%-8.2f", item.getSubtotal()) + " │");
-            }
-            
-            double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE; 
-            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", (customer.getCart().getTotalAmount() + taxAmount)) + " │");
-        }
-        
-        // Wishlist items if any
-        if (customer.getWishlist() != null && !customer.getWishlist().getItems().isEmpty()) {
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            System.out.println("│                             CURRENT WISHLIST                                │");
-            System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-            
-            List<Product> wishlistItems = customer.getWishlist().getItems();
-            for (Product item : wishlistItems) {
-                System.out.println("│ • " + String.format("%-68s", item.getProdName()) + " │");
+    String customerId = order.getCustomerId();
+        for (User user : customers) {
+            if (user instanceof Customer && user.getUserID().equals(customerId)) {
+                Customer customer = (Customer) user;
+                // Update the customer's order history
+                List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customerId);
+                customer.setOrderHistory(updatedOrderHistory);
+                break;
             }
         }
         
-        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
-        
-        System.out.println("Press Enter to continue...");
-        scanner.nextLine();
-    }
+        // Save the updated customer list to persist the changes
+        JsonDataHandler.saveCustomersList(customers);
 
-    private void viewCustomerOrders(List<User> customers) {
-        System.out.print("Enter customer number to view orders: ");
-        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
-        
-        Customer customer = (Customer) customers.get(customerIndex);
-        
-        List<Order> customerOrders = orders.stream()
-                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
-                .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate())) // Newest first
-                .collect(java.util.stream.Collectors.toList());
-        
-        if (customerOrders.isEmpty()) {
-            System.out.println("This customer has no orders.");
-            System.out.println("Press Enter to continue...");
-            scanner.nextLine();
-            return;
-        }
-        
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│ Customer: " + String.format("%-65s", customer.getUsername()) + " │");
-        System.out.println("│ Order History                                                                │");
-        System.out.println("├────┬──────────────┬────────────┬──────────────┬───────────────────────────────┤");
-        System.out.println("│ #  │ Order ID     │ Date       │ Total Amount │ Status                        │");
-        System.out.println("├────┼──────────────┼────────────┼──────────────┼───────────────────────────────┤");
-        
-        for (int i = 0; i < customerOrders.size(); i++) {
-            Order order = customerOrders.get(i);
-            String formattedId = String.format("%-12s", order.getOrderId());
-            String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
-            String formattedAmount = String.format("RM %-10.2f", order.getTotalAmount());
-            String formattedStatus = String.format("%-27s", order.getStatus());
-            
-            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
-                    i + 1, formattedId, formattedDate, formattedAmount, formattedStatus);
-        }
-        
-        System.out.println("└────┴──────────────┴────────────┴──────────────┴───────────────────────────────┘");
-        
-        System.out.println("\nEnter order number to view details (0 to go back): ");
-        int choice = MenuUtils.validateDigit(0, customerOrders.size());
-        
-        if (choice > 0) {
-            viewOrderDetailsAdmin(customerOrders);
-        }
+        System.out.println("Order status updated successfully to: " + newStatus);
     }
+        
 
     private void manageProductsMenu() {
         if (!(currentUser instanceof Admin)) {
@@ -852,17 +862,17 @@ public class UserMenu {
                 break;
 
             case 2:
-                viewProducts(products);
+                viewAllProducts();
                 updateProduct(products);
                 break;
 
             case 3:
-                viewProducts(products);
+                viewAllProducts();
                 deleteProduct(products);
                 break;
 
             case 4:
-                viewProducts(products);
+                viewAllProducts();
                 break;
 
             case 5:
@@ -871,39 +881,44 @@ public class UserMenu {
         }
     }
 
-    public void viewProducts(List<Product> products) {
+    public void viewAllProducts() {
+        // Get all products from the JSON file
+        List<Product> products = JsonDataHandler.getProductsList();
+
+        // Debug output to check how many products are being loaded
+        System.out.println("Debug: Total products loaded: " + products.size());
+
         if (products.isEmpty()) {
             System.out.println("No products available.");
             return;
         }
 
         // Table header with formatting
-        System.out.println("\n┌────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("\n┌───────────────────────────────────────────────────────────────────────────┐");
         System.out.println("│                               PRODUCT LISTING                              │");
-        System.out.println("├────┬──────────┬─────────────────────────────┬────────────┬─────────────────┤");
-        System.out.println("│ #  │ ID       │ Product Name                │ Price      │ Type            │");
-        System.out.println("├────┼──────────┼─────────────────────────────┼────────────┼─────────────────┤");
-    
+        System.out.println("├────┬──────────┬─────────────────────────────┬───────────┬─────────────────┤");
+        System.out.println("│ #  │ ID       │ Product Name                │ Price     │ Type           │");
+        System.out.println("├────┼──────────┼─────────────────────────────┼───────────┼─────────────────┤");
+
         // Format the output for each product
         int index = 1;
         for (Product product : products) {
             String formattedId = String.format("%-8s", product.getProdID());
-            String formattedName = String.format("%-27s", 
-                    (product.getProdName().length() > 25) ? 
-                    product.getProdName().substring(0, 22) + "..." : 
+            String formattedName = String.format("%-27s",
+                    (product.getProdName().length() > 25) ?
+                    product.getProdName().substring(0, 22) + "..." :
                     product.getProdName());
             String formattedPrice = String.format("RM %-7.2f", product.getSellingPrice());
             String formattedType = String.format("%-15s", product.getProductType());
-            
-            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
+
+            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n",
                     index, formattedId, formattedName, formattedPrice, formattedType);
-            
+
             index++;
         }
-        
-        // Table footer
-        System.out.println("└────┴──────────┴─────────────────────────────┴────────────┴─────────────────┘");
 
+        // Table footer
+        System.out.println("└────┴──────────┴─────────────────────────────┴───────────┴─────────────────┘");
     }
 
     private void promptProductActions(Product selectedProduct) {
@@ -927,19 +942,18 @@ public class UserMenu {
         switch (choice) {
             case 1 -> {
                 // Add to cart
-                System.out.print("\n~ Quantity to add (Stock available: " + selectedProduct.getStock() + ") ~\n");
-                int quantity = MenuUtils.validateDigit(1, selectedProduct.getStock());
-                
+                System.out.print("Enter quantity to add: ");
+                int quantity = MenuUtils.validateDigit(1, 100);
+
                 if (quantity > selectedProduct.getStock()) {
                     System.out.println("Sorry, there are only " + selectedProduct.getStock() + " items available.");
                     MenuUtils.waitEnter(scanner);
                     return;
                 }
-                
+
                 customer.getCart().addItem(selectedProduct, quantity);
 
-                double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE; // Calculate tax
-                System.out.println("Cart total: RM" + String.format("%.2f", customer.getCart().getTotalAmount() + taxAmount));
+                System.out.println("Cart total: RM" + String.format("%.2f", customer.getCart().getTotalAmount()));
                 JsonDataHandler.saveCustomersList(customers);
                 break;
             }
@@ -960,37 +974,32 @@ public class UserMenu {
     public void productMenu() {
         // Load products from JSON or use sample products if needed
         List<Product> products = JsonDataHandler.getProductsList();
-        
+
         ProductListing productListing = new ProductListing(products);
 
         int choice;
         do {
             System.out.println("\n==========================================");
-            System.out.println("│             Products Menu              │");
+            System.out.println("|             Products Menu              |");
             System.out.println("==========================================");
-            System.out.println("│ 1. Display All Products                │");
-            System.out.println("│ 2. Search Product by Name              │");
-            System.out.println("│ 3. Sort Product by Category            │");
-            System.out.println("│ 4. Sort Products by Price Ascending    │");
-            System.out.println("│ 5. Sort Products by Price Descending   │");
-            System.out.println("│ 6. Back                                │");
+            System.out.println("| 1. Display All Products                |");
+            System.out.println("| 2. Search Product by Name              |");
+            System.out.println("| 3. Search Product by Category          |");
+            System.out.println("| 4. Sort Products by Price Ascending    |");
+            System.out.println("| 5. Sort Products by Price Descending   |");
+            System.out.println("| 6. Back                                |");
             System.out.println("==========================================");
 
             choice = MenuUtils.validateDigit(1, 6);
-            int productIndex;
 
             switch (choice) {
                 case 1:
-                    viewProducts(JsonDataHandler.getProductsList());
+                    viewAllProducts();
                     System.out.println("Select a product to view details (or 0 to go back): ");
-                    productIndex = MenuUtils.validateDigit(0, products.size());
+                    int productIndex = MenuUtils.validateDigit(0, products.size());
                     if (productIndex > 0) {
                         Product selectedProduct = products.get(productIndex - 1);
-                        System.out.println("┌─────────────────────────────────────────────────┐");
-                        System.out.println("|                 Product Details                 |");
-                        System.out.println("├─────────────────────────────────────────────────┤");
                         System.out.println(selectedProduct.getDetails());
-                        System.out.println("└─────────────────────────────────────────────────┘");
                         promptProductActions(selectedProduct);
                     } else {
                         System.out.println("Returning to product menu...");
@@ -1001,83 +1010,33 @@ public class UserMenu {
                     System.out.print("Enter Product Name to Search: ");
                     String searchName = scanner.nextLine();
                     List<Product> foundByName = productListing.searchProductByName(searchName);
-                    viewProducts(foundByName);
-                    if (foundByName.isEmpty()) {
-                        System.out.println("No products found with the name: " + searchName);
-                    }
-                    System.out.println("Select a product to view details (or 0 to go back): ");
-                    productIndex = MenuUtils.validateDigit(0, foundByName.size());
-                    if (productIndex > 0) {
-                        Product selectedProduct = foundByName.get(productIndex - 1);
-                        System.out.println("┌─────────────────────────────────────────────────┐");
-                        System.out.println("|                 Product Details                 |");
-                        System.out.println("├─────────────────────────────────────────────────┤");
-                        System.out.println(selectedProduct.getDetails());
-                        System.out.println("└─────────────────────────────────────────────────┘");
-                        promptProductActions(selectedProduct);
-                    } else {
-                        System.out.println("Returning to product menu...");
+                    for (Product p : foundByName) {
+                        System.out.println(p.getDetails());
                     }
                     break;
 
                 case 3:
+                    System.out.print("Enter Product Category to Search: ");
                     List<Product> foundByCategory = productListing.sortProductsByCategory();
-                    viewProducts(foundByCategory);
-                    if (foundByCategory.isEmpty()) {
-                        System.out.println("No products found in the selected category.");
-                    }
-                    System.out.println("Select a product to view details (or 0 to go back): ");
-                    productIndex = MenuUtils.validateDigit(0, foundByCategory.size());
-                    if (productIndex > 0) {
-                        Product selectedProduct = foundByCategory.get(productIndex - 1);
-                        System.out.println("┌─────────────────────────────────────────────────┐");
-                        System.out.println("|                 Product Details                 |");
-                        System.out.println("├─────────────────────────────────────────────────┤");
-                        System.out.println(selectedProduct.getDetails());
-                        System.out.println("└─────────────────────────────────────────────────┘");
-                        promptProductActions(selectedProduct);
-                    } else {
-                        System.out.println("Returning to product menu...");
+                    for (Product p : foundByCategory) {
+                        System.out.println(p.getDetails());
                     }
                     break;
 
                 case 4:
                     List<Product> priceAsc = productListing.sortProductsByPrice(true);
-                    viewProducts(priceAsc);
-                    System.out.println("Select a product to view details (or 0 to go back): ");
-                    productIndex = MenuUtils.validateDigit(0, priceAsc.size());
-                    if (productIndex > 0) {
-                        Product selectedProduct = priceAsc.get(productIndex - 1);
-                        System.out.println("┌─────────────────────────────────────────────────┐");
-                        System.out.println("|                 Product Details                 |");
-                        System.out.println("├─────────────────────────────────────────────────┤");
-                        System.out.println(selectedProduct.getDetails());
-                        System.out.println("└─────────────────────────────────────────────────┘");
-                        promptProductActions(selectedProduct);
-                    } else {
-                        System.out.println("Returning to product menu...");
+                    for (Product p : priceAsc) {
+                        System.out.println(p.getDetails());
                     }
                     break;
 
                 case 5:
                     List<Product> priceDesc = productListing.sortProductsByPrice(false);
-                    viewProducts(priceDesc);
-                    System.out.println("Select a product to view details (or 0 to go back): ");
-                    productIndex = MenuUtils.validateDigit(0, priceDesc.size());
-                    if (productIndex > 0) {
-                        Product selectedProduct = priceDesc.get(productIndex - 1);
-                        System.out.println("┌─────────────────────────────────────────────────┐");
-                        System.out.println("|                 Product Details                 |");
-                        System.out.println("├─────────────────────────────────────────────────┤");
-                        System.out.println(selectedProduct.getDetails());
-                        System.out.println("└─────────────────────────────────────────────────┘");
-                        promptProductActions(selectedProduct);
-                    } else {
-                        System.out.println("Returning to product menu...");
+                    for (Product p : priceDesc) {
+                        System.out.println(p.getDetails());
                     }
-                    break;
-                    
-                case 6:    
+
+                case 6:
                     return;
 
                 default:
@@ -1139,6 +1098,84 @@ public class UserMenu {
         } while (choice != 6 && choice != 7);
     }
 
+    // private void manageWishlistMenu() {
+    //     if (!(currentUser instanceof Customer)) {
+    //         System.out.println("Access denied. Customer privileges required.");
+    //         return;
+    //     }
+
+    //     Customer customer = (Customer) currentUser;
+    //     System.out.println(customer.getWishlist().displayWishlist());
+
+    //     Scanner scanner = MenuUtils.getScanner();
+    //     System.out.println("\n===========================================");
+    //     System.out.println("|         What would you like to do?      |");
+    //     System.out.println("===========================================");
+    //     System.out.println("| 1. Move an item to cart                |");
+    //     System.out.println("| 2. Remove an item from wishlist         |");
+    //     System.out.println("| 3. Return to previous menu             |");
+    //     System.out.println("===========================================");
+    //     System.out.print("Please select an option (1-3): ");
+
+
+    //     int choice = MenuUtils.validateDigit(1, 3);
+
+    //     if (choice == 3) {
+    //         return;
+    //     }
+
+    //     List<Product> items = customer.getWishlist().getItems();
+
+    //     if (items.isEmpty()) {
+    //         System.out.println("Your wishlist is empty.");
+    //         return;
+    //     }
+
+    //     System.out.print("Enter the item number: ");
+    //     int itemNum = 0;
+    //     try {
+    //         itemNum = Integer.parseInt(scanner.nextLine().trim());
+    //     } catch (NumberFormatException e) {
+    //         System.out.println("Invalid input. Please enter a number.");
+    //         return;
+    //     }
+
+    //     if (itemNum < 1 || itemNum > items.size()) {
+    //         System.out.println("Invalid item number.");
+    //         return;
+    //     }
+
+    //     Product selectedProduct = items.get(itemNum - 1);
+
+    //     if (choice == 1) {
+    //         // Move to cart
+    //         System.out.print("Enter quantity: ");
+    //         int quantity = 0;
+    //         try {
+    //             quantity = Integer.parseInt(scanner.nextLine().trim());
+
+    //             // Add this check
+    //             if (quantity <= 0) {
+    //                 System.out.println("Quantity must be greater than 0.");
+    //                 return;
+    //             }
+
+    //         } catch (NumberFormatException e) {
+    //             System.out.println("Invalid input. Please enter a number.");
+    //             return;
+    //         }
+
+    //         if (UserMenu.getCurrentUser() != null && UserMenu.getCurrentUser() instanceof Customer) {
+    //             customer.getCart().addItem(selectedProduct, quantity);
+    //             // Optionally remove from wishlist after adding to cart
+    //             items.remove(itemNum - 1);
+    //             System.out.println(selectedProduct.getProdName() + " moved from wishlist to cart.");
+    //         }
+    //     } else if (choice == 2) {
+    //         // Remove from wishlist
+    //         customer.getWishlist().removeItem();
+    //     }
+    // }
 
     public void displayWishlistItem(int index) {
         List<Product> items = ((Customer) currentUser).getWishlist().getItems();
@@ -1146,15 +1183,29 @@ public class UserMenu {
             System.out.println("Invalid item number.");
             return;
         }
-        
+
         Product item = items.get(index);
-        
-        System.out.println("┌─────────────────────────────────────────────────┐");
-        System.out.println("│              WISHLIST ITEM DETAILS              │");
-        System.out.println("├─────────────────────────────────────────────────┤");
-        System.out.println(item.getDetails());
-        System.out.println("└─────────────────────────────────────────────────┘");
-        System.out.println();
+
+        System.out.println("┌───────────────────────────────────────────────────┐");
+        System.out.println("│              WISHLIST ITEM DETAILS                │");
+        System.out.println("├───────────────────────────────────────────────────┤");
+        System.out.println("│ ID: " + String.format("%-41s", item.getProdID()) + " │");
+        System.out.println("│ Name: " + String.format("%-39s", item.getProdName()) + " │");
+        System.out.println("│ Price: RM" + String.format("%-36.2f", item.getSellingPrice()) + " │");
+        System.out.println("│ Category: " + String.format("%-35s", item.getProductType()) + " │");
+        System.out.println("│ Stock: " + String.format("%-38d", item.getStock()) + " │");
+        System.out.println("│                                                   │");
+        System.out.println("│ Description:                                      │");
+
+        // Format description to fit within the box
+        String description = item.getProdDesc();
+        int maxLineLength = 45;
+        for (int i = 0; i < description.length(); i += maxLineLength) {
+            String line = description.substring(i, Math.min(i + maxLineLength, description.length()));
+            System.out.println("│ " + String.format("%-47s", line) + " │");
+        }
+
+        System.out.println("└───────────────────────────────────────────────────┘");
     }
 
     public void displayInteractiveWishlist() {
@@ -1169,7 +1220,7 @@ public class UserMenu {
         }
 
         System.out.println(customer.getWishlist().displayWishlist());
-    
+
         while (true) {
             System.out.println();
             System.out.println("Options:");
@@ -1177,7 +1228,7 @@ public class UserMenu {
             System.out.println("2. Add item to cart");
             System.out.println("3. Remove item from wishlist");
             System.out.println("0. Back to previous menu");
-            
+
             System.out.print("\nEnter your choice: ");
             int choice;
             try {
@@ -1186,7 +1237,7 @@ public class UserMenu {
                 System.out.println("Please enter a valid number.");
                 continue;
             }
-            
+
             if (choice == 0) {
                 break;
             } else if (choice == 1) {
@@ -1268,48 +1319,17 @@ public class UserMenu {
                 displayCart(cart);
                 System.out.print("Enter item index to update: ");
                 int updateIndex = MenuUtils.validateDigit(1, cart.getItems().size()) - 1;
-                CartItem item = cart.getItems().get(updateIndex);
-                Product product = item.getProduct();
-                System.out.println("Available stock: " + product.getStock());
-                System.out.println("Current quantity: " + item.getQuantity());
-
                 System.out.print("Enter new quantity: ");
-
-                int newQuantity = MenuUtils.validateDigit(1, product.getStock());
+                int newQuantity = MenuUtils.validateDigit(1, 100);
                 cart.updateItemQuantity(updateIndex, newQuantity);
                 break;
 
             case 2:
                 // Remove item
                 displayCart(cart);
-                System.out.print("Enter item index to remove/reduce: ");
+                System.out.print("Enter item index to remove: ");
                 int removeIndex = MenuUtils.validateDigit(1, cart.getItems().size()) - 1;
-                CartItem itemToModify = cart.getItems().get(removeIndex);
-                int currentQuantity = itemToModify.getQuantity();
-
-                if (currentQuantity == 1) {
-                    System.out.println("You only have 1 item. Remove completely? (Y/N)");
-                    if (scanner.nextLine().trim().toUpperCase().equals("Y")) {
-                        cart.removeItem(removeIndex);
-                        System.out.println("Item removed from cart.");
-                    }
-                } else {
-                    // Ask how many to remove
-                    System.out.println("Current quantity: " + currentQuantity);
-                    System.out.println("How many would you like to remove?");
-                    int removeQuantity = MenuUtils.validateDigit(1, currentQuantity);
-                    
-                    if (removeQuantity == currentQuantity) {
-                        // Remove completely if all units are being removed
-                        cart.removeItem(removeIndex);
-                        System.out.println("Item removed from cart.");
-                    } else {
-                        // Update with reduced quantity
-                        int updatedQuantity = currentQuantity - removeQuantity;
-                        cart.updateItemQuantity(removeIndex, updatedQuantity);
-                        System.out.println("Quantity updated to: " + updatedQuantity);
-                    }
-                }
+                cart.removeItem(removeIndex);
                 break;
 
             case 3:
@@ -1337,33 +1357,20 @@ public class UserMenu {
             return;
         }
 
-        // Calculate summary values
-        double subtotal = cart.getTotalAmount();
-        double tax = subtotal * Order.TAX_RATE; // 6% tax rate
-        double total = subtotal + tax;
+        System.out.println("\n===== Your Shopping Cart =====");
+        System.out.printf("%-25s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
+        System.out.println("------------------------------------------------------");
 
-        System.out.println("\n┌────────────────────────────────────────────────────────────┐");
-        System.out.println("│                     YOUR SHOPPING CART                     │");
-        System.out.println("├────────────────────────────────────────────────────────────┤");
-        System.out.printf("│ %-25s %-10s %-10s %-10s │\n", "Product", "Price", "Quantity", "Subtotal");
-        System.out.println("├────────────────────────────────────────────────────────────┤");
-        
         for (CartItem item : items) {
-            System.out.printf("│ %-25s $%-9.2f %-10d $%-9.2f │\n", 
-                item.getProduct().getProdName().length() > 25 ? 
-                    item.getProduct().getProdName().substring(0, 22) + "..." : 
-                    item.getProduct().getProdName(),
-                item.getProduct().getSellingPrice(),
+            System.out.printf("%-25s $%-9.2f %-10d $%-9.2f\n",
+                item.getProduct().getProdName(),
+                item.getProduct().getUnitPrice(),
                 item.getQuantity(),
                 item.getSubtotal());
         }
-        
-        System.out.println("├────────────────────────────────────────────────────────────┤");
-        System.out.printf("│ %46s $%-10.2f │\n", "Subtotal:", subtotal);
-        System.out.printf("│ %46s $%-10.2f │\n", "Tax (6%):", tax);
-        System.out.println("├────────────────────────────────────────────────────────────┤");
-        System.out.printf("│ %46s $%-10.2f │\n", "TOTAL:", total);
-        System.out.println("└────────────────────────────────────────────────────────────┘");
+
+        System.out.println("------------------------------------------------------");
+        System.out.printf("Total: $%.2f\n", cart.getTotalAmount());
     }
 
     private void logout() {
@@ -1412,40 +1419,74 @@ public class UserMenu {
                 // Edit name functionality
                 System.out.print("Enter new name: ");
                 String newName = scanner.nextLine();
-                customer.setUsername(newName);
-                System.out.println("Name updated successfully!");
+                if (isValidFullName(newName)) {
+                    customer.setUsername(newName);
+                    System.out.println("Name updated successfully!");
+                } else {
+                    System.out.println("Name update cancelled.");
+                }
                 break;
             case 2:
                 System.out.print("Enter new address: ");
                 String newAddress = scanner.nextLine();
-                customer.setAddress(newAddress);
-                System.out.println("Address updated successfully!");
+                if (isValidAddress(newAddress)) {
+                    customer.setAddress(newAddress);
+                    System.out.println("Address updated successfully!");
+                } else {
+                    System.out.println("Address update cancelled.");
+                }
                 break;
             case 3:
-            String newPhone = "";
-            do {
-                System.out.print("Enter new phone number: ");
-                newPhone = scanner.nextLine();
-                if (newPhone.isEmpty()) {
-                    return;
-                }
-            } while (!isValidPhoneNumber(newPhone));
+                String newPhone = "";
+                boolean validPhone = false;
+                do {
+                    System.out.print("Enter new phone number (leave empty to cancel): ");
+                    newPhone = scanner.nextLine();
+                    if (newPhone.isEmpty()) {
+                        System.out.println("Phone number update cancelled.");
+                        return;
+                    }
+                    validPhone = isValidPhoneNumber(newPhone);
+                } while (!validPhone);
                 customer.setPhoneNum(newPhone);
                 System.out.println("Phone number updated successfully!");
                 break;
+
             case 4:
-                // Change password functionality
+
                 System.out.print("Enter current password: ");
                 String currentPassword = MenuUtils.maskPassword(scanner);
+                if (currentPassword.isEmpty()) {
+                    System.out.println("Password update cancelled.");
+                    break;
+                }
                 if (currentPassword.equals(customer.getPassword())) {
-                    System.out.print("Enter new password (minimum 8 characters): ");
-                    String newPassword = MenuUtils.maskPassword(scanner);
-                    if (newPassword.length() >= 8) {
-                        customer.setPassword(newPassword);
-                        System.out.println("Password updated successfully!");
-                    } else {
-                        System.out.println("Password must be at least 8 characters long.");
+                    boolean validNewPassword = false;
+                    String newPassword = "";
+
+                    do {
+                        System.out.print("Enter new password: ");
+                        newPassword = MenuUtils.maskPassword(scanner);
+
+                        if (newPassword.isEmpty()) {
+                            System.out.println("Password update cancelled.");
+                            return;
+                        }
+
+                        validNewPassword = isValidPassword(newPassword);
+
+                    } while (!validNewPassword);
+
+                    // Confirm password
+                    System.out.print("Confirm new password: ");
+                    String confirmPassword = MenuUtils.maskPassword(scanner);
+
+                    if (!confirmPassword.equals(newPassword)) {
+                        System.out.println("Passwords do not match. Password update cancelled.");
+                        break;
                     }
+                    customer.setPassword(newPassword);
+                    System.out.println("Password updated successfully!");
                 } else {
                     System.out.println("Incorrect current password.");
                 }
@@ -1455,43 +1496,43 @@ public class UserMenu {
         }
     }
 
-    private void viewOrderHistory() {
-        System.out.println("\n=== Order History ===");
+private void viewOrderHistory() {
+    System.out.println("\n=== Order History ===");
 
-        if (!(currentUser instanceof Customer)) {
-            System.out.println("Access denied. Customer privileges required.");
-            return;
-        }
+    if (!(currentUser instanceof Customer)) {
+        System.out.println("Access denied. Customer privileges required.");
+        return;
+    }
 
-        Customer customer = (Customer) currentUser;
-        System.out.println("User ID: " + customer.getUserID());
+    Customer customer = (Customer) currentUser;
+    System.out.println("User ID: " + customer.getUserID());
 
-        // Always fetch the latest order history directly from the database
-        List<Order> userOrders = JsonDataHandler.getOrderHistory(customer.getUserID());
+    // Always fetch the latest order history directly from the database
+    List<Order> userOrders = JsonDataHandler.getOrderHistory(customer.getUserID());
 
-        // Update the customer's order history with the latest data
-        customer.setOrderHistory(userOrders);
+    // Update the customer's order history with the latest data
+    customer.setOrderHistory(userOrders);
 
-        if (userOrders == null || userOrders.isEmpty()) {
-            System.out.println("You have no orders yet.");
-            return;
-        }
+    if (userOrders == null || userOrders.isEmpty()) {
+        System.out.println("You have no orders yet.");
+        return;
+    }
 
-        System.out.println("\n=====================================");
-        System.out.println("|          Your Order History       |");
-        System.out.println("=====================================");
+    System.out.println("\n=====================================");
+    System.out.println("|          Your Order History       |");
+    System.out.println("=====================================");
 
-        // Display orders with their current status
-        for (int i = 0; i < userOrders.size(); i++) {
-            Order order = userOrders.get(i);
-            System.out.println("Order #" + (i + 1));
-            System.out.println("Order ID: " + order.getOrderId());
-            System.out.println("Date: " + order.getFormattedOrderDate());
-            System.out.println("Total: $" + String.format("%.2f", order.getTotalAmount()));
-            System.out.println("Status: " + order.getStatus());
-            System.out.println("Last Updated: " + order.getFormattedLastUpdated());
-            System.out.println("-------------------------------------");
-        }
+    // Display orders with their current status
+    for (int i = 0; i < userOrders.size(); i++) {
+        Order order = userOrders.get(i);
+        System.out.println("Order #" + (i + 1));
+        System.out.println("Order ID: " + order.getOrderId());
+        System.out.println("Date: " + order.getFormattedOrderDate());
+        System.out.println("Total: $" + String.format("%.2f", order.getTotalAmount()));
+        System.out.println("Status: " + order.getStatus());
+        System.out.println("Last Updated: " + order.getFormattedLastUpdated());
+        System.out.println("-------------------------------------");
+    }
 
         System.out.println("\nEnter order number to view details (0 to go back): ");
         int choice = MenuUtils.validateDigit(0, userOrders.size());
@@ -1518,12 +1559,7 @@ public class UserMenu {
         System.out.println("\n=====================================");
         System.out.println("|             Checkout              |");
         System.out.println("=====================================");
-        double subtotal = cart.getTotalAmount();
-        double tax = subtotal * Order.TAX_RATE; // 6% tax
-        double total = subtotal + tax;
-        System.out.println("│ Subtotal: $" + String.format("%-22.2f", subtotal) + " │");
-        System.out.println("│ Tax (6%): $" + String.format("%-22.2f", tax) + " │");
-        System.out.println("│ Total   : $" + String.format("%-22.2f", total) + " │");
+        System.out.println("| Your cart total: $" + String.format("%.2f", cart.getTotalAmount()) + " |");
         System.out.println("=====================================");
 
 // Confirm shipping address
@@ -1543,11 +1579,11 @@ public class UserMenu {
 
         // Select payment method
         System.out.println("\n=========================================");
-        System.out.println("|          Select Payment Method        |");
+        System.out.println("|          Select Payment Method       |");
         System.out.println("=========================================");
-        System.out.println("| 1. Credit Card                        |");
-        System.out.println("| 2. PayPal                             |");
-        System.out.println("| 3. Bank Transfer                      |");
+        System.out.println("| 1. Credit Card                       |");
+        System.out.println("| 2. PayPal                            |");
+        System.out.println("| 3. Bank Transfer                  |");
         System.out.println("=========================================");
 
         int paymentChoice = MenuUtils.validateDigit(1, 3);
@@ -1573,7 +1609,7 @@ public class UserMenu {
         // Process payment
         Payment payment = new Payment(
                 orderId,
-                total,
+                cart.getTotalAmount(),
                 paymentMethod,
                 currentUser
         );
@@ -1593,7 +1629,7 @@ public class UserMenu {
                 paymentSuccess = payment.verifyAndCompletePayment(enteredOtp);
 
                 if (paymentSuccess) {
-                    System.out.println("Payment completed.");
+                    System.out.println("Thank you for your payment!");
                     // Proceed with order confirmation, etc.
                 } else if (attempts < MAX_ATTEMPTS) {
                     System.out.println("Invalid OTP. Please try again.");
@@ -1607,7 +1643,7 @@ public class UserMenu {
                 // Create order
                 Order order = new Order(
                         orderId,
-                        customer,
+                        customer.getUserID(),
                         new ArrayList<>(cart.getItems()),
                         cart.getTotalAmount(),
                         shippingAddress,
@@ -1630,24 +1666,24 @@ public class UserMenu {
                 // Save order
                 orders.add(order);
                 JsonDataHandler.saveOrdersList(orders);
-    
+
                 // Update product stock
-            List<Product> allProducts = JsonDataHandler.getProductsList();
+            Map<String, Product> allProducts = JsonDataHandler.loadProducts(); // Load all existing products
             for (CartItem item : cart.getItems()) {
                 Product product = item.getProduct();
                 int newStock = product.getStock() - item.getQuantity();
                 product.setStock(newStock);
-                allProducts.add(product); // Update only the ordered products
+                allProducts.put(product.getProdID(), product); // Update only the ordered products
             }
 
-            // Save updated product data
-            JsonDataHandler.saveProductsList(allProducts);
+            // Save all products back to the database
+            JsonDataHandler.saveProducts(allProducts);
 
                 // Clear the cart
                 cart.clearCart();
                 JsonDataHandler.saveCustomersList(customers);
 
-    
+
                 System.out.println("\nOrder placed successfully!");
             } else {
                 System.out.println("\nOrder was not completed due to payment failure.");
@@ -1700,189 +1736,223 @@ public class UserMenu {
         }
     }
 
-    private void displayOrderDetails(Order order) {
-        try {
-            // Check if refund window has expired and update status if needed
-            boolean refundAvailable = order.getRemainingRefundTime() > 0;
-            if (!refundAvailable && order.getStatus() == Order.OrderStatus.PENDING) {
-                // Update order status to PAID if refund window expires
-                order.setStatus(Order.OrderStatus.PAID);
-                
-                // Update the order in the orders list
-                for (int i = 0; i < orders.size(); i++) {
-                    if (orders.get(i).getOrderId().equals(order.getOrderId())) {
-                        orders.set(i, order);
-                        break;
-                    }
-                }
-                
-                // Save changes to JSON
-                JsonDataHandler.saveOrdersList(orders);
-                
-                // Update the customer's order history if applicable
-                if (currentUser instanceof Customer) {
-                    Customer customer = (Customer) currentUser;
-                    List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customer.getUserID());
-                    customer.setOrderHistory(updatedOrderHistory);
-                    JsonDataHandler.saveCustomersList(customers);
-                }
-                
-                System.out.println("Refund window has expired. Order status updated to PAID.");
-            }
-    
-            // Initial display of order details
-            System.out.println("\n=====================================");
-            System.out.println("|          Order Details            |");
-            System.out.println("=====================================");
-            System.out.println("| Order ID: " + order.getOrderId());
-            System.out.println("| Order Date: " + order.getFormattedOrderDate());
-            System.out.println("| Total Amount: $" + String.format("%.2f", order.getTotalAmount()));
-            System.out.println("| Shipping Address: " + order.getShippingAddress());
-    
-            Payment payment = payments.stream()
-                    .filter(p -> p.getOrderId().equals(order.getOrderId()))
-                    .findFirst()
-                    .orElse(null);
-            if (payment != null) {
-                System.out.println("| Payment Method: " + payment.getPaymentMethod());
-                System.out.println("| Payment Status: " + payment.getPaymentStatus());
-            } else {
-                System.out.println("| Payment Method: N/A");
-                System.out.println("| Payment Status: N/A");
-            }
-            System.out.println("| Order Status: " + order.getStatus());
-    
-            // Simple status display without countdown timers
-            if (order.getStatus() == Order.OrderStatus.PENDING) {
-                System.out.println("| Status will update to PROCESSING soon.");
-            }
-    
-            // Simple refund window display
-            if (refundAvailable &&
-                (order.getStatus() == Order.OrderStatus.PENDING || order.getStatus() == Order.OrderStatus.DELIVERED) &&
-                order.getStatus() != Order.OrderStatus.REFUND_REQUESTED &&
-                order.getStatus() != Order.OrderStatus.REFUNDED) {
-                System.out.println("| Refund available: Yes");
-            } else {
-                System.out.println("| Refund available: No");
-            }
-            System.out.println("=====================================");
-    
-            // Display ordered items with relevant details only
-            System.out.println("\n--- Ordered Items ---");
-            System.out.printf("%-30s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
-            System.out.println("------------------------------------------------------");
-    
-            for (CartItem item : order.getItems()) {
-                Product product = item.getProduct();
-                System.out.printf("%-30s $%-9.2f %-10d $%-9.2f\n",
-                        product.getProdName(),
-                        product.getSellingPrice(),
-                        item.getQuantity(),
-                        item.getSubtotal());
-            }
-    
-            System.out.println("------------------------------------------------------");
-            System.out.printf("Total: $%.2f\n", order.getTotalAmount());
-    
-            // Show different options based on order status (without timer)
-            if (order.getStatus() == Order.OrderStatus.DELIVERED) {
-                System.out.println("\n1. Finalize Order (Confirm Receipt)");
-                System.out.println("2. Request Refund");
-                System.out.println("0. Back");
-                System.out.print("\nEnter your choice (0-2): ");
-                
-                int choice = MenuUtils.validateDigit(0, 2);
-                if (choice == 1) {
-                    finalizeOrder(order);
-                } else if (choice == 2) {
-                    requestRefund(order, payment);
-                }
-            } else if ((order.getStatus() == Order.OrderStatus.PENDING || 
-                    order.getStatus() == Order.OrderStatus.DELIVERED) &&
-                    refundAvailable &&
-                    order.getStatus() != Order.OrderStatus.REFUND_REQUESTED &&
-                    order.getStatus() != Order.OrderStatus.REFUNDED) {
-                System.out.println("\n1. Request Refund");
-                System.out.println("0. Back");
-                System.out.print("\nEnter your choice (0-1): ");
-                
-                int choice = MenuUtils.validateDigit(0, 1);
-                if (choice == 1) {
-                    requestRefund(order, payment);
-                }
-            } else {
-                System.out.println("\nPress Enter to go back...");
-                scanner.nextLine();
-            }
-        } finally {
-            // No threads to clean up anymore
-        }
-    }
 
-    private void requestRefund(Order order, Payment payment) {
-        System.out.println("\n=====================================");
-        System.out.println("|          Request Refund           |");
-        System.out.println("=====================================");
-        long remainingRefundTime = order.getRemainingRefundTime();
-        
-        // Check if refund is allowed based on status and time
-        if ((order.getStatus() == Order.OrderStatus.PENDING && remainingRefundTime <= 0) || 
-            (order.getStatus() != Order.OrderStatus.DELIVERED && 
-             order.getStatus() != Order.OrderStatus.PENDING)) {
-            System.out.println("Sorry, refund is only available for PENDING orders within the refund window");
-            System.out.println("or for DELIVERED orders.");
-            System.out.println("\nPress Enter to continue...");
-            scanner.nextLine();
-            return;
-        }
-    
-        System.out.println("Are you sure you want to request a refund? (Y/N)");
-    
-        String choice = scanner.nextLine().trim().toUpperCase();
-    
-        if (choice.equals("Y")) {
-            // Update order status to REFUND_REQUESTED instead of CANCELLED
-            order.updateStatus(Order.OrderStatus.REFUND_REQUESTED); // Use updateStatus to ensure lastUpdated is set
-    
-            // Update payment status to REFUNDED
-            if (payment != null) {
-                payment.setPaymentStatus(Payment.PaymentStatus.REFUNDED);
-            }
-    
-            // Find and update the order in the global orders list
+
+        // Start the timer thread
+        private void displayOrderDetails(Order order) {
+    // Create a flag to control the timer thread
+    final boolean[] keepRunning = {true};
+    Thread timerThread = null;
+
+    try {
+        // Check if refund window has expired and update status if needed
+        // Do this BEFORE displaying order details to ensure correct status is shown
+        long initialRefundTime = order.getRemainingRefundTime();
+        if (initialRefundTime <= 0 && order.getStatus() == Order.OrderStatus.PENDING) {
+            // Update order status to PAID if refund window expires
+            order.setStatus(Order.OrderStatus.PAID);
+            
+            // Update the order in the orders list
             for (int i = 0; i < orders.size(); i++) {
                 if (orders.get(i).getOrderId().equals(order.getOrderId())) {
                     orders.set(i, order);
                     break;
                 }
             }
-    
-            // Save changes
+            
+            // Save changes to JSON
             JsonDataHandler.saveOrdersList(orders);
-            JsonDataHandler.savePaymentsList(payments);
-    
-            // Update the customer's order history to reflect the change
+            
+            // Update the customer's order history if applicable
             if (currentUser instanceof Customer) {
                 Customer customer = (Customer) currentUser;
-    
-                // Get fresh order history from the database
                 List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customer.getUserID());
                 customer.setOrderHistory(updatedOrderHistory);
-    
-                // Save the updated customer information
                 JsonDataHandler.saveCustomersList(customers);
             }
-    
-            System.out.println("Refund requested successfully. Your order status is now REFUND_REQUESTED.");
-            System.out.println("The refund will be processed within 3-5 business days.");
-        } else {
-            System.out.println("Refund request cancelled.");
+            
+            System.out.println("Refund window has expired. Order status updated to PAID.");
         }
-    
-        System.out.println("\nPress Enter to continue...");
-        scanner.nextLine();
+
+        // Initial display of order details
+        System.out.println("\n=====================================");
+        System.out.println("|          Order Details            |");
+        System.out.println("=====================================");
+        System.out.println("| Order ID: " + order.getOrderId());
+        System.out.println("| Order Date: " + order.getFormattedOrderDate());
+        System.out.println("| Total Amount: $" + String.format("%.2f", order.getTotalAmount()));
+        System.out.println("| Shipping Address: " + order.getShippingAddress());
+
+        Payment payment = payments.stream()
+                .filter(p -> p.getOrderId().equals(order.getOrderId()))
+                .findFirst()
+                .orElse(null);
+        if (payment != null) {
+            System.out.println("| Payment Method: " + payment.getPaymentMethod());
+            System.out.println("| Payment Status: " + payment.getPaymentStatus());
+        } else {
+            System.out.println("| Payment Method: N/A");
+            System.out.println("| Payment Status: N/A");
+        }
+        System.out.println("| Order Status: " + order.getStatus());
+
+        // Display status update timer if pending
+        if (order.getStatus() == Order.OrderStatus.PENDING) {
+            long remainingTimeInSeconds = order.getRemainingTimeForStatusUpdate();
+            if (remainingTimeInSeconds > 0) {
+                long minutes = remainingTimeInSeconds / 60;
+                long seconds = remainingTimeInSeconds % 60;
+                System.out.println("| Status will update to PROCESSING in: " +
+                        String.format("%02d:%02d", minutes, seconds));
+            } else {
+                System.out.println("| Status update: Pending update to PROCESSING");
+            }
+        } else {
+            System.out.println("| Status update: N/A");
+        }
+
+        // Display refund window timer
+        long remainingRefundTime = order.getRemainingRefundTime();
+        if (remainingRefundTime > 0 &&
+                (order.getStatus() == Order.OrderStatus.PENDING || order.getStatus() == Order.OrderStatus.DELIVERED) &&
+                order.getStatus() != Order.OrderStatus.CANCEL_REQUESTED)  {
+            // Use 15 minutes directly instead of the private constant
+            LocalDateTime cancelWindowEnd = order.getOrderDate().plusMinutes(15);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String cancelWindowEndTime = cancelWindowEnd.format(formatter);
+            System.out.println("| Cancel window ends at: " + cancelWindowEndTime);
+        } else {
+            System.out.println("| Cancel window: Expired or N/A");
+        }
+        System.out.println("=====================================");
+
+        // Display ordered items with relevant details only
+        System.out.println("\n--- Ordered Items ---");
+        System.out.printf("%-30s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
+        System.out.println("------------------------------------------------------");
+
+        for (CartItem item : order.getItems()) {
+            Product product = item.getProduct();
+            System.out.printf("%-30s $%-9.2f %-10d $%-9.2f\n",
+                    product.getProdName(),
+                    product.getSellingPrice(),
+                    item.getQuantity(),
+                    item.getSubtotal());
+        }
+
+        System.out.println("------------------------------------------------------");
+        System.out.printf("Total: $%.2f\n", order.getTotalAmount());
+
+        // Create a dedicated area for timer updates that won't interfere with input
+        System.out.println("\n--- Timer Updates Will Appear Here ---\n");
+
+        // Create a thread to update only the timer values
+        timerThread = new Thread(() -> {
+            try {
+                // Store previous values to only update when changed
+                long prevStatusTime = -1;
+
+                while (keepRunning[0]) {
+                    // Sleep for 1 second before checking again (more responsive)
+                    Thread.sleep(1000);
+
+                    // Get current timer values
+                    long statusTime = order.getRemainingTimeForStatusUpdate();
+
+                    // Only update if values have changed
+                    if (statusTime != prevStatusTime) {
+                        prevStatusTime = statusTime;
+
+                        // Create a string builder for the update message
+                        StringBuilder updateMsg = new StringBuilder();
+
+                        if (order.getStatus() == Order.OrderStatus.PENDING && statusTime > 0) {
+                            long minutes = statusTime / 60;
+                            long seconds = statusTime % 60;
+                            updateMsg.append("Status will update in ")
+                                    .append(String.format("%02d:%02d", minutes, seconds));
+                        }
+
+                        // Clear the line and print the update if there's anything to show
+                        if (updateMsg.length() > 0) {
+                            System.out.print("\r" + " ".repeat(80) + "\r"); // Clear the line
+                            System.out.print(updateMsg.toString());
+                        }
+                    }
+                }
+            } catch (InterruptedException e) {
+                // Thread was interrupted, exit gracefully
+            }
+        });
+
+        // Start the timer thread
+        timerThread.start();
+
+        // Show different options based on order status - AFTER starting the timer thread
+        if (order.getStatus() == Order.OrderStatus.DELIVERED) {
+            System.out.println("\n1. Finalize Order (Confirm Receipt)");
+            System.out.println("2. Request Refund");
+            System.out.println("0. Back");
+            System.out.print("\nEnter your choice (0-2): ");
+            
+            int choice = MenuUtils.validateDigit(0, 2);
+            if (choice == 1) {
+                // Stop the timer thread before showing finalize dialog
+                keepRunning[0] = false;
+                try {
+                    timerThread.join();
+                    finalizeOrder(order);
+                } catch (InterruptedException e) {
+                    System.err.println("Thread interruption occurred: " + e.getMessage());
+                    finalizeOrder(order);
+                }
+            } else if (choice == 2) {
+                // Stop the timer thread before showing refund dialog
+                keepRunning[0] = false;
+                try {
+                    timerThread.join();
+                    requestRefund(order, payment);
+                } catch (InterruptedException e) {
+                    System.err.println("Thread interruption occurred: " + e.getMessage());
+                    requestRefund(order, payment);
+                }
+            }
+        } else if ((order.getStatus() == Order.OrderStatus.PENDING || 
+                order.getStatus() == Order.OrderStatus.DELIVERED) &&
+                remainingRefundTime > 0 &&
+                order.getStatus() != Order.OrderStatus.CANCEL_REQUESTED ) {
+            System.out.println("\n1. Request Cancel");
+            System.out.println("0. Back");
+            System.out.print("\nEnter your choice (0-1): ");
+            
+            int choice = MenuUtils.validateDigit(0, 1);
+            if (choice == 1) {
+                // Stop the timer thread before showing refund dialog
+                keepRunning[0] = false;
+                try {
+                    timerThread.join();
+                    requestRefund(order, payment);
+                } catch (InterruptedException e) {
+                    System.err.println("Thread interruption occurred: " + e.getMessage());
+                    requestRefund(order, payment);
+                }
+            }
+        } else {
+            System.out.println("\nPress Enter to go back...");
+            scanner.nextLine();
+        }
+    } finally {
+        // Ensure the timer thread is stopped when we exit
+        keepRunning[0] = false;
+        if (timerThread != null && timerThread.isAlive()) {
+            try {
+                timerThread.join(1000); // Wait up to 1 second for thread to finish
+            } catch (InterruptedException e) {
+                // Ignore interruption during cleanup
+            }
+        }
     }
+}
 
 // Add a new method to handle finalizing an order
 private void finalizeOrder(Order order) {
@@ -1908,9 +1978,80 @@ private void finalizeOrder(Order order) {
         System.out.println("Order finalization cancelled.");
     }
 
+    System.out.println("\nPress Enter to continue...");
+    scanner.nextLine();
+}
+
+
+private void requestRefund(Order order, Payment payment) {
+    System.out.println("\n=====================================");
+    System.out.println("|       Request Cancellation         |");
+    System.out.println("=====================================");
+    long remainingRefundTime = order.getRemainingRefundTime();
+    
+    // Check if refund is allowed based on time only
+    if (remainingRefundTime <= 0) {
+        System.out.println("Sorry, the refund window has expired. Refunds are only available");
+        System.out.println("within 15 minutes of placing your order.");
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
+        return;
     }
+
+    System.out.println("Are you sure you want to request for a cancellation? (Y/N)");
+    LocalDateTime cancelWindowEnd = order.getOrderDate().plusMinutes(15);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    String cancelWindowEndTime = cancelWindowEnd.format(formatter);
+    System.out.println("Cancel window ends at: " + cancelWindowEndTime);
+
+    String choice = scanner.nextLine().trim().toUpperCase();
+
+    if (choice.equals("Y")) {
+        // Update order status to CANCEL_REQUESTED
+        order.updateStatus(Order.OrderStatus.CANCEL_REQUESTED);
+
+        // Update payment status to CANCEL_REQUESTED
+        if (payment != null) {
+            payment.setPaymentStatus(Payment.PaymentStatus.CANCEL_REQUESTED);
+        }
+
+        // Find and update the order in the global orders list
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getOrderId().equals(order.getOrderId())) {
+                orders.set(i, order);
+                break;
+            }
+        }
+
+        // Save changes
+        JsonDataHandler.saveOrdersList(orders);
+        JsonDataHandler.savePaymentsList(payments);
+
+        // Update the customer's order history to reflect the change
+        if (currentUser instanceof Customer) {
+            Customer customer = (Customer) currentUser;
+            List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customer.getUserID());
+            customer.setOrderHistory(updatedOrderHistory);
+            JsonDataHandler.saveCustomersList(customers);
+        }
+
+        System.out.println("Cancellation requested successfully. Your order status is now CANCELLED.");
+        System.out.println("The refund will be processed within 3-5 business days.");
+    } else {
+        System.out.println("Cancellation request cancelled.");
+    }
+
+    System.out.println("\nPress Enter to continue...");
+    scanner.nextLine();
+}
+
+private String formatTimeRemaining(long timeInSeconds) {
+    long minutes = timeInSeconds / 60;
+    long seconds = timeInSeconds % 60;
+    return String.format("%02d:%02d", minutes, seconds);
+}
+
+
 
 
     public void addProduct(List<Product> products) {
@@ -2117,5 +2258,8 @@ private void finalizeOrder(Order order) {
             System.out.println("Invalid product selection.");
         }
     }
+
+
+
 
 }

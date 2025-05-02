@@ -1,26 +1,25 @@
 package com.gsports.java.oop;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Random;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.gsports.java.oop.Payment.PaymentMethod;
-import com.gsports.java.oop.Payment.PaymentStatus;
 
 public class Payment {
     public enum PaymentStatus {
         PENDING,
-        PAID,
         OTP_SENT,
+        PAID,
+        SHIPPING,
+        DELIVERED,
         COMPLETED,
         FAILED,
         FAILED_INVALID_OTP,
-        CANCELLED,
-        REFUNDED,
-        REFUND_REQUESTED,
+        CANCEL_REQUESTED,
+        CANCELLED
     };
 
     public enum PaymentMethod {
@@ -73,8 +72,8 @@ public class Payment {
     public boolean processPayment() {
         // Simulate payment processing
         try {
-            System.out.println("\n~> Processing payment of RM" + String.format("%.2f", amount) + " via " + paymentMethod + "...");
-            System.out.println("~> Please wait while we secure your transaction...");
+            System.out.println("Processing payment of RM" + String.format("%.2f", amount) + " via " + paymentMethod + "...");
+            System.out.println("Please wait while we secure your transaction...");
             Thread.sleep(1000); // Simulate processing time
 
             // Generate and send OTP
@@ -97,16 +96,10 @@ public class Payment {
     public boolean verifyAndCompletePayment(String userProvidedOTP) {
         if (verifyOTP(userProvidedOTP)) {
             this.paymentStatus = PaymentStatus.COMPLETED;
-            String receipt = generateReceipt();
-            System.out.println(receipt);
-            
-//            System.out.println("\n====================================");
-//            System.out.println("│ Payment verification successful! │");
-//            System.out.println("====================================");
-//            System.out.println("│ Transaction ID: " + String.format("%-16s",this.transactionId) + " │");
-//            System.out.println("│ Amount: RM" + String.format("%-22.2f", amount) + " │");
-//            System.out.println("│ Date: " + String.format("%-7s",(paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))) + " |");
-//            System.out.println("====================================");
+            System.out.println("Payment verification successful!");
+            System.out.println("Transaction ID: " + this.transactionId);
+            System.out.println("Amount: RM" + String.format("%.2f", amount));
+            System.out.println("Date: " + paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             return true;
         } else {
             // Invalid OTP
@@ -124,17 +117,17 @@ public class Payment {
         this.otp = String.valueOf(otpNumber);
 
         // Simulate sending OTP to phone number
-        System.out.println("~> Generating OTP to send to your registered email: " + user.getEmail());
-        System.out.println("~> Sending email...");
+        System.out.println("Generating OTP to send to your registered email: " + user.getEmail());
+        System.out.println("Sending email...");
 
         try {
             Thread.sleep(1500);
-            System.out.println("\n~> OTP sent successfully!");
-            System.out.println("\nDEMO MODE: Your OTP is: " + otp);
+            System.out.println("OTP sent successfully!");
+            System.out.println("DEMO MODE: Your OTP is: " + otp);
 
             return this.otp;
         } catch (InterruptedException e) {
-            System.out.println("\n~! Failed to sent OTP: " + e.getMessage());
+            System.out.println("Failed to sent OTP: " + e.getMessage());
             return "";
         }
     }
@@ -146,17 +139,16 @@ public class Payment {
     public String generateReceipt() {
         StringBuilder receipt = new StringBuilder();
         receipt.append("\n========== THANK YOU FOR YOUR PURCHASE ==========\n");
-        receipt.append(String.format("│ Receipt #: %-34s │\n", paymentId));
-        receipt.append(String.format("│ Transaction ID: %-29s │\n", transactionId));
-        receipt.append(String.format("│ Amount Paid: RM%-30.2f │\n", amount));
-        receipt.append(String.format("│ Payment Method: %-29s │\n", paymentMethod));
-        receipt.append(String.format("│ Payment Date: %-31s │\n", paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))));
-        receipt.append(String.format("│ Payment Status: %-29s │\n", paymentStatus.toString()));
-        receipt.append(String.format("│ Customer: %-35s │\n", user.getUsername()));
-        receipt.append("=================================================\n");
-        receipt.append("│     Thank you for shopping with GSports!      │\n");
-        receipt.append("│           We hope to see you soon ~           │\n");
-        receipt.append("=================================================\n");
+        receipt.append("Receipt #: ").append(paymentId).append("\n");
+        receipt.append("Transaction ID: ").append(transactionId).append("\n");
+        receipt.append("Amount Paid: RM").append(String.format("%.2f", amount)).append("\n");
+        receipt.append("Payment Method: ").append(paymentMethod).append("\n");
+        receipt.append("Payment Date: ").append(paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))).append("\n");
+        receipt.append("Payment Status: ").append(paymentStatus.toString()).append("\n");
+        receipt.append("Customer: ").append(user.getUsername()).append("\n");
+        receipt.append("Thank you for shopping with GSports!\n");
+        receipt.append("We hope to see you soon.");
+        receipt.append("\n===============================================");
 
         return receipt.toString();
     }
@@ -199,20 +191,6 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setPaymentDate(String paymentDateStr) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            this.paymentDate = LocalDateTime.parse(paymentDateStr, formatter);
-        } catch (DateTimeParseException e) {
-            try {
-                this.paymentDate = LocalDateTime.parse(paymentDateStr);
-            } catch (Exception ex) {
-                System.err.println("Could not parse date: " + paymentDateStr + ". Using current date instead.@interface");
-                this.paymentDate = LocalDateTime.now();
-            }
-        }
-    }
-
     public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
     }
@@ -222,9 +200,10 @@ public class Payment {
     }
 
     public String getFormattedPaymentDate() {
-        return paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return paymentDate.format(formatter);
     }
-
+    
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -248,6 +227,4 @@ public class Payment {
     public User getUser() {
         return user;
     }
-
-
 }

@@ -275,6 +275,9 @@ public class JsonDataHandler {
     public static Map<String, Order> loadOrders() {
         Map<String, Order> orders = new HashMap<>();
         try {
+            // First check and fix corrupted file if needed
+            fixCorruptedOrdersFile();
+            
             File file = new File(ORDER_FILE_PATH);
             if (file.exists()) {
                 ObjectMapper readerMapper = mapper.copy();
@@ -299,13 +302,14 @@ public class JsonDataHandler {
         return new ArrayList<>(loadOrders().values());
     }
 
-    public static List<Order> getOrderHistory(String customerId) {
-        List<Order> orderHistory = getOrdersList();
-
-        return orderHistory.stream()
-                .filter(order -> (order.getCustomer().getUserID()).equals(customerId))
-                .collect(Collectors.toList());
-    }
+public static List<Order> getOrderHistory(String customerId) {
+    List<Order> allOrders = getOrdersList();
+    
+    // Filter orders by customerId
+    return allOrders.stream()
+            .filter(order -> order.getCustomerId().equals(customerId))
+            .collect(Collectors.toList());
+}
 
     public static void savePayments(Map<String, Payment> payments) {
         try {
@@ -321,6 +325,9 @@ public class JsonDataHandler {
     public static Map<String, Payment> loadPayments() {
         Map<String, Payment> payments = new HashMap<>();
         try {
+            // First check and fix corrupted file if needed
+            fixCorruptedPaymentsFile();
+            
             File file = new File(PAYMENTS_FILE_PATH);
             if (file.exists()) {
                 ObjectMapper readerMapper = mapper.copy();
@@ -344,4 +351,51 @@ public class JsonDataHandler {
     public static List<Payment> getPaymentsList() {
         return new ArrayList<>(loadPayments().values());
     }
+
+    // Add this method after the getPaymentsList() method
+    public static void fixCorruptedOrdersFile() {
+        try {
+            // Fix orders.json
+            File ordersFile = new File(ORDER_FILE_PATH);
+            if (ordersFile.exists()) {
+                String content = java.nio.file.Files.readString(ordersFile.toPath());
+                if (content.contains("<")) {
+                    // Create empty orders file
+                    Map<String, Order> emptyOrders = new HashMap<>();
+                    saveOrders(emptyOrders);
+                    System.out.println("Fixed corrupted orders.json file");
+                }
+            } else {
+                // Create empty orders file if it doesn't exist
+                Map<String, Order> emptyOrders = new HashMap<>();
+                saveOrders(emptyOrders);
+                System.out.println("Created new orders.json file");
+            }
+        } catch (IOException e) {
+            System.out.println("Error fixing corrupted orders file: " + e.getMessage());
+        }
+    }
+    // Add this method after the fixCorruptedOrdersFile() method
+public static void fixCorruptedPaymentsFile() {
+    try {
+        // Fix payments.json
+        File paymentsFile = new File(PAYMENTS_FILE_PATH);
+        if (paymentsFile.exists()) {
+            String content = java.nio.file.Files.readString(paymentsFile.toPath());
+            if (content.contains("<")) {
+                // Create empty payments file
+                Map<String, Payment> emptyPayments = new HashMap<>();
+                savePayments(emptyPayments);
+                System.out.println("Fixed corrupted payments.json file");
+            }
+        } else {
+            // Create empty payments file if it doesn't exist
+            Map<String, Payment> emptyPayments = new HashMap<>();
+            savePayments(emptyPayments);
+            System.out.println("Created new payments.json file");
+        }
+    } catch (IOException e) {
+        System.out.println("Error fixing corrupted payments file: " + e.getMessage());
+    }
+}
 }

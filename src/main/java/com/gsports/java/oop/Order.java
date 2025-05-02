@@ -2,13 +2,11 @@ package com.gsports.java.oop;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gsports.java.oop.Order.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class Order {
@@ -21,18 +19,19 @@ public class Order {
         DELIVERED,
         COMPLETED,
         CANCELLED,
-        REFUNDED,
+        CANCEL_REQUESTED,
         REFUND_REQUESTED,
+        // REFUND_REQUESTED has been removed
     }
     
     private String orderId;
-    private Customer customer;
+    private String customerId;
     private ArrayList<CartItem> items;
     private LocalDateTime orderDate;
     private double totalAmount;      // Total Amount before tax
     private double taxAmount;     // Tax amount
     private double finalAmount;      // Paid amount including tax
-    public static double TAX_RATE = 0.06; // Default tax rate (6%)
+    private static double TAX_RATE = 0.06; // Default tax rate (6%)
 
     @JsonBackReference("payment-order")
     private Payment payment;
@@ -50,10 +49,10 @@ public class Order {
         this.lastUpdated = LocalDateTime.now();
     }
 
-    public Order(String orderId, Customer customer, List<CartItem> items, double totalAmount, 
+    public Order(String orderId, String customerId, List<CartItem> items, double totalAmount, 
                 String shippingAddress, Payment payment) {
-                    this.orderId = orderId;;
-                    this.customer = customer;
+                    this.orderId = orderId;
+                    this.customerId = customerId;
                     this.items = new ArrayList<>(items);
                     this.orderDate = LocalDateTime.now();
                     this.totalAmount = totalAmount;
@@ -74,12 +73,12 @@ public class Order {
         this.orderId = orderId;
     }
     
-    public Customer getCustomer() {
-        return this.customer;
+    public String getCustomerId() {
+        return customerId;
     }
     
-    public void setCustomerId(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
     
     public List<CartItem> getItems() {
@@ -212,18 +211,20 @@ public class Order {
     }
     
     /**
-     * Check if the order is within the refund window (15 minutes)
-     * @return positive number if refund is available, 0 or negative if not
+     * Gets the remaining time in seconds for the refund window
+     * @return Remaining time in seconds, or 0 if refund window has expired
      */
-    public long getRemainingRefundTime() {
-        // Calculate time difference in seconds
-        LocalDateTime now = LocalDateTime.now();
-        long secondsElapsed = ChronoUnit.SECONDS.between(orderDate, now);
-        long refundWindowSeconds = 15 * 60; // 15 minutes
-        
-        // Return remaining seconds, or negative if expired
-        return refundWindowSeconds - secondsElapsed;
+public long getRemainingRefundTime() {
+    // Simple static refund window: 15 minutes from order creation
+    LocalDateTime refundWindowEnd = orderDate.plusMinutes(DEFAULT_REFUND_WINDOW_MINUTES);
+    LocalDateTime now = LocalDateTime.now();
+    
+    if (now.isAfter(refundWindowEnd)) {
+        return 0;
     }
+    
+    return java.time.Duration.between(now, refundWindowEnd).getSeconds();
+}
     
     @JsonIgnore
     public String getStatusDisplay() {
@@ -239,7 +240,11 @@ public class Order {
             case COMPLETED:
                 return "Completed";
             case CANCELLED:
-                return "Canceled";
+                return "Cancelled";
+            case CANCEL_REQUESTED:
+                return "Cancellation Requested";
+            case PAID:
+                return "Paid";
             default:
                 return "Unknown";
         }
