@@ -26,9 +26,33 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
+<<<<<<< Updated upstream
       "items" : [ ],
       "totalAmount" : 0.0,
       "empty" : true
+=======
+      "items" : [ {
+        "product" : {
+          "Mouse" : {
+            "prodID" : "P013",
+            "prodName" : "Logitech M331 Silent Plus",
+            "prodDesc" : "Silent wireless mouse for everyday use",
+            "unitPrice" : 149.0,
+            "sellingPrice" : 199.0,
+            "stock" : 15,
+            "dpi" : 1000,
+            "numButtons" : 3,
+            "connectivity" : "2.4GHz Wireless USB Receiver",
+            "color" : "Black",
+            "wireless" : true
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 199.0
+      } ],
+      "totalAmount" : 199.0,
+      "empty" : false
+>>>>>>> Stashed changes
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",

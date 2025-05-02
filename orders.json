@@ -150,6 +150,114 @@
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   },
+  "ORD-B55B6780" : {
+    "orderId" : "ORD-B55B6780",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P016",
+          "prodName" : "Logitech MX Master 3S",
+          "prodDesc" : "Advanced productivity mouse with ergonomic design",
+          "unitPrice" : 499.0,
+          "sellingPrice" : 549.0,
+          "stock" : 15,
+          "dpi" : 8000,
+          "numButtons" : 7,
+          "connectivity" : "Bluetooth & USB Receiver",
+          "color" : "Graphite",
+          "wireless" : true
+        }
+      },
+      "quantity" : 2,
+      "subtotal" : 1098.0
+    }, {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P004",
+          "prodName" : "Razer Blade 16",
+          "prodDesc" : "Slim yet powerful gaming laptop",
+          "unitPrice" : 5999.99,
+          "sellingPrice" : 6999.99,
+          "stock" : 14,
+          "processor" : "Intel i9-13950HX",
+          "graphicsCard" : "NVIDIA GeForce RTX 4080",
+          "ramGB" : 32,
+          "storageGB" : 1024,
+          "displaySize" : "16",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 6999.99
+    } ],
+    "orderDate" : "2025-05-02T10:53:37.1532363",
+    "totalAmount" : 8097.99,
+    "taxAmount" : 485.8794,
+    "finalAmount" : 8583.8694,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T10:53:37.1532363"
+  },
+  "ORD-0C93B4CE" : {
+    "orderId" : "ORD-0C93B4CE",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P013",
+          "prodName" : "Logitech M331 Silent Plus",
+          "prodDesc" : "Silent wireless mouse for everyday use",
+          "unitPrice" : 149.0,
+          "sellingPrice" : 199.0,
+          "stock" : 16,
+          "dpi" : 1000,
+          "numButtons" : 3,
+          "connectivity" : "2.4GHz Wireless USB Receiver",
+          "color" : "Black",
+          "wireless" : true
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 199.0
+    } ],
+    "orderDate" : "2025-05-02T11:57:40.4386544",
+    "totalAmount" : 199.0,
+    "taxAmount" : 11.94,
+    "finalAmount" : 210.94,
+    "shippingAddress" : "PV 9 Residence",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T11:57:40.4386544"
+  },
+  "ORD-3420DAE5" : {
+    "orderId" : "ORD-3420DAE5",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P009",
+          "prodName" : "Apple 96W USB-C Power Adapter",
+          "prodDesc" : "Official Apple charger for MacBook Pro",
+          "unitPrice" : 429.0,
+          "sellingPrice" : 499.0,
+          "stock" : 25,
+          "compatibleWith" : "MacBook Pro, iPad Pro",
+          "type" : "USB-C Power Adapter",
+          "material" : "Plastic",
+          "color" : "White"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 499.0
+    } ],
+    "orderDate" : "2025-05-02T11:55:07.7247932",
+    "totalAmount" : 499.0,
+    "taxAmount" : 29.939999999999998,
+    "finalAmount" : 528.94,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T11:55:07.7247932"
+  },
   "ORD-20D35616" : {
     "orderId" : "ORD-20D35616",
     "customerId" : "CUST-3122FC4D",
@@ -178,9 +286,75 @@
     "taxAmount" : 419.9994,
     "finalAmount" : 7419.9893999999995,
     "shippingAddress" : "Skibidi ohio sigma",
+<<<<<<< Updated upstream
     "status" : "PAID",
     "lastUpdated" : "2025-05-02T10:33:50.0057812",
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
+=======
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T07:53:56.442672"
+  },
+  "ORD-14F5046F" : {
+    "orderId" : "ORD-14F5046F",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P016",
+          "prodName" : "Logitech MX Master 3S",
+          "prodDesc" : "Advanced productivity mouse with ergonomic design",
+          "unitPrice" : 499.0,
+          "sellingPrice" : 549.0,
+          "stock" : 13,
+          "dpi" : 8000,
+          "numButtons" : 7,
+          "connectivity" : "Bluetooth & USB Receiver",
+          "color" : "Graphite",
+          "wireless" : true
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 549.0
+    } ],
+    "orderDate" : "2025-05-02T11:14:00.2777037",
+    "totalAmount" : 549.0,
+    "taxAmount" : 32.94,
+    "finalAmount" : 581.94,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T11:14:00.2777037"
+  },
+  "ORD-A3E51074" : {
+    "orderId" : "ORD-A3E51074",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P001",
+          "prodName" : "Asus ROG Strix",
+          "prodDesc" : "High-performance gaming laptop",
+          "unitPrice" : 6299.99,
+          "sellingPrice" : 7199.0,
+          "stock" : 20,
+          "processor" : "Intel i9",
+          "graphicsCard" : "NVIDIA RTX 3060",
+          "ramGB" : 16,
+          "storageGB" : 512,
+          "displaySize" : "15.6 inch",
+          "operatingSystem" : "Windows 11"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7199.0
+    } ],
+    "orderDate" : "2025-05-02T11:46:27.4130135",
+    "totalAmount" : 7199.0,
+    "taxAmount" : 431.94,
+    "finalAmount" : 7630.94,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T11:46:27.4130135"
+>>>>>>> Stashed changes
   }
 }

@@ -69,12 +69,25 @@ public class Mouse extends Product{
 
     @Override
     public String getDetails() {
-        return super.getDetails() + 
-                "\nDPI: " + dpi +
-                "\nWireless: " + (isWireless ? "Yes" : "No") +
-                "\nNumber of Buttons: " + numButtons +
-                "\nConnectivity: " + connectivity +
-                "\nColor: " + color;
+        // Call the parent class's getDetails method for common product details
+        String parentDetails = super.getDetails();
+
+        // Add Mouse-specific details
+        String mouseDetails = String.format("""
+                                │ DPI            : %-30d │
+                                │ Wireless       : %-30s │
+                                │ Num of Buttons : %-30d │
+                                │ Connectivity   : %-30s │
+                                │ Color          : %-30s │""",
+            this.dpi,
+            (this.isWireless ? "Yes" : "No"),
+            this.numButtons,
+            this.connectivity,
+            this.color
+        );
+
+        // Combine parent details with mouse-specific details
+        return parentDetails + "\n" + mouseDetails;
     }
 
     @Override

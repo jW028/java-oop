@@ -109,26 +109,58 @@ public abstract class Product {
     }
 
     @JsonIgnore
-    // public String getDetails() {
-    //     return " Product ID: " + this.prodID + "\n" +
-    //            " Product Name: " + this.prodName + "\n" +
-    //            " Product Description: " + this.prodDesc + "\n" +
-    //            " Unit Price: $" + this.unitPrice + "\n" +
-    //            " Selling Price: $" + this.sellingPrice + "\n" +
-    //            " Stock: " + this.stock;
-    // }
+    public String getDetails() {
+        // Wrap the description to fit within 47 characters per line
+        String formattedDescription = Utils.wrapText(this.prodDesc, 47);
 
-    public String getDetails(){
-        String formattedDescription = Utils.wrapText(this.prodDesc, 49);
-        return String.format("""
-                        │ Product ID: %-35s │
-                        │ Product Name: %-33s │
-                        │ Product Description:                            │
-                        │ %-47s │
-                        │ Unit Price: $%-34s │
-                        │ Selling Price: $%-31s │
-                        │ Stock: %-40s │""",
-        this.prodID, this.prodName, formattedDescription, this.unitPrice, this.sellingPrice, this.stock);
+        // Split the wrapped description into lines
+        String[] descriptionLines = formattedDescription.split("\n");
+
+        // Build the formatted description with proper alignment
+        StringBuilder descriptionBuilder = new StringBuilder();
+        for (String line : descriptionLines) {
+            descriptionBuilder.append(String.format("│ %-47s │\n", line));
+        }
+
+        User currentUser = UserMenu.getCurrentUser();
+        boolean isAdmin = currentUser instanceof Admin;
+
+        // Format the product details
+        StringBuilder details = new StringBuilder();
+        details.append(String.format("│ Product ID     : %-30s │\n", this.prodID));
+        details.append(String.format("│ Product Name   : %-30s │\n", this.prodName));
+        details.append(String.format("│                                                 │\n"));
+        details.append(String.format("│ Description:                                    │\n"));
+        details.append(descriptionBuilder.toString().trim()).append("\n");
+        details.append(String.format("│                                                 │\n"));
+        if (isAdmin) {
+            // Admin sees both unit price and selling price
+            details.append(String.format("│ Unit Price     : RM%-28.2f │\n", this.unitPrice));
+        }
+        // Both admin and customer see the selling price
+        details.append(String.format("│ Selling Price  : RM%-28.2f │\n", this.sellingPrice));
+        details.append(String.format("│ Stock          : %-30d │", this.stock));
+
+        return details.toString();
+
+        // // Return the formatted product details
+        // return String.format("""
+        //                     │ Product ID: %-35s │
+        //                     │ Product Name: %-33s │
+        //                     │                                                 │
+        //                     │ Product Description:                            │
+        //                     %s
+        //                     │                                                 │
+        //                     │ Unit Price: $%-34.2f │
+        //                     │ Selling Price: $%-31.2f │
+        //                     │ Stock: %-40d │""",
+        //     this.prodID,
+        //     this.prodName,
+        //     descriptionBuilder.toString().trim(), // Add the formatted description
+        //     this.unitPrice,
+        //     this.sellingPrice,
+        //     this.stock
+        // );
     }
 
     @JsonIgnore

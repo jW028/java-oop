@@ -56,13 +56,25 @@ public class Accessory extends Product{
         this.color = color;
     }
 
-    @Override 
+    @Override
     public String getDetails() {
-        return super.getDetails() + 
-                "\nCompatible With: " + compatibleWith +
-                "\nType: " + type +
-                "\nMaterial: " + material +
-                "\nColor: " + color;
+        // Call the parent class's getDetails method for common product details
+        String parentDetails = super.getDetails();
+
+        // Add Accessory-specific details
+        String accessoryDetails = String.format("""
+                            │ Compatible With: %-30s │
+                            │ Type           : %-30s │
+                            │ Material       : %-30s │
+                            │ Color          : %-30s │""",
+            this.compatibleWith,
+            this.type,
+            this.material,
+            this.color
+        );
+
+        // Combine parent details with accessory-specific details
+        return parentDetails + "\n" + accessoryDetails;
     }
 
     @Override

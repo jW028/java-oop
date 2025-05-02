@@ -80,7 +80,7 @@ public class Cart {
         CartItem newItem = new CartItem(product, quantity);
         items.add(newItem);
         recalculateTotal();
-        System.out.println(product.getProdName() + " has been added to your cart!");
+        System.out.println("\n" + product.getProdName() + " has been added to your cart!");
     }
 
     private void recalculateTotal() {
