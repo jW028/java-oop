@@ -28,7 +28,9 @@
     "finalAmount" : 7630.94,
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PENDING",
-    "lastUpdated" : "2025-05-01T23:28:42.453026"
+    "lastUpdated" : "2025-05-01T23:28:42.453026",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-F74906C4" : {
     "orderId" : "ORD-F74906C4",
@@ -59,7 +61,9 @@
     "finalAmount" : 15261.88,
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PENDING",
-    "lastUpdated" : "2025-05-01T22:30:02.490157"
+    "lastUpdated" : "2025-05-01T22:30:02.490157",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-0F33F05C" : {
     "orderId" : "ORD-0F33F05C",
@@ -90,7 +94,61 @@
     "finalAmount" : 91571.28,
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PENDING",
-    "lastUpdated" : "2025-05-01T23:39:55.167928"
+    "lastUpdated" : "2025-05-01T23:39:55.167928",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-07373D99" : {
+    "orderId" : "ORD-07373D99",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P004",
+          "prodName" : "Razer Blade 16",
+          "prodDesc" : "Slim yet powerful gaming laptop",
+          "unitPrice" : 5999.99,
+          "sellingPrice" : 6999.99,
+          "stock" : 15,
+          "processor" : "Intel i9-13950HX",
+          "graphicsCard" : "NVIDIA GeForce RTX 4080",
+          "ramGB" : 32,
+          "storageGB" : 1024,
+          "displaySize" : "16",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 6999.99
+    }, {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P005",
+          "prodName" : "Alienware x17 R2",
+          "prodDesc" : "Next-gen gaming performance",
+          "unitPrice" : 6699.0,
+          "sellingPrice" : 7699.0,
+          "stock" : 8,
+          "processor" : "Intel i9-12900HK",
+          "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+          "ramGB" : 32,
+          "storageGB" : 2000,
+          "displaySize" : "17.3",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7699.0
+    } ],
+    "orderDate" : "2025-05-02T10:35:50.4076693",
+    "totalAmount" : 14698.99,
+    "taxAmount" : 881.9394,
+    "finalAmount" : 15580.929399999999,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "REFUND_REQUESTED",
+    "lastUpdated" : "2025-05-02T10:36:08.3548251",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-20D35616" : {
     "orderId" : "ORD-20D35616",
@@ -120,7 +178,9 @@
     "taxAmount" : 419.9994,
     "finalAmount" : 7419.9893999999995,
     "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "PENDING",
-    "lastUpdated" : "2025-05-02T07:53:56.442672"
+    "status" : "PAID",
+    "lastUpdated" : "2025-05-02T10:33:50.0057812",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   }
 }

@@ -26,80 +26,13 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "items" : [ {
-        "product" : {
-          "Mouse" : {
-            "prodID" : "P016",
-            "prodName" : "Logitech MX Master 3S",
-            "prodDesc" : "Advanced productivity mouse with ergonomic design",
-            "unitPrice" : 499.0,
-            "sellingPrice" : 549.0,
-            "stock" : 15,
-            "dpi" : 8000,
-            "numButtons" : 7,
-            "connectivity" : "Bluetooth & USB Receiver",
-            "color" : "Graphite",
-            "wireless" : true
-          }
-        },
-        "quantity" : 2,
-        "subtotal" : 1098.0
-      }, {
-        "product" : {
-          "Laptop" : {
-            "prodID" : "P004",
-            "prodName" : "Razer Blade 16",
-            "prodDesc" : "Slim yet powerful gaming laptop",
-            "unitPrice" : 5999.99,
-            "sellingPrice" : 6999.99,
-            "stock" : 14,
-            "processor" : "Intel i9-13950HX",
-            "graphicsCard" : "NVIDIA GeForce RTX 4080",
-            "ramGB" : 32,
-            "storageGB" : 1024,
-            "displaySize" : "16",
-            "operatingSystem" : "Windows"
-          }
-        },
-        "quantity" : 1,
-        "subtotal" : 6999.99
-      } ],
-      "totalAmount" : 8097.99,
-      "empty" : false
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",
-      "items" : [ {
-        "Laptop" : {
-          "prodID" : "P001",
-          "prodName" : "Asus ROG Strix",
-          "prodDesc" : "High-performance gaming laptop",
-          "unitPrice" : 6299.99,
-          "sellingPrice" : 7199.0,
-          "stock" : 20,
-          "processor" : "Intel i9",
-          "graphicsCard" : "NVIDIA RTX 3060",
-          "ramGB" : 16,
-          "storageGB" : 512,
-          "displaySize" : "15.6 inch",
-          "operatingSystem" : "Windows 11"
-        }
-      }, {
-        "Laptop" : {
-          "prodID" : "P004",
-          "prodName" : "Razer Blade 16",
-          "prodDesc" : "Slim yet powerful gaming laptop",
-          "unitPrice" : 5999.99,
-          "sellingPrice" : 6999.99,
-          "stock" : 15,
-          "processor" : "Intel i9-13950HX",
-          "graphicsCard" : "NVIDIA GeForce RTX 4080",
-          "ramGB" : 32,
-          "storageGB" : 1024,
-          "displaySize" : "16",
-          "operatingSystem" : "Windows"
-        }
-      } ]
+      "items" : [ ]
     }
   },
   "CUST-611810DA" : {

@@ -29,6 +29,16 @@
     "transactionId" : "TXN-9bd0c0da-68c",
     "formattedPaymentDate" : "01/05/2025 20:30:21"
   },
+  "PAY-94da047a" : {
+    "paymentId" : "PAY-94da047a",
+    "orderId" : "ORD-07373D99",
+    "amount" : 14698.99,
+    "paymentMethod" : "CREDIT_CARD",
+    "paymentDate" : "2025-05-02T10:35:45.4187166",
+    "paymentStatus" : "REFUNDED",
+    "transactionId" : "TXN-f7ceb4f6-dd6",
+    "formattedPaymentDate" : "02/05/2025 10:35:45"
+  },
   "PAY-694e8deb" : {
     "paymentId" : "PAY-694e8deb",
     "orderId" : "ORD-20D35616",

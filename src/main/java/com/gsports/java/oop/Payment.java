@@ -11,10 +11,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Payment {
     public enum PaymentStatus {
         PENDING,
+        PAID,
         OTP_SENT,
         COMPLETED,
         FAILED,
-        FAILED_INVALID_OTP
+        FAILED_INVALID_OTP,
+        CANCELLED,
+        REFUNDED,
+        REFUND_REQUESTED,
     };
 
     public enum PaymentMethod {

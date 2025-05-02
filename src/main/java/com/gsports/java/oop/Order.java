@@ -4,19 +4,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class Order {
 
     public enum OrderStatus {
         PENDING,
+        PAID,
         PROCESSING,
         SHIPPED,
         DELIVERED,
         COMPLETED,
-        CANCELLED
+        CANCELLED,
+        REFUNDED,
+        REFUND_REQUESTED,
     }
     
     private String orderId;
@@ -26,7 +30,7 @@ public class Order {
     private double totalAmount;      // Total Amount before tax
     private double taxAmount;     // Tax amount
     private double finalAmount;      // Paid amount including tax
-    public static final double TAX_RATE = 0.06; // Default tax rate (6%)
+    private static double TAX_RATE = 0.06; // Default tax rate (6%)
 
     @JsonBackReference("payment-order")
     private Payment payment;
@@ -34,6 +38,9 @@ public class Order {
     private String shippingAddress;
     private OrderStatus status;
     private LocalDateTime lastUpdated;
+    private LocalDateTime scheduledStatusUpdateTime;
+    private OrderStatus scheduledStatus;
+    private static final int DEFAULT_REFUND_WINDOW_MINUTES = 15;
 
     public Order() {
         this.items = new ArrayList<>();
@@ -43,7 +50,7 @@ public class Order {
 
     public Order(String orderId, String customerId, List<CartItem> items, double totalAmount, 
                 String shippingAddress, Payment payment) {
-                    this.orderId = orderId;;
+                    this.orderId = orderId;
                     this.customerId = customerId;
                     this.items = new ArrayList<>(items);
                     this.orderDate = LocalDateTime.now();
@@ -150,7 +157,107 @@ public class Order {
         this.status = newStatus;
         this.lastUpdated = LocalDateTime.now();
     }
+   
 
+    /**
+     * Schedules a status update to occur after the specified number of minutes
+     * @param newStatus The status to update to
+     * @param minutes The number of minutes after which the status should be updated
+     */
+    public void scheduleStatusUpdate(OrderStatus newStatus, int minutes) {
+        this.scheduledStatus = newStatus;
+        this.scheduledStatusUpdateTime = LocalDateTime.now().plusMinutes(minutes);
+    }
+
+/**
+     * Gets the remaining time in seconds until the scheduled status update
+     * @return Remaining time in seconds, or 0 if no update is scheduled or time has passed
+     */
+    public long getRemainingTimeForStatusUpdate() {
+        if (scheduledStatusUpdateTime == null) {
+            return 0;
+        }
+        
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(scheduledStatusUpdateTime)) {
+            // If the scheduled time has passed, update the status and return 0
+            if (scheduledStatus != null) {
+                updateStatus(scheduledStatus);
+                scheduledStatus = null;
+                scheduledStatusUpdateTime = null;
+            }
+            return 0;
+        }
+        
+        // Calculate remaining time in seconds
+        return java.time.Duration.between(now, scheduledStatusUpdateTime).getSeconds();
+    }
+
+    /**
+     * Gets the tax rate used for calculating order taxes
+     * @return The tax rate as a decimal (e.g., 0.06 for 6%)
+     */
+    @JsonIgnore
+    public static double getTaxRate() {
+        return TAX_RATE;
+    }
+    
+    /**
+     * Sets the tax rate
+     * @param rate The new tax rate as a decimal (e.g., 0.06 for 6%)
+     */
+    public static void setTaxRate(double rate) {
+        TAX_RATE = rate;
+    }
+    
+    /**
+     * Gets the remaining time in seconds for the refund window
+     * @return Remaining time in seconds, or 0 if refund window has expired
+     */
+    public long getRemainingRefundTime() {
+// For PENDING orders, refund window is DEFAULT_REFUND_WINDOW_MINUTES from order creation
+        if (status == OrderStatus.PENDING) {
+            LocalDateTime refundWindowEnd = orderDate.plusMinutes(DEFAULT_REFUND_WINDOW_MINUTES);
+            LocalDateTime now = LocalDateTime.now();
+            
+            if (now.isAfter(refundWindowEnd)) {
+                return 0;
+            }
+            
+            return java.time.Duration.between(now, refundWindowEnd).getSeconds();
+        } 
+        // For DELIVERED orders, allow refund for 7 days
+        else if (status == OrderStatus.DELIVERED) {
+            // Find when the order was marked as delivered
+            LocalDateTime deliveredTime = lastUpdated; // Assuming lastUpdated was set when status changed to DELIVERED
+            LocalDateTime refundWindowEnd = deliveredTime.plusDays(7);
+            LocalDateTime now = LocalDateTime.now();
+            
+            if (now.isAfter(refundWindowEnd)) {
+                return 0;
+            }
+            
+            return java.time.Duration.between(now, refundWindowEnd).getSeconds();
+        }
+        
+        // For other statuses, no refund window
+        return 0;
+    }
+    @return
+    @JsonIgnore
+    public static double getTaxRate() {
+        return TAX_RATE;
+    }
+    
+    /**
+     * Sets the tax rate
+     * @param rate The new tax rate as a decimal (e.g., 0.06 for 6%)
+     */
+    public static void setTaxRate(double rate) {
+        TAX_RATE = rate;
+    }
+
+    
     @JsonIgnore
     public String getStatusDisplay() {
         switch(status) {
@@ -207,7 +314,6 @@ public class Order {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return lastUpdated.format(formatter);
     }
-    
     
     @JsonIgnore
     public String getFormattedOrderDate() {
