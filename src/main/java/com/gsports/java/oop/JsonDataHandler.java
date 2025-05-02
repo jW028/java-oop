@@ -161,9 +161,6 @@ public class JsonDataHandler {
                         products.put(productId, product);
                     }
                     
-                    // If we get here, the file was read successfully
-                    System.out.println("Successfully loaded " + products.size() + " products.");
-                    
                 } catch (Exception e) {
                     System.out.println("Error parsing existing product data: " + e.getMessage());
                     System.out.println("The file format appears to be incompatible. Creating new product data...");
@@ -306,7 +303,7 @@ public class JsonDataHandler {
         List<Order> orderHistory = getOrdersList();
 
         return orderHistory.stream()
-                .filter(order -> order.getCustomerId().equals(customerId))
+                .filter(order -> (order.getCustomer().getUserID()).equals(customerId))
                 .collect(Collectors.toList());
     }
 

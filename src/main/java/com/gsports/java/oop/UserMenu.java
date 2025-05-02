@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 public class UserMenu {
     private Scanner scanner;
     private List<User> customers;
@@ -333,6 +336,7 @@ public class UserMenu {
                     break;
                 case 2:
                     viewProducts(JsonDataHandler.getProductsList());
+                    viewProducts(JsonDataHandler.getProductsList());
                     break;
 
                 case 3: 
@@ -398,7 +402,7 @@ public class UserMenu {
                 // Find customer name
                 String customerName = "Unknown";
                 for (User user : customers) {
-                    if (user.getUserID().equals(order.getCustomerId())) {
+                    if (user.getUserID().equals(order.getCustomer().getUserID())) {
                         customerName = user.getUsername();
                         if (customerName.length() > 9) {
                             customerName = customerName.substring(0, 7) + "..";
@@ -506,7 +510,7 @@ public class UserMenu {
         // Find customer name
         String customerName = "Unknown";
         for (User user : customers) {
-            if (user.getUserID().equals(selectedOrder.getCustomerId())) {
+            if (user.getUserID().equals(selectedOrder.getCustomer().getUserID())) {
                 customerName = user.getUsername();
                 break;
             }
@@ -518,7 +522,7 @@ public class UserMenu {
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
         System.out.println("│ Order ID: " + String.format("%-65s", selectedOrder.getOrderId()) + " │");
         System.out.println("│ Customer: " + String.format("%-65s", customerName) + " │");
-        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomerId()) + " │");
+        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomer().getUserID()) + " │");
         System.out.println("│ Order Date: " + String.format("%-64s", selectedOrder.getFormattedOrderDate()) + " │");
         System.out.println("│ Status: " + String.format("%-68s", selectedOrder.getStatus()) + " │");
         System.out.println("│ Total Amount: $" + String.format("%-61.2f", selectedOrder.getTotalAmount()) + " │");
@@ -656,10 +660,10 @@ public class UserMenu {
                 case 4 -> {
                     regularCustomers.sort((c1, c2) -> {
                         long c1Orders = orders.stream()
-                                .filter(order -> order.getCustomerId().equals(c1.getUserID()))
+                                .filter(order -> order.getCustomer().getUserID().equals(c1.getUserID()))
                                 .count();
                         long c2Orders = orders.stream()
-                                .filter(order -> order.getCustomerId().equals(c2.getUserID()))
+                                .filter(order -> order.getCustomer().getUserID().equals(c2.getUserID()))
                                 .count();
                         return Long.compare(c2Orders, c1Orders); // Descending order
                     });
@@ -673,39 +677,39 @@ public class UserMenu {
     }
 
     // Extract display code to a separate method
-private void displayCustomersTable(List<User> regularCustomers) {
-    System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-    System.out.println("│                              CUSTOMER LISTINGS                               │");
-    System.out.println("├────┬──────────────┬─────────────────────────┬────────────────┬──────────────┤");
-    System.out.println("│ #  │ Customer ID  │ Name                    │ Email          │ Total Orders │");
-    System.out.println("├────┼──────────────┼─────────────────────────┼────────────────┼──────────────┤");
-
-    for (int i = 0; i < regularCustomers.size(); i++) {
-        Customer customer = (Customer) regularCustomers.get(i);
-        
-        // Count orders for this customer
-        long orderCount = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
-                .count();
-        
-        String formattedId = String.format("%-12s", customer.getUserID());
-        String formattedName = String.format("%-23s", 
-                customer.getUsername().length() > 21 ? 
-                customer.getUsername().substring(0, 18) + "..." : 
-                customer.getUsername());
-        String formattedEmail = String.format("%-14s", 
-                customer.getEmail().length() > 12 ? 
-                customer.getEmail().substring(0, 9) + "..." : 
-                customer.getEmail());
-        String formattedOrders = String.format("%-12d", orderCount);
-        
-        System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
-                i + 1, formattedId, formattedName, formattedEmail, formattedOrders);
-    }
+    private void displayCustomersTable(List<User> regularCustomers) {
+        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                              CUSTOMER LISTINGS                               │");
+        System.out.println("├────┬──────────────┬─────────────────────────┬────────────────┬──────────────┤");
+        System.out.println("│ #  │ Customer ID  │ Name                    │ Email          │ Total Orders │");
+        System.out.println("├────┼──────────────┼─────────────────────────┼────────────────┼──────────────┤");
     
-    // Table footer
-    System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
-}
+        for (int i = 0; i < regularCustomers.size(); i++) {
+            Customer customer = (Customer) regularCustomers.get(i);
+            
+            // Count orders for this customer
+            long orderCount = orders.stream()
+                    .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
+                    .count();
+            
+            String formattedId = String.format("%-12s", customer.getUserID());
+            String formattedName = String.format("%-23s", 
+                    customer.getUsername().length() > 21 ? 
+                    customer.getUsername().substring(0, 18) + "..." : 
+                    customer.getUsername());
+            String formattedEmail = String.format("%-14s", 
+                    customer.getEmail().length() > 12 ? 
+                    customer.getEmail().substring(0, 9) + "..." : 
+                    customer.getEmail());
+            String formattedOrders = String.format("%-12d", orderCount);
+            
+            System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │%n", 
+                    i + 1, formattedId, formattedName, formattedEmail, formattedOrders);
+        }
+        
+        // Table footer
+        System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
+    }
 
     private void viewCustomerDetails(List<User> customers) {
         System.out.print("Enter customer number to view details: ");
@@ -715,13 +719,13 @@ private void displayCustomersTable(List<User> regularCustomers) {
         
         // Calculate total spent
         double totalSpent = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
                 .mapToDouble(Order::getTotalAmount)
                 .sum();
         
         // Count total orders
         long orderCount = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
                 .count();
         
         // Display detailed information about the customer
@@ -751,7 +755,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
             }
             
             double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE; 
-            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", customer.getCart().getTotalAmount() + taxAmount) + " │");
+            System.out.println("│ Cart Total: RM" + String.format("%-61.2f", (customer.getCart().getTotalAmount() + taxAmount)) + " │");
         }
         
         // Wishlist items if any
@@ -779,7 +783,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
         Customer customer = (Customer) customers.get(customerIndex);
         
         List<Order> customerOrders = orders.stream()
-                .filter(order -> order.getCustomerId().equals(customer.getUserID()))
+                .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
                 .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate())) // Newest first
                 .collect(java.util.stream.Collectors.toList());
         
@@ -872,7 +876,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
             System.out.println("No products available.");
             return;
         }
-    
+
         // Table header with formatting
         System.out.println("\n┌────────────────────────────────────────────────────────────────────────────┐");
         System.out.println("│                               PRODUCT LISTING                              │");
@@ -934,7 +938,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
                 
                 customer.getCart().addItem(selectedProduct, quantity);
 
-                double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE; 
+                double taxAmount = customer.getCart().getTotalAmount() * Order.TAX_RATE; // Calculate tax
                 System.out.println("Cart total: RM" + String.format("%.2f", customer.getCart().getTotalAmount() + taxAmount));
                 JsonDataHandler.saveCustomersList(customers);
                 break;
@@ -1135,84 +1139,6 @@ private void displayCustomersTable(List<User> regularCustomers) {
         } while (choice != 6 && choice != 7);
     }
 
-    // private void manageWishlistMenu() {
-    //     if (!(currentUser instanceof Customer)) {
-    //         System.out.println("Access denied. Customer privileges required.");
-    //         return;
-    //     }
-
-    //     Customer customer = (Customer) currentUser;
-    //     System.out.println(customer.getWishlist().displayWishlist());
-
-    //     Scanner scanner = MenuUtils.getScanner();
-    //     System.out.println("\n===========================================");
-    //     System.out.println("|         What would you like to do?      |");
-    //     System.out.println("===========================================");
-    //     System.out.println("| 1. Move an item to cart                |");
-    //     System.out.println("| 2. Remove an item from wishlist         |");
-    //     System.out.println("| 3. Return to previous menu             |");
-    //     System.out.println("===========================================");
-    //     System.out.print("Please select an option (1-3): ");
-
-
-    //     int choice = MenuUtils.validateDigit(1, 3);
-        
-    //     if (choice == 3) {
-    //         return;
-    //     }
-
-    //     List<Product> items = customer.getWishlist().getItems();
-        
-    //     if (items.isEmpty()) {
-    //         System.out.println("Your wishlist is empty.");
-    //         return;
-    //     }
-        
-    //     System.out.print("Enter the item number: ");
-    //     int itemNum = 0;
-    //     try {
-    //         itemNum = Integer.parseInt(scanner.nextLine().trim());
-    //     } catch (NumberFormatException e) {
-    //         System.out.println("Invalid input. Please enter a number.");
-    //         return;
-    //     }
-        
-    //     if (itemNum < 1 || itemNum > items.size()) {
-    //         System.out.println("Invalid item number.");
-    //         return;
-    //     }
-        
-    //     Product selectedProduct = items.get(itemNum - 1);
-        
-    //     if (choice == 1) {
-    //         // Move to cart
-    //         System.out.print("Enter quantity: ");
-    //         int quantity = 0;
-    //         try {
-    //             quantity = Integer.parseInt(scanner.nextLine().trim());
-                
-    //             // Add this check
-    //             if (quantity <= 0) {
-    //                 System.out.println("Quantity must be greater than 0.");
-    //                 return;
-    //             }
-                
-    //         } catch (NumberFormatException e) {
-    //             System.out.println("Invalid input. Please enter a number.");
-    //             return;
-    //         }
-            
-    //         if (UserMenu.getCurrentUser() != null && UserMenu.getCurrentUser() instanceof Customer) {
-    //             customer.getCart().addItem(selectedProduct, quantity);
-    //             // Optionally remove from wishlist after adding to cart
-    //             items.remove(itemNum - 1);
-    //             System.out.println(selectedProduct.getProdName() + " moved from wishlist to cart.");
-    //         }
-    //     } else if (choice == 2) {
-    //         // Remove from wishlist
-    //         customer.getWishlist().removeItem();
-    //     }
-    // }
 
     public void displayWishlistItem(int index) {
         List<Product> items = ((Customer) currentUser).getWishlist().getItems();
@@ -1356,9 +1282,34 @@ private void displayCustomersTable(List<User> regularCustomers) {
             case 2:
                 // Remove item
                 displayCart(cart);
-                System.out.print("Enter item index to remove: ");
+                System.out.print("Enter item index to remove/reduce: ");
                 int removeIndex = MenuUtils.validateDigit(1, cart.getItems().size()) - 1;
-                cart.removeItem(removeIndex);
+                CartItem itemToModify = cart.getItems().get(removeIndex);
+                int currentQuantity = itemToModify.getQuantity();
+
+                if (currentQuantity == 1) {
+                    System.out.println("You only have 1 item. Remove completely? (Y/N)");
+                    if (scanner.nextLine().trim().toUpperCase().equals("Y")) {
+                        cart.removeItem(removeIndex);
+                        System.out.println("Item removed from cart.");
+                    }
+                } else {
+                    // Ask how many to remove
+                    System.out.println("Current quantity: " + currentQuantity);
+                    System.out.println("How many would you like to remove?");
+                    int removeQuantity = MenuUtils.validateDigit(1, currentQuantity);
+                    
+                    if (removeQuantity == currentQuantity) {
+                        // Remove completely if all units are being removed
+                        cart.removeItem(removeIndex);
+                        System.out.println("Item removed from cart.");
+                    } else {
+                        // Update with reduced quantity
+                        int updatedQuantity = currentQuantity - removeQuantity;
+                        cart.updateItemQuantity(removeIndex, updatedQuantity);
+                        System.out.println("Quantity updated to: " + updatedQuantity);
+                    }
+                }
                 break;
 
             case 3:
@@ -1656,7 +1607,7 @@ private void displayCustomersTable(List<User> regularCustomers) {
                 // Create order
                 Order order = new Order(
                         orderId,
-                        customer.getUserID(),
+                        customer,
                         new ArrayList<>(cart.getItems()),
                         cart.getTotalAmount(),
                         shippingAddress,
@@ -1681,21 +1632,17 @@ private void displayCustomersTable(List<User> regularCustomers) {
                 JsonDataHandler.saveOrdersList(orders);
     
                 // Update product stock
-                List<Product> allProducts = JsonDataHandler.getProductsList();
-                for (CartItem item : cart.getItems()) {
-                    String productId = item.getProduct().getProdID();
+            List<Product> allProducts = JsonDataHandler.getProductsList();
+            for (CartItem item : cart.getItems()) {
+                Product product = item.getProduct();
+                int newStock = product.getStock() - item.getQuantity();
+                product.setStock(newStock);
+                allProducts.add(product); // Update only the ordered products
+            }
 
-                    // Find the product in the full product list
-                    for (Product p : allProducts) {
-                        if (p.getProdID().equals(productId)) {
-                            p.setStock(p.getStock() - item.getQuantity());
-                            break;
-                        }
-                    }    
-                }
-                // Save updated product data
-                JsonDataHandler.saveProductsList(allProducts);
-    
+            // Save updated product data
+            JsonDataHandler.saveProductsList(allProducts);
+
                 // Clear the cart
                 cart.clearCart();
                 JsonDataHandler.saveCustomersList(customers);
@@ -1754,29 +1701,212 @@ private void displayCustomersTable(List<User> regularCustomers) {
     }
 
     private void displayOrderDetails(Order order) {
-        System.out.println("\n=====================================");
-        System.out.println("|          Order Details            |");
-        System.out.println("=====================================");
-        System.out.println("| Order ID: " + order.getOrderId());
-        System.out.println("| Order Date: " + order.getFormattedOrderDate());
-        System.out.println("| Total Amount: $" + String.format("%.2f", order.getTotalAmount()));
-        System.out.println("| Shipping Address: " + order.getShippingAddress());
-
-        Payment payment = payments.stream()
-                .filter(p -> p.getOrderId().equals(order.getOrderId()))
-                .findFirst()
-                .orElse(null);
-        if (payment != null) {
-            System.out.println("| Payment Method: " + payment.getPaymentMethod());
-            System.out.println("| Payment Status: " + payment.getPaymentStatus());
-        } else {
-            System.out.println("| Payment Method: N/A");
-            System.out.println("| Payment Status: N/A");
+        try {
+            // Check if refund window has expired and update status if needed
+            boolean refundAvailable = order.getRemainingRefundTime() > 0;
+            if (!refundAvailable && order.getStatus() == Order.OrderStatus.PENDING) {
+                // Update order status to PAID if refund window expires
+                order.setStatus(Order.OrderStatus.PAID);
+                
+                // Update the order in the orders list
+                for (int i = 0; i < orders.size(); i++) {
+                    if (orders.get(i).getOrderId().equals(order.getOrderId())) {
+                        orders.set(i, order);
+                        break;
+                    }
+                }
+                
+                // Save changes to JSON
+                JsonDataHandler.saveOrdersList(orders);
+                
+                // Update the customer's order history if applicable
+                if (currentUser instanceof Customer) {
+                    Customer customer = (Customer) currentUser;
+                    List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customer.getUserID());
+                    customer.setOrderHistory(updatedOrderHistory);
+                    JsonDataHandler.saveCustomersList(customers);
+                }
+                
+                System.out.println("Refund window has expired. Order status updated to PAID.");
+            }
+    
+            // Initial display of order details
+            System.out.println("\n=====================================");
+            System.out.println("|          Order Details            |");
+            System.out.println("=====================================");
+            System.out.println("| Order ID: " + order.getOrderId());
+            System.out.println("| Order Date: " + order.getFormattedOrderDate());
+            System.out.println("| Total Amount: $" + String.format("%.2f", order.getTotalAmount()));
+            System.out.println("| Shipping Address: " + order.getShippingAddress());
+    
+            Payment payment = payments.stream()
+                    .filter(p -> p.getOrderId().equals(order.getOrderId()))
+                    .findFirst()
+                    .orElse(null);
+            if (payment != null) {
+                System.out.println("| Payment Method: " + payment.getPaymentMethod());
+                System.out.println("| Payment Status: " + payment.getPaymentStatus());
+            } else {
+                System.out.println("| Payment Method: N/A");
+                System.out.println("| Payment Status: N/A");
+            }
+            System.out.println("| Order Status: " + order.getStatus());
+    
+            // Simple status display without countdown timers
+            if (order.getStatus() == Order.OrderStatus.PENDING) {
+                System.out.println("| Status will update to PROCESSING soon.");
+            }
+    
+            // Simple refund window display
+            if (refundAvailable &&
+                (order.getStatus() == Order.OrderStatus.PENDING || order.getStatus() == Order.OrderStatus.DELIVERED) &&
+                order.getStatus() != Order.OrderStatus.REFUND_REQUESTED &&
+                order.getStatus() != Order.OrderStatus.REFUNDED) {
+                System.out.println("| Refund available: Yes");
+            } else {
+                System.out.println("| Refund available: No");
+            }
+            System.out.println("=====================================");
+    
+            // Display ordered items with relevant details only
+            System.out.println("\n--- Ordered Items ---");
+            System.out.printf("%-30s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
+            System.out.println("------------------------------------------------------");
+    
+            for (CartItem item : order.getItems()) {
+                Product product = item.getProduct();
+                System.out.printf("%-30s $%-9.2f %-10d $%-9.2f\n",
+                        product.getProdName(),
+                        product.getSellingPrice(),
+                        item.getQuantity(),
+                        item.getSubtotal());
+            }
+    
+            System.out.println("------------------------------------------------------");
+            System.out.printf("Total: $%.2f\n", order.getTotalAmount());
+    
+            // Show different options based on order status (without timer)
+            if (order.getStatus() == Order.OrderStatus.DELIVERED) {
+                System.out.println("\n1. Finalize Order (Confirm Receipt)");
+                System.out.println("2. Request Refund");
+                System.out.println("0. Back");
+                System.out.print("\nEnter your choice (0-2): ");
+                
+                int choice = MenuUtils.validateDigit(0, 2);
+                if (choice == 1) {
+                    finalizeOrder(order);
+                } else if (choice == 2) {
+                    requestRefund(order, payment);
+                }
+            } else if ((order.getStatus() == Order.OrderStatus.PENDING || 
+                    order.getStatus() == Order.OrderStatus.DELIVERED) &&
+                    refundAvailable &&
+                    order.getStatus() != Order.OrderStatus.REFUND_REQUESTED &&
+                    order.getStatus() != Order.OrderStatus.REFUNDED) {
+                System.out.println("\n1. Request Refund");
+                System.out.println("0. Back");
+                System.out.print("\nEnter your choice (0-1): ");
+                
+                int choice = MenuUtils.validateDigit(0, 1);
+                if (choice == 1) {
+                    requestRefund(order, payment);
+                }
+            } else {
+                System.out.println("\nPress Enter to go back...");
+                scanner.nextLine();
+            }
+        } finally {
+            // No threads to clean up anymore
         }
-        System.out.println("| Order Status: " + order.getStatus());
-        System.out.println("=====================================");
+    }
 
-        System.out.println("===================================================");
+    private void requestRefund(Order order, Payment payment) {
+        System.out.println("\n=====================================");
+        System.out.println("|          Request Refund           |");
+        System.out.println("=====================================");
+        long remainingRefundTime = order.getRemainingRefundTime();
+        
+        // Check if refund is allowed based on status and time
+        if ((order.getStatus() == Order.OrderStatus.PENDING && remainingRefundTime <= 0) || 
+            (order.getStatus() != Order.OrderStatus.DELIVERED && 
+             order.getStatus() != Order.OrderStatus.PENDING)) {
+            System.out.println("Sorry, refund is only available for PENDING orders within the refund window");
+            System.out.println("or for DELIVERED orders.");
+            System.out.println("\nPress Enter to continue...");
+            scanner.nextLine();
+            return;
+        }
+    
+        System.out.println("Are you sure you want to request a refund? (Y/N)");
+    
+        String choice = scanner.nextLine().trim().toUpperCase();
+    
+        if (choice.equals("Y")) {
+            // Update order status to REFUND_REQUESTED instead of CANCELLED
+            order.updateStatus(Order.OrderStatus.REFUND_REQUESTED); // Use updateStatus to ensure lastUpdated is set
+    
+            // Update payment status to REFUNDED
+            if (payment != null) {
+                payment.setPaymentStatus(Payment.PaymentStatus.REFUNDED);
+            }
+    
+            // Find and update the order in the global orders list
+            for (int i = 0; i < orders.size(); i++) {
+                if (orders.get(i).getOrderId().equals(order.getOrderId())) {
+                    orders.set(i, order);
+                    break;
+                }
+            }
+    
+            // Save changes
+            JsonDataHandler.saveOrdersList(orders);
+            JsonDataHandler.savePaymentsList(payments);
+    
+            // Update the customer's order history to reflect the change
+            if (currentUser instanceof Customer) {
+                Customer customer = (Customer) currentUser;
+    
+                // Get fresh order history from the database
+                List<Order> updatedOrderHistory = JsonDataHandler.getOrderHistory(customer.getUserID());
+                customer.setOrderHistory(updatedOrderHistory);
+    
+                // Save the updated customer information
+                JsonDataHandler.saveCustomersList(customers);
+            }
+    
+            System.out.println("Refund requested successfully. Your order status is now REFUND_REQUESTED.");
+            System.out.println("The refund will be processed within 3-5 business days.");
+        } else {
+            System.out.println("Refund request cancelled.");
+        }
+    
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
+// Add a new method to handle finalizing an order
+private void finalizeOrder(Order order) {
+    System.out.println("\n=====================================");
+    System.out.println("|          Finalize Order           |");
+    System.out.println("=====================================");
+
+    System.out.println("Are you sure you want to finalize this order? (Y/N)");
+    System.out.println("This confirms you have received all items in good condition.");
+
+    String choice = scanner.nextLine().trim().toUpperCase();
+
+    if (choice.equals("Y")) {
+        // Update order status to COMPLETED
+        order.setStatus(Order.OrderStatus.COMPLETED);
+
+        // Save changes
+        JsonDataHandler.saveOrdersList(orders);
+
+        System.out.println("Order has been finalized successfully!");
+        System.out.println("Thank you for shopping with GSports!");
+    } else {
+        System.out.println("Order finalization cancelled.");
+    }
 
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();

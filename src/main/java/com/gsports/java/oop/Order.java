@@ -2,11 +2,13 @@ package com.gsports.java.oop;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gsports.java.oop.Order.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class Order {
@@ -24,7 +26,7 @@ public class Order {
     }
     
     private String orderId;
-    private String customerId;
+    private Customer customer;
     private ArrayList<CartItem> items;
     private LocalDateTime orderDate;
     private double totalAmount;      // Total Amount before tax
@@ -48,10 +50,10 @@ public class Order {
         this.lastUpdated = LocalDateTime.now();
     }
 
-    public Order(String orderId, String customerId, List<CartItem> items, double totalAmount, 
+    public Order(String orderId, Customer customer, List<CartItem> items, double totalAmount, 
                 String shippingAddress, Payment payment) {
-                    this.orderId = orderId;
-                    this.customerId = customerId;
+                    this.orderId = orderId;;
+                    this.customer = customer;
                     this.items = new ArrayList<>(items);
                     this.orderDate = LocalDateTime.now();
                     this.totalAmount = totalAmount;
@@ -72,12 +74,12 @@ public class Order {
         this.orderId = orderId;
     }
     
-    public String getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return this.customer;
     }
     
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomerId(Customer customer) {
+        this.customer = customer;
     }
     
     public List<CartItem> getItems() {
@@ -210,37 +212,17 @@ public class Order {
     }
     
     /**
-     * Gets the remaining time in seconds for the refund window
-     * @return Remaining time in seconds, or 0 if refund window has expired
+     * Check if the order is within the refund window (15 minutes)
+     * @return positive number if refund is available, 0 or negative if not
      */
     public long getRemainingRefundTime() {
-        // For PENDING orders, refund window is DEFAULT_REFUND_WINDOW_MINUTES from order creation
-        if (status == OrderStatus.PENDING) {
-            LocalDateTime refundWindowEnd = orderDate.plusMinutes(DEFAULT_REFUND_WINDOW_MINUTES);
-            LocalDateTime now = LocalDateTime.now();
-            
-            if (now.isAfter(refundWindowEnd)) {
-                return 0;
-            }
-            
-            return java.time.Duration.between(now, refundWindowEnd).getSeconds();
-        } 
-        // For DELIVERED orders, allow refund for 7 days
-        else if (status == OrderStatus.DELIVERED) {
-            // Find when the order was marked as delivered
-            LocalDateTime deliveredTime = lastUpdated; // Assuming lastUpdated was set when status changed to DELIVERED
-            LocalDateTime refundWindowEnd = deliveredTime.plusDays(7);
-            LocalDateTime now = LocalDateTime.now();
-            
-            if (now.isAfter(refundWindowEnd)) {
-                return 0;
-            }
-            
-            return java.time.Duration.between(now, refundWindowEnd).getSeconds();
-        }
+        // Calculate time difference in seconds
+        LocalDateTime now = LocalDateTime.now();
+        long secondsElapsed = ChronoUnit.SECONDS.between(orderDate, now);
+        long refundWindowSeconds = 15 * 60; // 15 minutes
         
-        // For other statuses, no refund window
-        return 0;
+        // Return remaining seconds, or negative if expired
+        return refundWindowSeconds - secondsElapsed;
     }
     
     @JsonIgnore

@@ -22,12 +22,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * @author jw
  */
 public abstract class Product {
-    private String prodID;
-    private String prodName;
-    private String prodDesc;
-    private double unitPrice;
-    private double sellingPrice;
-    private int stock;
+    protected String prodID;
+    protected String prodName;
+    protected String prodDesc;
+    protected double unitPrice;
+    protected double sellingPrice;
+    protected int stock;
 
     
     public Product() {

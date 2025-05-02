@@ -143,6 +143,20 @@ public class Cart {
         if (index >= 0 && index < items.size()) {
             CartItem item = items.get(index);
             item.setQuantity(newQuantity);
+            if (newQuantity <= 0) {
+                String prodName = item.getProduct().getProdName();
+                items.remove(index);
+                recalculateTotal();
+                System.out.println(prodName + " has been removed from your cart.");
+                return;
+            }
+
+            if (item.getProduct().getStock() < newQuantity) {
+                System.out.println("Sorry, we only have " + item.getProduct().getStock() + " of this item in stock.");
+                return;
+            }
+
+            item.setQuantity(newQuantity);
             recalculateTotal();
             System.out.println("Quantity updated successfully.");
         } else {
