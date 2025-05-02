@@ -26,7 +26,7 @@ public class Order {
     private double totalAmount;      // Total Amount before tax
     private double taxAmount;     // Tax amount
     private double finalAmount;      // Paid amount including tax
-    private static double taxRate = 0.06; // Default tax rate (6%)
+    public static final double TAX_RATE = 0.06; // Default tax rate (6%)
 
     @JsonBackReference("payment-order")
     private Payment payment;
@@ -48,7 +48,7 @@ public class Order {
                     this.items = new ArrayList<>(items);
                     this.orderDate = LocalDateTime.now();
                     this.totalAmount = totalAmount;
-                    this.taxAmount = totalAmount * taxRate;
+                    this.taxAmount = totalAmount * TAX_RATE;
                     this.finalAmount = totalAmount + taxAmount;
                     this.shippingAddress = shippingAddress;
                     this.payment = payment;     

@@ -83,7 +83,7 @@ public class MenuUtils {
             }
         } catch (Exception e) {
             // Fallback: print many new lines to "clear" screen
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 50; i++) {
                 System.out.println();
             }
             System.out.println("Screen cleared");

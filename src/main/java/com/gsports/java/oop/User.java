@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = UserDeserializer.class)
 
 public abstract class User {
-    private String userID;
-    private String username;
-    private String email;
-    private String password;
+    protected String userID;
+    protected String username;
+    protected String email;
+    protected String password;
 
     public User() {}
 

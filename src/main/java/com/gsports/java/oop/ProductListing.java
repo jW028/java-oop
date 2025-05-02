@@ -1,9 +1,9 @@
 package com.gsports.java.oop;
 
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class ProductListing {
     private List<Product> products;
@@ -42,7 +42,7 @@ public class ProductListing {
     }
 
     public List<Product> sortProductsByCategory() {
-        List<Product> sortedProducts = new ArrayList<>();
+        List<Product> sortedProducts = new ArrayList<>(products);
 
         sortedProducts.sort((p1, p2) -> {
             Map<String, Integer> categoryOrder = Map.of(

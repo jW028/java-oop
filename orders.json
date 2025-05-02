@@ -91,5 +91,36 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PENDING",
     "lastUpdated" : "2025-05-01T23:39:55.167928"
+  },
+  "ORD-20D35616" : {
+    "orderId" : "ORD-20D35616",
+    "customerId" : "CUST-3122FC4D",
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P004",
+          "prodName" : "Razer Blade 16",
+          "prodDesc" : "Slim yet powerful gaming laptop",
+          "unitPrice" : 5999.99,
+          "sellingPrice" : 6999.99,
+          "stock" : 15,
+          "processor" : "Intel i9-13950HX",
+          "graphicsCard" : "NVIDIA GeForce RTX 4080",
+          "ramGB" : 32,
+          "storageGB" : 1024,
+          "displaySize" : "16",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 6999.99
+    } ],
+    "orderDate" : "2025-05-02T07:53:56.442624",
+    "totalAmount" : 6999.99,
+    "taxAmount" : 419.9994,
+    "finalAmount" : 7419.9893999999995,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T07:53:56.442672"
   }
 }
