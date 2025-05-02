@@ -302,12 +302,12 @@ public class JsonDataHandler {
         return new ArrayList<>(loadOrders().values());
     }
 
-public static List<Order> getOrderHistory(String customerId) {
+public static List<Order> getOrderHistory(Customer customer) {
     List<Order> allOrders = getOrdersList();
     
     // Filter orders by customerId
     return allOrders.stream()
-            .filter(order -> order.getCustomerId().equals(customerId))
+            .filter(order -> order.getCustomer().getUserID().equals(customer.getUserID()))
             .collect(Collectors.toList());
 }
 

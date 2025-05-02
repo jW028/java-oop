@@ -1,6 +1,5 @@
 package com.gsports.java.oop;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -104,7 +103,6 @@ public class Payment {
         } else {
             // Invalid OTP
             this.paymentStatus = PaymentStatus.FAILED_INVALID_OTP;
-            System.out.println("Invalid OTP. Payment failed.");
             return false;
         }
     }

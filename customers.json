@@ -22,17 +22,68 @@
     "username" : "test",
     "email" : "test@gmail.com",
     "password" : "Abcd1234$",
-    "address" : "Skibidi ohio sigma",
+    "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "items" : [ ],
-      "totalAmount" : 0.0,
-      "empty" : true
+      "items" : [ {
+        "product" : {
+          "Mouse" : {
+            "prodID" : "P016",
+            "prodName" : "Logitech MX Master 3S",
+            "prodDesc" : "Advanced productivity mouse with ergonomic design",
+            "unitPrice" : 499.0,
+            "sellingPrice" : 549.0,
+            "stock" : 12,
+            "dpi" : 8000,
+            "numButtons" : 7,
+            "connectivity" : "Bluetooth & USB Receiver",
+            "color" : "Graphite",
+            "wireless" : true
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 549.0
+      }, {
+        "product" : {
+          "Mouse" : {
+            "prodID" : "P015",
+            "prodName" : "SteelSeries Aerox 3 Wireless",
+            "prodDesc" : "Ultra-light wireless gaming mouse with AquaBarrier™ protection",
+            "unitPrice" : 379.0,
+            "sellingPrice" : 429.0,
+            "stock" : 6,
+            "dpi" : 18000,
+            "numButtons" : 6,
+            "connectivity" : "2.4GHz Wireless & Bluetooth",
+            "color" : "White",
+            "wireless" : true
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 429.0
+      } ],
+      "totalAmount" : 978.0,
+      "empty" : false
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",
-      "items" : [ ]
+      "items" : [ {
+        "Laptop" : {
+          "prodID" : "P005",
+          "prodName" : "Alienware x17 R2",
+          "prodDesc" : "Next-gen gaming performance",
+          "unitPrice" : 6699.0,
+          "sellingPrice" : 7699.0,
+          "stock" : 3,
+          "processor" : "Intel i9-12900HK",
+          "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+          "ramGB" : 32,
+          "storageGB" : 2000,
+          "displaySize" : "17.3",
+          "operatingSystem" : "Windows"
+        }
+      } ]
     }
   },
   "CUST-611810DA" : {

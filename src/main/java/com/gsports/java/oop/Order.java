@@ -25,13 +25,13 @@ public class Order {
     }
     
     private String orderId;
-    private String customerId;
+    private Customer customer;
     private ArrayList<CartItem> items;
     private LocalDateTime orderDate;
     private double totalAmount;      // Total Amount before tax
     private double taxAmount;     // Tax amount
     private double finalAmount;      // Paid amount including tax
-    private static double TAX_RATE = 0.06; // Default tax rate (6%)
+    public static double TAX_RATE = 0.06; // Default tax rate (6%)
 
     @JsonBackReference("payment-order")
     private Payment payment;
@@ -49,10 +49,10 @@ public class Order {
         this.lastUpdated = LocalDateTime.now();
     }
 
-    public Order(String orderId, String customerId, List<CartItem> items, double totalAmount, 
+    public Order(String orderId, Customer customer, List<CartItem> items, double totalAmount, 
                 String shippingAddress, Payment payment) {
                     this.orderId = orderId;
-                    this.customerId = customerId;
+                    this.customer = customer;
                     this.items = new ArrayList<>(items);
                     this.orderDate = LocalDateTime.now();
                     this.totalAmount = totalAmount;
@@ -73,12 +73,12 @@ public class Order {
         this.orderId = orderId;
     }
     
-    public String getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return this.customer;
     }
     
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
     public List<CartItem> getItems() {
