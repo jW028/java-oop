@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gsports.java.oop.Order.OrderStatus;
 
 public class Order {
 
@@ -21,7 +21,6 @@ public class Order {
         CANCELLED,
         CANCEL_REQUESTED,
         REFUND_REQUESTED,
-        // REFUND_REQUESTED has been removed
     }
     
     private String orderId;
@@ -291,5 +290,133 @@ public long getRemainingRefundTime() {
     public String getFormattedOrderDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return orderDate.format(formatter);
+    }
+
+    public String generateReceipt() {
+        StringBuilder receipt = new StringBuilder();
+        List<Payment> payments = JsonDataHandler.getPaymentsList();
+        for (Payment payment : payments) {
+            System.out.println("Payment Order ID: " + payment.getOrderId());
+            if (payment.getOrderId().equals(this.orderId)) {
+                this.payment = payment;
+                break;
+            }
+        }
+
+        // Receipt header with company logo
+        receipt.append("\n┌─────────────────────────────────────────────────────────────────┐\n");
+        receipt.append("│                          G S P O R T S                          │\n");
+        receipt.append("│                   Premium Electronics Retailer                  │\n");
+        receipt.append("├─────────────────────────────────────────────────────────────────┤\n");
+
+        // Order information
+        receipt.append(String.format("│ Order ID : %-52s │\n", this.orderId));
+        receipt.append(String.format("│ Date     : %-52s │\n", getFormattedOrderDate()));
+        receipt.append(String.format("│ Customer : %-52s │\n", this.customer.getUsername()));
+        receipt.append("├─────────────────────────────────────────────────────────────────┤\n");
+
+        // Shipping address
+        String formattedAddress = formatMultilineField(this.shippingAddress, 63);
+        receipt.append("│ Shipping Address:                                               │\n");
+        receipt.append(formattedAddress);
+        receipt.append("├─────────────────────────────────────────────────────────────────┤\n");
+
+        // Items table header
+        receipt.append("│                              ITEMS                              │\n");
+        receipt.append("├────┬───────────────────────────────┬─────────────┬──────────────┤\n");
+        receipt.append(String.format("│ %-2s │ %-29s │ %-11s │ %-12s │\n",
+                "#", "Description", "Price", "Subtotal"));
+        receipt.append("├────┼───────────────────────────────┼─────────────┼──────────────┤\n");
+
+        // Items
+        int itemNum = 1;
+        for (CartItem item : this.items) {
+            String productName = item.getProduct().getProdName();
+            if (productName.length() > 27) {
+                productName = productName.substring(0, 24) + "...";
+            }
+
+            receipt.append(String.format("│ %-2d │ %-29s │ RM%-9.2f │ RM%-10.2f │\n",
+                    itemNum++,
+                    productName,
+                    item.getProduct().getSellingPrice(),
+                    item.getSubtotal()));
+
+            // If there are multiple quantities, show it on the line below
+            if (item.getQuantity() > 1) {
+                receipt.append(String.format("│    │   x%-26d │             │              │\n",
+                        item.getQuantity()));
+            }
+        }
+
+        // Order summary
+        receipt.append("├────┴───────────────────────────────┴─────────────┼──────────────┤\n");
+        receipt.append(String.format("│ %48s │ RM%-10.2f │\n", "Subtotal:", this.totalAmount));
+        receipt.append(String.format("│ %48s │ RM%-10.2f │\n", "Tax (" + (TAX_RATE * 100) + "%):", this.taxAmount));
+        receipt.append("├──────────────────────────────────────────────────┼──────────────┤\n");
+        receipt.append(String.format("│ %48s │ RM%-10.2f │\n", "TOTAL:", this.finalAmount));
+        receipt.append("└──────────────────────────────────────────────────┴──────────────┘\n");
+
+        // Payment information
+        receipt.append("\n┌─────────────────────────────────────────────────────────────────┐\n");
+        receipt.append("│                      PAYMENT INFORMATION                        │\n");
+        receipt.append("├─────────────────────────────────────────────────────────────────┤\n");
+
+        if (this.payment != null) {
+            receipt.append(String.format("│ Method  : %-53s │\n", this.payment.getPaymentMethod()));
+            receipt.append(String.format("│ Status  : %-53s │\n", this.payment.getPaymentStatus()));
+            receipt.append(String.format("│ Date    : %-53s │\n", this.payment.getFormattedPaymentDate()));
+
+            // Add transaction ID if available
+            if (this.payment.getTransactionId() != null && !this.payment.getTransactionId().isEmpty()) {
+                receipt.append(String.format("│ Transaction ID: %-47s │\n", this.payment.getTransactionId()));
+            }
+        } else {
+            receipt.append("│ No payment information available                               │\n");
+        }
+        receipt.append("└─────────────────────────────────────────────────────────────────┘\n");
+
+        // Return policy and customer support
+        receipt.append("\n┌─────────────────────────────────────────────────────────────────┐\n");
+        receipt.append("│                    RETURN & SUPPORT POLICY                      │\n");
+        receipt.append("├─────────────────────────────────────────────────────────────────┤\n");
+        receipt.append("│ • Items may be returned within 30 days with receipt             │\n");
+        receipt.append("│ • For support, contact us at support@gsports.com.my             │\n");
+        receipt.append("│ • Call our hotline: +60 3-1234 5678                             │\n");
+        receipt.append("└─────────────────────────────────────────────────────────────────┘\n");
+
+        // Footer
+        receipt.append("\n                Thank you for shopping with GSports!                \n");
+        receipt.append("                      www.gsports.com.my                          \n\n");
+
+        return receipt.toString();
+    }
+
+    private String formatMultilineField(String text, int width) {
+        StringBuilder result = new StringBuilder();
+        if (text == null || text.isEmpty()) {
+            return String.format("│ %-" + width + "s │\n", "");
+        }
+        
+        // Split by newlines first
+        String[] paragraphs = text.split("\n");
+        for (String paragraph : paragraphs) {
+            // Then wrap each paragraph to the width
+            int start = 0;
+            while (start < paragraph.length()) {
+                int end = Math.min(start + width, paragraph.length());
+                if (end < paragraph.length() && end > start + 10) {
+                    // Try to find a space to break at
+                    int breakPoint = paragraph.lastIndexOf(' ', end);
+                    if (breakPoint > start) {
+                        end = breakPoint;
+                    }
+                }
+                result.append(String.format("│ %-" + width + "s │\n", paragraph.substring(start, end)));
+                start = end + (end < paragraph.length() && paragraph.charAt(end) == ' ' ? 1 : 0);
+            }
+        }
+        
+        return result.toString();
     }
 }

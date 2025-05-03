@@ -17,10 +17,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Accessory.class, name = "Accessory")
 })
 
-/**
- *
- * @author jw
- */
 public abstract class Product {
     protected String prodID;
     protected String prodName;
@@ -42,13 +38,24 @@ public abstract class Product {
         this.stock = stock;
     }
 
+    @JsonIgnore
+    protected abstract String getProductType();
+
     // Getters and Setters
     public String getProdID() {
         return prodID;
     }
 
+    public void setProdID(String prodID) {
+        this.prodID = prodID;
+    }
+
     public String getProdName() {
         return prodName;
+    }
+
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
     }
 
     public String getProdDesc() {
@@ -65,10 +72,6 @@ public abstract class Product {
 
     public int getStock() {
         return stock;
-    }
-
-    public void setProdID(String prodID) {
-        this.prodID = prodID;
     }
 
     public void setUnitPrice(double unitPrice) {
@@ -92,9 +95,7 @@ public abstract class Product {
         this.prodDesc = prodDesc;
     }
 
-    public void setProdName(String prodName) {
-        this.prodName = prodName;
-    }
+    
 
     public static class Utils {
         public static String wrapText(String text, int maxLineLength) {
@@ -143,26 +144,7 @@ public abstract class Product {
 
         return details.toString();
 
-        // // Return the formatted product details
-        // return String.format("""
-        //                     │ Product ID: %-35s │
-        //                     │ Product Name: %-33s │
-        //                     │                                                 │
-        //                     │ Product Description:                            │
-        //                     %s
-        //                     │                                                 │
-        //                     │ Unit Price: $%-34.2f │
-        //                     │ Selling Price: $%-31.2f │
-        //                     │ Stock: %-40d │""",
-        //     this.prodID,
-        //     this.prodName,
-        //     descriptionBuilder.toString().trim(), // Add the formatted description
-        //     this.unitPrice,
-        //     this.sellingPrice,
-        //     this.stock
-        // );
     }
 
-    @JsonIgnore
-    public abstract String getProductType();
+    
 }

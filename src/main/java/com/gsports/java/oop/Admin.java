@@ -41,15 +41,7 @@ public class Admin extends User{
     private String generateAdminID() {
         return "A" + String.format("%03d", ++Admin.adminCount);
     }
-
-    /**
-     * Generates a detailed sales revenue report
-     * @param orders List of all orders in the system
-     * @param products List of all products in the system
-     * @param startDate Optional start date for report period (null for all-time)
-     * @param endDate Optional end date for report period (null for up to current date)
-     * @return Formatted sales report as String
-     */
+    
     public String generateSalesReport(List<Order> orders, List<Product> products, 
                                 LocalDateTime startDate, LocalDateTime endDate) {
         StringBuilder report = new StringBuilder();

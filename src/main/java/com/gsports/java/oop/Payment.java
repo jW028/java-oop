@@ -29,7 +29,7 @@ public class Payment {
     };
 
     private String paymentId;
-    private String orderId;
+    private String orderId; // This is needed only for file saving purposes
     private double amount;
     private PaymentMethod paymentMethod;
     private LocalDateTime paymentDate;
@@ -95,9 +95,6 @@ public class Payment {
     public boolean verifyAndCompletePayment(String userProvidedOTP) {
         if (verifyOTP(userProvidedOTP)) {
             this.paymentStatus = PaymentStatus.COMPLETED;
-            
-            String receipt = generateReceipt();
-            System.out.println(receipt);
 
             return true;
         } else {
@@ -132,24 +129,6 @@ public class Payment {
 
     private boolean verifyOTP(String input) {
         return input.equals(this.otp);
-    }
-
-    public String generateReceipt() {
-        StringBuilder receipt = new StringBuilder();
-        receipt.append("\n========== THANK YOU FOR YOUR PURCHASE ==========\n");
-        receipt.append(String.format("│ Receipt #: %-34s │\n", paymentId));
-        receipt.append(String.format("│ Transaction ID: %-29s │\n", transactionId));
-        receipt.append(String.format("│ Amount Paid: RM%-30.2f │\n", amount));
-        receipt.append(String.format("│ Payment Method: %-29s │\n", paymentMethod));
-        receipt.append(String.format("│ Payment Date: %-31s │\n", paymentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))));
-        receipt.append(String.format("│ Payment Status: %-29s │\n", paymentStatus.toString()));
-        receipt.append(String.format("│ Customer: %-35s │\n", user.getUsername()));
-        receipt.append("=================================================\n");
-        receipt.append("│     Thank you for shopping with GSports!      │\n");
-        receipt.append("│           We hope to see you soon~            │\n");
-        receipt.append("=================================================\n");
-
-        return receipt.toString();
     }
 
 

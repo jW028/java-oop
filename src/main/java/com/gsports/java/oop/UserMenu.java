@@ -1842,7 +1842,7 @@ public class UserMenu {
         // Process payment
         Payment payment = new Payment(
                 orderId,
-                cart.getTotalAmount(),
+                total,
                 paymentMethod,
                 currentUser
         );
@@ -1883,6 +1883,8 @@ public class UserMenu {
                         payment
                 );
 
+                displayOrderReceipt(order);
+
                 // Set order status to PENDING
                 order.setStatus(Order.OrderStatus.PENDING);
 
@@ -1920,6 +1922,37 @@ public class UserMenu {
                 System.out.println("\nOrder placed successfully!");
             } else {
                 System.out.println("\nOrder was not completed due to payment failure.");
+            }
+        }
+    }
+
+    public void displayOrderReceipt(Order order) {
+        System.out.println(order.generateReceipt());
+        
+        System.out.println("Would you like to save this receipt to a file? (Y/N)");
+        String saveChoice = scanner.nextLine().trim().toUpperCase();
+        
+        if (saveChoice.equals("Y")) {
+            try {
+                // Create receipts directory if it doesn't exist
+                File receiptsDir = new File("receipts");
+                if (!receiptsDir.exists()) {
+                    receiptsDir.mkdir();
+                }
+                
+                // Generate filename with timestamp and order ID
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+                String filename = "receipts/receipt_" + order.getOrderId() + "_" + timestamp + ".txt";
+                
+                // Write receipt to file
+                FileWriter writer = new FileWriter(filename);
+                writer.write(order.generateReceipt());
+                writer.close();
+                
+                System.out.println("Receipt saved successfully to " + filename);
+                
+            } catch (IOException e) {
+                System.out.println("Error saving receipt: " + e.getMessage());
             }
         }
     }

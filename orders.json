@@ -67,8 +67,8 @@
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   },
-  "ORD-852504FD" : {
-    "orderId" : "ORD-852504FD",
+  "ORD-A480509A" : {
+    "orderId" : "ORD-A480509A",
     "customer" : {
       "userID" : "CUST-3122FC4D",
       "username" : "test",
@@ -80,23 +80,24 @@
         "cartId" : "CART-b2a26930",
         "items" : [ {
           "product" : {
-            "Accessory" : {
-              "prodID" : "P003",
-              "prodName" : "Fast Charger",
-              "prodDesc" : "20W fast charger",
-              "unitPrice" : 39.99,
-              "sellingPrice" : 49.99,
-              "stock" : 50,
-              "compatibleWith" : "All laptops",
-              "type" : "Charger",
-              "material" : "Plastic",
-              "color" : "White"
+            "Mouse" : {
+              "prodID" : "P016",
+              "prodName" : "Logitech MX Master 3S",
+              "prodDesc" : "Advanced productivity mouse with ergonomic design",
+              "unitPrice" : 499.0,
+              "sellingPrice" : 549.0,
+              "stock" : 11,
+              "dpi" : 8000,
+              "numButtons" : 7,
+              "connectivity" : "Bluetooth & USB Receiver",
+              "color" : "Graphite",
+              "wireless" : true
             }
           },
           "quantity" : 1,
-          "subtotal" : 49.99
+          "subtotal" : 549.0
         } ],
-        "totalAmount" : 49.99,
+        "totalAmount" : 549.0,
         "empty" : false
       },
       "wishlist" : {
@@ -116,103 +117,49 @@
             "displaySize" : "17.3",
             "operatingSystem" : "Windows"
           }
+        }, {
+          "Mouse" : {
+            "prodID" : "P016",
+            "prodName" : "Logitech MX Master 3S",
+            "prodDesc" : "Advanced productivity mouse with ergonomic design",
+            "unitPrice" : 499.0,
+            "sellingPrice" : 549.0,
+            "stock" : 11,
+            "dpi" : 8000,
+            "numButtons" : 7,
+            "connectivity" : "Bluetooth & USB Receiver",
+            "color" : "Graphite",
+            "wireless" : true
+          }
         } ]
       }
     },
     "items" : [ {
       "product" : {
-        "Accessory" : {
-          "prodID" : "P003",
-          "prodName" : "Fast Charger",
-          "prodDesc" : "20W fast charger",
-          "unitPrice" : 39.99,
-          "sellingPrice" : 49.99,
-          "stock" : 50,
-          "compatibleWith" : "All laptops",
-          "type" : "Charger",
-          "material" : "Plastic",
-          "color" : "White"
+        "Mouse" : {
+          "prodID" : "P016",
+          "prodName" : "Logitech MX Master 3S",
+          "prodDesc" : "Advanced productivity mouse with ergonomic design",
+          "unitPrice" : 499.0,
+          "sellingPrice" : 549.0,
+          "stock" : 11,
+          "dpi" : 8000,
+          "numButtons" : 7,
+          "connectivity" : "Bluetooth & USB Receiver",
+          "color" : "Graphite",
+          "wireless" : true
         }
       },
       "quantity" : 1,
-      "subtotal" : 49.99
+      "subtotal" : 549.0
     } ],
-    "orderDate" : "2025-05-03T03:09:58.3013957",
-    "totalAmount" : 49.99,
-    "taxAmount" : 2.9994,
-    "finalAmount" : 52.9894,
+    "orderDate" : "2025-05-03T11:10:21.363964",
+    "totalAmount" : 549.0,
+    "taxAmount" : 32.94,
+    "finalAmount" : 581.94,
     "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
     "status" : "PENDING",
-    "lastUpdated" : "2025-05-03T03:09:58.302907",
-    "remainingTimeForStatusUpdate" : 0,
-    "remainingRefundTime" : 0
-  },
-  "ORD-04F97BF7" : {
-    "orderId" : "ORD-04F97BF7",
-    "customer" : {
-      "userID" : "CUST-3122FC4D",
-      "username" : "test",
-      "email" : "test@gmail.com",
-      "password" : "Abcd1234$",
-      "address" : "Skibidi ohio sigma",
-      "phoneNum" : "01231231223",
-      "cart" : {
-        "cartId" : "CART-b2a26930",
-        "items" : [ {
-          "product" : {
-            "Laptop" : {
-              "prodID" : "P005",
-              "prodName" : "Alienware x17 R2",
-              "prodDesc" : "Next-gen gaming performance",
-              "unitPrice" : 6699.0,
-              "sellingPrice" : 7699.0,
-              "stock" : 4,
-              "processor" : "Intel i9-12900HK",
-              "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
-              "ramGB" : 32,
-              "storageGB" : 2000,
-              "displaySize" : "17.3",
-              "operatingSystem" : "Windows"
-            }
-          },
-          "quantity" : 1,
-          "subtotal" : 7699.0
-        } ],
-        "totalAmount" : 7699.0,
-        "empty" : false
-      },
-      "wishlist" : {
-        "wishlistId" : "WISH-0e831708",
-        "items" : [ ]
-      }
-    },
-    "items" : [ {
-      "product" : {
-        "Laptop" : {
-          "prodID" : "P005",
-          "prodName" : "Alienware x17 R2",
-          "prodDesc" : "Next-gen gaming performance",
-          "unitPrice" : 6699.0,
-          "sellingPrice" : 7699.0,
-          "stock" : 4,
-          "processor" : "Intel i9-12900HK",
-          "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
-          "ramGB" : 32,
-          "storageGB" : 2000,
-          "displaySize" : "17.3",
-          "operatingSystem" : "Windows"
-        }
-      },
-      "quantity" : 1,
-      "subtotal" : 7699.0
-    } ],
-    "orderDate" : "2025-05-02T17:15:16.267505",
-    "totalAmount" : 7699.0,
-    "taxAmount" : 461.94,
-    "finalAmount" : 8160.94,
-    "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "CANCELLED",
-    "lastUpdated" : "2025-05-02T17:15:41.044415",
+    "lastUpdated" : "2025-05-03T11:10:21.364084",
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   },
@@ -427,103 +374,6 @@
     "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
     "status" : "PENDING",
     "lastUpdated" : "2025-05-03T02:44:02.7166543",
-    "remainingTimeForStatusUpdate" : 0,
-    "remainingRefundTime" : 0
-  },
-  "ORD-9D932273" : {
-    "orderId" : "ORD-9D932273",
-    "customer" : {
-      "userID" : "CUST-3122FC4D",
-      "username" : "test",
-      "email" : "test@gmail.com",
-      "password" : "Abcd1234$",
-      "address" : "Skibidi ohio sigma",
-      "phoneNum" : "01231231223",
-      "cart" : {
-        "cartId" : "CART-b2a26930",
-        "items" : [ {
-          "product" : {
-            "Mouse" : {
-              "prodID" : "P014",
-              "prodName" : "Razer Basilisk V3",
-              "prodDesc" : "Ergonomic gaming mouse with customizable buttons",
-              "unitPrice" : 279.0,
-              "sellingPrice" : 329.0,
-              "stock" : 14,
-              "dpi" : 26000,
-              "numButtons" : 11,
-              "connectivity" : "Wired USB",
-              "color" : "Black with RGB",
-              "wireless" : false
-            }
-          },
-          "quantity" : 3,
-          "subtotal" : 987.0
-        } ],
-        "totalAmount" : 987.0,
-        "empty" : false
-      },
-      "wishlist" : {
-        "wishlistId" : "WISH-0e831708",
-        "items" : [ {
-          "Laptop" : {
-            "prodID" : "P001",
-            "prodName" : "Asus ROG Strix",
-            "prodDesc" : "High-performance gaming laptop",
-            "unitPrice" : 6299.99,
-            "sellingPrice" : 7199.0,
-            "stock" : 20,
-            "processor" : "Intel i9",
-            "graphicsCard" : "NVIDIA RTX 3060",
-            "ramGB" : 16,
-            "storageGB" : 512,
-            "displaySize" : "15.6 inch",
-            "operatingSystem" : "Windows 11"
-          }
-        }, {
-          "Laptop" : {
-            "prodID" : "P004",
-            "prodName" : "Razer Blade 16",
-            "prodDesc" : "Slim yet powerful gaming laptop",
-            "unitPrice" : 5999.99,
-            "sellingPrice" : 6999.99,
-            "stock" : 15,
-            "processor" : "Intel i9-13950HX",
-            "graphicsCard" : "NVIDIA GeForce RTX 4080",
-            "ramGB" : 32,
-            "storageGB" : 1024,
-            "displaySize" : "16",
-            "operatingSystem" : "Windows"
-          }
-        } ]
-      }
-    },
-    "items" : [ {
-      "product" : {
-        "Mouse" : {
-          "prodID" : "P014",
-          "prodName" : "Razer Basilisk V3",
-          "prodDesc" : "Ergonomic gaming mouse with customizable buttons",
-          "unitPrice" : 279.0,
-          "sellingPrice" : 329.0,
-          "stock" : 14,
-          "dpi" : 26000,
-          "numButtons" : 11,
-          "connectivity" : "Wired USB",
-          "color" : "Black with RGB",
-          "wireless" : false
-        }
-      },
-      "quantity" : 3,
-      "subtotal" : 987.0
-    } ],
-    "orderDate" : "2025-05-02T10:25:52.464246",
-    "totalAmount" : 987.0,
-    "taxAmount" : 59.22,
-    "finalAmount" : 1046.22,
-    "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "PROCESSING",
-    "lastUpdated" : "2025-05-02T16:32:39.352661",
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   },
@@ -763,6 +613,645 @@
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   },
+  "ORD-6CC63578" : {
+    "orderId" : "ORD-6CC63578",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Mouse" : {
+              "prodID" : "P016",
+              "prodName" : "Logitech MX Master 3S",
+              "prodDesc" : "Advanced productivity mouse with ergonomic design",
+              "unitPrice" : 499.0,
+              "sellingPrice" : 549.0,
+              "stock" : 11,
+              "dpi" : 8000,
+              "numButtons" : 7,
+              "connectivity" : "Bluetooth & USB Receiver",
+              "color" : "Graphite",
+              "wireless" : true
+            }
+          },
+          "quantity" : 2,
+          "subtotal" : 1098.0
+        } ],
+        "totalAmount" : 1098.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        }, {
+          "Mouse" : {
+            "prodID" : "P016",
+            "prodName" : "Logitech MX Master 3S",
+            "prodDesc" : "Advanced productivity mouse with ergonomic design",
+            "unitPrice" : 499.0,
+            "sellingPrice" : 549.0,
+            "stock" : 11,
+            "dpi" : 8000,
+            "numButtons" : 7,
+            "connectivity" : "Bluetooth & USB Receiver",
+            "color" : "Graphite",
+            "wireless" : true
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P016",
+          "prodName" : "Logitech MX Master 3S",
+          "prodDesc" : "Advanced productivity mouse with ergonomic design",
+          "unitPrice" : 499.0,
+          "sellingPrice" : 549.0,
+          "stock" : 11,
+          "dpi" : 8000,
+          "numButtons" : 7,
+          "connectivity" : "Bluetooth & USB Receiver",
+          "color" : "Graphite",
+          "wireless" : true
+        }
+      },
+      "quantity" : 2,
+      "subtotal" : 1098.0
+    } ],
+    "orderDate" : "2025-05-03T12:05:25.120018",
+    "totalAmount" : 1098.0,
+    "taxAmount" : 65.88,
+    "finalAmount" : 1163.88,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T12:05:29.256398",
+    "remainingTimeForStatusUpdate" : 899,
+    "remainingRefundTime" : 895
+  },
+  "ORD-0491FC92" : {
+    "orderId" : "ORD-0491FC92",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "Skibidi ohio sigma",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Laptop" : {
+              "prodID" : "P004",
+              "prodName" : "Razer Blade 16",
+              "prodDesc" : "Slim yet powerful gaming laptop",
+              "unitPrice" : 5999.99,
+              "sellingPrice" : 6999.99,
+              "stock" : 12,
+              "processor" : "Intel i9-13950HX",
+              "graphicsCard" : "NVIDIA GeForce RTX 4080",
+              "ramGB" : 32,
+              "storageGB" : 1024,
+              "displaySize" : "16",
+              "operatingSystem" : "Windows"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 6999.99
+        } ],
+        "totalAmount" : 6999.99,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P004",
+          "prodName" : "Razer Blade 16",
+          "prodDesc" : "Slim yet powerful gaming laptop",
+          "unitPrice" : 5999.99,
+          "sellingPrice" : 6999.99,
+          "stock" : 12,
+          "processor" : "Intel i9-13950HX",
+          "graphicsCard" : "NVIDIA GeForce RTX 4080",
+          "ramGB" : 32,
+          "storageGB" : 1024,
+          "displaySize" : "16",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 6999.99
+    } ],
+    "orderDate" : "2025-05-02T21:07:19.576639",
+    "totalAmount" : 6999.99,
+    "taxAmount" : 419.9994,
+    "finalAmount" : 7419.9893999999995,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-02T21:07:19.576701",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-4C7BF941" : {
+    "orderId" : "ORD-4C7BF941",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Accessory" : {
+              "prodID" : "P012",
+              "prodName" : "Lenovo 65W Travel Adapter",
+              "prodDesc" : "Compact charger for Lenovo ThinkPads",
+              "unitPrice" : 149.0,
+              "sellingPrice" : 199.0,
+              "stock" : 15,
+              "compatibleWith" : "Lenovo ThinkPad Series",
+              "type" : "Slim Tip AC Adapter",
+              "material" : "Plastic",
+              "color" : "Black"
+            }
+          },
+          "quantity" : 2,
+          "subtotal" : 398.0
+        } ],
+        "totalAmount" : 398.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        }, {
+          "Mouse" : {
+            "prodID" : "P016",
+            "prodName" : "Logitech MX Master 3S",
+            "prodDesc" : "Advanced productivity mouse with ergonomic design",
+            "unitPrice" : 499.0,
+            "sellingPrice" : 549.0,
+            "stock" : 11,
+            "dpi" : 8000,
+            "numButtons" : 7,
+            "connectivity" : "Bluetooth & USB Receiver",
+            "color" : "Graphite",
+            "wireless" : true
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P012",
+          "prodName" : "Lenovo 65W Travel Adapter",
+          "prodDesc" : "Compact charger for Lenovo ThinkPads",
+          "unitPrice" : 149.0,
+          "sellingPrice" : 199.0,
+          "stock" : 15,
+          "compatibleWith" : "Lenovo ThinkPad Series",
+          "type" : "Slim Tip AC Adapter",
+          "material" : "Plastic",
+          "color" : "Black"
+        }
+      },
+      "quantity" : 2,
+      "subtotal" : 398.0
+    } ],
+    "orderDate" : "2025-05-03T12:03:43.203442",
+    "totalAmount" : 398.0,
+    "taxAmount" : 23.88,
+    "finalAmount" : 421.88,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T12:04:06.666249",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 793
+  },
+  "ORD-852504FD" : {
+    "orderId" : "ORD-852504FD",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Accessory" : {
+              "prodID" : "P003",
+              "prodName" : "Fast Charger",
+              "prodDesc" : "20W fast charger",
+              "unitPrice" : 39.99,
+              "sellingPrice" : 49.99,
+              "stock" : 50,
+              "compatibleWith" : "All laptops",
+              "type" : "Charger",
+              "material" : "Plastic",
+              "color" : "White"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 49.99
+        } ],
+        "totalAmount" : 49.99,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P003",
+          "prodName" : "Fast Charger",
+          "prodDesc" : "20W fast charger",
+          "unitPrice" : 39.99,
+          "sellingPrice" : 49.99,
+          "stock" : 50,
+          "compatibleWith" : "All laptops",
+          "type" : "Charger",
+          "material" : "Plastic",
+          "color" : "White"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 49.99
+    } ],
+    "orderDate" : "2025-05-03T03:09:58.3013957",
+    "totalAmount" : 49.99,
+    "taxAmount" : 2.9994,
+    "finalAmount" : 52.9894,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T03:09:58.302907",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-04F97BF7" : {
+    "orderId" : "ORD-04F97BF7",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "Skibidi ohio sigma",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Laptop" : {
+              "prodID" : "P005",
+              "prodName" : "Alienware x17 R2",
+              "prodDesc" : "Next-gen gaming performance",
+              "unitPrice" : 6699.0,
+              "sellingPrice" : 7699.0,
+              "stock" : 4,
+              "processor" : "Intel i9-12900HK",
+              "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+              "ramGB" : 32,
+              "storageGB" : 2000,
+              "displaySize" : "17.3",
+              "operatingSystem" : "Windows"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 7699.0
+        } ],
+        "totalAmount" : 7699.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P005",
+          "prodName" : "Alienware x17 R2",
+          "prodDesc" : "Next-gen gaming performance",
+          "unitPrice" : 6699.0,
+          "sellingPrice" : 7699.0,
+          "stock" : 4,
+          "processor" : "Intel i9-12900HK",
+          "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+          "ramGB" : 32,
+          "storageGB" : 2000,
+          "displaySize" : "17.3",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7699.0
+    } ],
+    "orderDate" : "2025-05-02T17:15:16.267505",
+    "totalAmount" : 7699.0,
+    "taxAmount" : 461.94,
+    "finalAmount" : 8160.94,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "CANCELLED",
+    "lastUpdated" : "2025-05-02T17:15:41.044415",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-594F9371" : {
+    "orderId" : "ORD-594F9371",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Mouse" : {
+              "prodID" : "P017",
+              "prodName" : "HP X1000 Wired Mouse",
+              "prodDesc" : "Simple, budget-friendly wired mouse",
+              "unitPrice" : 45.0,
+              "sellingPrice" : 59.0,
+              "stock" : 50,
+              "dpi" : 1200,
+              "numButtons" : 3,
+              "connectivity" : "Wired USB",
+              "color" : "Black",
+              "wireless" : false
+            }
+          },
+          "quantity" : 12,
+          "subtotal" : 708.0
+        }, {
+          "product" : {
+            "Laptop" : {
+              "prodID" : "P007",
+              "prodName" : "Lenovo Legion Pro 7i",
+              "prodDesc" : "Advanced gaming and content creation",
+              "unitPrice" : 5799.0,
+              "sellingPrice" : 6799.0,
+              "stock" : 12,
+              "processor" : "Intel i9-13900HX",
+              "graphicsCard" : "NVIDIA GeForce RTX 4080",
+              "ramGB" : 32,
+              "storageGB" : 1000,
+              "displaySize" : "16",
+              "operatingSystem" : "Windows"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 6799.0
+        } ],
+        "totalAmount" : 7507.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        }, {
+          "Mouse" : {
+            "prodID" : "P016",
+            "prodName" : "Logitech MX Master 3S",
+            "prodDesc" : "Advanced productivity mouse with ergonomic design",
+            "unitPrice" : 499.0,
+            "sellingPrice" : 549.0,
+            "stock" : 11,
+            "dpi" : 8000,
+            "numButtons" : 7,
+            "connectivity" : "Bluetooth & USB Receiver",
+            "color" : "Graphite",
+            "wireless" : true
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P017",
+          "prodName" : "HP X1000 Wired Mouse",
+          "prodDesc" : "Simple, budget-friendly wired mouse",
+          "unitPrice" : 45.0,
+          "sellingPrice" : 59.0,
+          "stock" : 50,
+          "dpi" : 1200,
+          "numButtons" : 3,
+          "connectivity" : "Wired USB",
+          "color" : "Black",
+          "wireless" : false
+        }
+      },
+      "quantity" : 12,
+      "subtotal" : 708.0
+    }, {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P007",
+          "prodName" : "Lenovo Legion Pro 7i",
+          "prodDesc" : "Advanced gaming and content creation",
+          "unitPrice" : 5799.0,
+          "sellingPrice" : 6799.0,
+          "stock" : 12,
+          "processor" : "Intel i9-13900HX",
+          "graphicsCard" : "NVIDIA GeForce RTX 4080",
+          "ramGB" : 32,
+          "storageGB" : 1000,
+          "displaySize" : "16",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 6799.0
+    } ],
+    "orderDate" : "2025-05-03T12:01:48.97089",
+    "totalAmount" : 7507.0,
+    "taxAmount" : 450.41999999999996,
+    "finalAmount" : 7957.42,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T12:02:27.365107",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 679
+  },
+  "ORD-9D932273" : {
+    "orderId" : "ORD-9D932273",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "Skibidi ohio sigma",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Mouse" : {
+              "prodID" : "P014",
+              "prodName" : "Razer Basilisk V3",
+              "prodDesc" : "Ergonomic gaming mouse with customizable buttons",
+              "unitPrice" : 279.0,
+              "sellingPrice" : 329.0,
+              "stock" : 14,
+              "dpi" : 26000,
+              "numButtons" : 11,
+              "connectivity" : "Wired USB",
+              "color" : "Black with RGB",
+              "wireless" : false
+            }
+          },
+          "quantity" : 3,
+          "subtotal" : 987.0
+        } ],
+        "totalAmount" : 987.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P001",
+            "prodName" : "Asus ROG Strix",
+            "prodDesc" : "High-performance gaming laptop",
+            "unitPrice" : 6299.99,
+            "sellingPrice" : 7199.0,
+            "stock" : 20,
+            "processor" : "Intel i9",
+            "graphicsCard" : "NVIDIA RTX 3060",
+            "ramGB" : 16,
+            "storageGB" : 512,
+            "displaySize" : "15.6 inch",
+            "operatingSystem" : "Windows 11"
+          }
+        }, {
+          "Laptop" : {
+            "prodID" : "P004",
+            "prodName" : "Razer Blade 16",
+            "prodDesc" : "Slim yet powerful gaming laptop",
+            "unitPrice" : 5999.99,
+            "sellingPrice" : 6999.99,
+            "stock" : 15,
+            "processor" : "Intel i9-13950HX",
+            "graphicsCard" : "NVIDIA GeForce RTX 4080",
+            "ramGB" : 32,
+            "storageGB" : 1024,
+            "displaySize" : "16",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P014",
+          "prodName" : "Razer Basilisk V3",
+          "prodDesc" : "Ergonomic gaming mouse with customizable buttons",
+          "unitPrice" : 279.0,
+          "sellingPrice" : 329.0,
+          "stock" : 14,
+          "dpi" : 26000,
+          "numButtons" : 11,
+          "connectivity" : "Wired USB",
+          "color" : "Black with RGB",
+          "wireless" : false
+        }
+      },
+      "quantity" : 3,
+      "subtotal" : 987.0
+    } ],
+    "orderDate" : "2025-05-02T10:25:52.464246",
+    "totalAmount" : 987.0,
+    "taxAmount" : 59.22,
+    "finalAmount" : 1046.22,
+    "shippingAddress" : "Skibidi ohio sigma",
+    "status" : "PROCESSING",
+    "lastUpdated" : "2025-05-02T16:32:39.352661",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
   "ORD-B76A8AE8" : {
     "orderId" : "ORD-B76A8AE8",
     "customer" : {
@@ -912,75 +1401,6 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "CANCELLED",
     "lastUpdated" : "2025-05-03T01:19:55.169496",
-    "remainingTimeForStatusUpdate" : 0,
-    "remainingRefundTime" : 0
-  },
-  "ORD-0491FC92" : {
-    "orderId" : "ORD-0491FC92",
-    "customer" : {
-      "userID" : "CUST-3122FC4D",
-      "username" : "test",
-      "email" : "test@gmail.com",
-      "password" : "Abcd1234$",
-      "address" : "Skibidi ohio sigma",
-      "phoneNum" : "01231231223",
-      "cart" : {
-        "cartId" : "CART-b2a26930",
-        "items" : [ {
-          "product" : {
-            "Laptop" : {
-              "prodID" : "P004",
-              "prodName" : "Razer Blade 16",
-              "prodDesc" : "Slim yet powerful gaming laptop",
-              "unitPrice" : 5999.99,
-              "sellingPrice" : 6999.99,
-              "stock" : 12,
-              "processor" : "Intel i9-13950HX",
-              "graphicsCard" : "NVIDIA GeForce RTX 4080",
-              "ramGB" : 32,
-              "storageGB" : 1024,
-              "displaySize" : "16",
-              "operatingSystem" : "Windows"
-            }
-          },
-          "quantity" : 1,
-          "subtotal" : 6999.99
-        } ],
-        "totalAmount" : 6999.99,
-        "empty" : false
-      },
-      "wishlist" : {
-        "wishlistId" : "WISH-0e831708",
-        "items" : [ ]
-      }
-    },
-    "items" : [ {
-      "product" : {
-        "Laptop" : {
-          "prodID" : "P004",
-          "prodName" : "Razer Blade 16",
-          "prodDesc" : "Slim yet powerful gaming laptop",
-          "unitPrice" : 5999.99,
-          "sellingPrice" : 6999.99,
-          "stock" : 12,
-          "processor" : "Intel i9-13950HX",
-          "graphicsCard" : "NVIDIA GeForce RTX 4080",
-          "ramGB" : 32,
-          "storageGB" : 1024,
-          "displaySize" : "16",
-          "operatingSystem" : "Windows"
-        }
-      },
-      "quantity" : 1,
-      "subtotal" : 6999.99
-    } ],
-    "orderDate" : "2025-05-02T21:07:19.576639",
-    "totalAmount" : 6999.99,
-    "taxAmount" : 419.9994,
-    "finalAmount" : 7419.9893999999995,
-    "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "PENDING",
-    "lastUpdated" : "2025-05-02T21:07:19.576701",
     "remainingTimeForStatusUpdate" : 0,
     "remainingRefundTime" : 0
   }

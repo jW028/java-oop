@@ -1,15 +1,16 @@
 package com.gsports.java.oop;
 
-import com.google.genai.Client;
-import com.google.genai.types.GenerateContentResponse;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentResponse;
+
 public class GeminiService {
+    private ProductListing productListing;
     private static GeminiService instance;
     private Client client;
     private final int maxRetries = 3;
@@ -88,7 +89,7 @@ public class GeminiService {
     
         // Product listings
         contextPrompt.append("AVAILABLE PRODUCTS:\n");
-        List<Product> products = JsonDataHandler.getProductsList();
+        List<Product> products = productListing.getProducts();
         
         if (products != null && !products.isEmpty()) {
             // First gather products by type

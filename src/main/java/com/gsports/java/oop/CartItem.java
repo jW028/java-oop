@@ -13,13 +13,13 @@ public class CartItem {
         setSubtotal();
     }
 
-    public void setSubtotal() {
-        this.subtotal = product.getSellingPrice() * quantity;
-    }
-
-
     public Product getProduct() {
         return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+        setSubtotal();
     }
 
     public int getQuantity() {
@@ -35,10 +35,11 @@ public class CartItem {
         return subtotal;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-        setSubtotal();
+    public void setSubtotal() {
+        this.subtotal = product.getSellingPrice() * quantity;
     }
+
+    
 
     @Override
     public String toString() {

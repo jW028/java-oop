@@ -26,27 +26,9 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "items" : [ {
-        "product" : {
-          "Mouse" : {
-            "prodID" : "P016",
-            "prodName" : "Logitech MX Master 3S",
-            "prodDesc" : "Advanced productivity mouse with ergonomic design",
-            "unitPrice" : 499.0,
-            "sellingPrice" : 549.0,
-            "stock" : 11,
-            "dpi" : 8000,
-            "numButtons" : 7,
-            "connectivity" : "Bluetooth & USB Receiver",
-            "color" : "Graphite",
-            "wireless" : true
-          }
-        },
-        "quantity" : 1,
-        "subtotal" : 549.0
-      } ],
-      "totalAmount" : 549.0,
-      "empty" : false
+      "items" : [ ],
+      "totalAmount" : 0.0,
+      "empty" : true
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",
@@ -72,7 +54,7 @@
           "prodDesc" : "Advanced productivity mouse with ergonomic design",
           "unitPrice" : 499.0,
           "sellingPrice" : 549.0,
-          "stock" : 11,
+          "stock" : 9,
           "dpi" : 8000,
           "numButtons" : 7,
           "connectivity" : "Bluetooth & USB Receiver",
