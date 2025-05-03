@@ -1248,12 +1248,13 @@ public class UserMenu {
             System.out.println("| 2. View Wishlist                            |");
             System.out.println("| 3. View Cart                                |");
             System.out.println("| 4. Order History                            |");
-            System.out.println("| 5. My Profile                               |");
-            System.out.println("| 6. Logout                                   |");
-            System.out.println("| 7. Exit                                     |");
+            System.out.println("| 5. AI Product Assistant                     |");
+            System.out.println("| 6. My Profile                               |");
+            System.out.println("| 7. Logout                                   |");
+            System.out.println("| 8. Exit                                     |");
             System.out.println("===============================================");
 
-            choice = MenuUtils.validateDigit(1, 7);
+            choice = MenuUtils.validateDigit(1, 8);
 
             switch (choice) {
                 case 1:
@@ -1272,13 +1273,16 @@ public class UserMenu {
                     viewOrderHistory();
                     break;
                 case 5:
-                    viewProfile();
+                    chatbotMenu();
                     break;
                 case 6:
+                    viewProfile();
+                    break;
+                case 7:
                     currentUser = null;
                     System.out.println("Logged out successfully.");
                     return; // Return to main menu
-                case 7:
+                case 8:
                     JsonDataHandler.saveCustomersList(customers);
                     System.out.println("Thank you for shopping with GSports!");
                     System.out.println("Exiting...");
@@ -1286,7 +1290,7 @@ public class UserMenu {
                     System.exit(0); // Terminate the program
                     break;
             }
-        } while (choice != 6 && choice != 7);
+        } while (choice != 7 && choice != 8);
     }
 
     public void displayWishlistItem(int index) {
@@ -2046,7 +2050,7 @@ public class UserMenu {
                 System.out.println("=====================================");
                 System.out.println("| Order ID: " + order.getOrderId());
                 System.out.println("| Order Date: " + order.getFormattedOrderDate());
-                System.out.println("| Total Amount: RM" + String.format("%.2f", order.getTotalAmount()));
+                System.out.println("| Total Amount: RM" + String.format("%.2f", order.getFinalAmount()));
                 System.out.println("| Shipping Address: " + order.getShippingAddress());
         
                 Payment payment = payments.stream()
@@ -2106,9 +2110,10 @@ public class UserMenu {
                             item.getSubtotal());
                 }
         
-                System.out.println("-------------------------------------------------2" +
-                        "t-----------------");
-                System.out.printf("Total: RM%.2f\n", order.getTotalAmount());
+                // Display tax amount
+                System.out.println("------------------------------------------------------------------");
+                System.out.printf("Tax (6%%): RM%.2f\n", order.getTaxAmount());
+                System.out.printf("Total: RM%.2f\n", order.getFinalAmount());
         
                 // Create a dedicated area for timer updates that won't interfere with input
                 System.out.println("\n--- Timer Updates Will Appear Here ---\n");

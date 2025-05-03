@@ -26,9 +26,26 @@
     "phoneNum" : "01231231223",
     "cart" : {
       "cartId" : "CART-b2a26930",
-      "items" : [ ],
-      "totalAmount" : 0.0,
-      "empty" : true
+      "items" : [ {
+        "product" : {
+          "Accessory" : {
+            "prodID" : "P012",
+            "prodName" : "Lenovo 65W Travel Adapter",
+            "prodDesc" : "Compact charger for Lenovo ThinkPads",
+            "unitPrice" : 149.0,
+            "sellingPrice" : 199.0,
+            "stock" : 13,
+            "compatibleWith" : "Lenovo ThinkPad Series",
+            "type" : "Slim Tip AC Adapter",
+            "material" : "Plastic",
+            "color" : "Black"
+          }
+        },
+        "quantity" : 1,
+        "subtotal" : 199.0
+      } ],
+      "totalAmount" : 199.0,
+      "empty" : false
     },
     "wishlist" : {
       "wishlistId" : "WISH-0e831708",

@@ -296,14 +296,13 @@ public long getRemainingRefundTime() {
         StringBuilder receipt = new StringBuilder();
         List<Payment> payments = JsonDataHandler.getPaymentsList();
         for (Payment payment : payments) {
-            System.out.println("Payment Order ID: " + payment.getOrderId());
             if (payment.getOrderId().equals(this.orderId)) {
                 this.payment = payment;
                 break;
             }
         }
 
-        // Receipt header with company logo
+        // Receipt heorer with company logo
         receipt.append("\n┌─────────────────────────────────────────────────────────────────┐\n");
         receipt.append("│                          G S P O R T S                          │\n");
         receipt.append("│                   Premium Electronics Retailer                  │\n");

@@ -18,6 +18,8 @@ public class GeminiService {
 
     private GeminiService() {
         try {
+            List<Product> products = JsonDataHandler.getProductsList();
+            this.productListing = new ProductListing(products);
             Properties props = new Properties();
             InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
             
