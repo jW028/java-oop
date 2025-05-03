@@ -18,7 +18,7 @@ public class MenuUtils {
         int result;
         while (true) {
             try {
-                System.out.printf("%s:" + minChoice + "-" + maxChoice + "): ", inputMsg);
+                System.out.printf("(" + minChoice + "-" + maxChoice + "): ", inputMsg);
                 result = scanner.nextInt();
                 scanner.nextLine();
 

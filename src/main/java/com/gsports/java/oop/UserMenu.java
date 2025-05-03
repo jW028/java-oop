@@ -520,8 +520,8 @@ public class UserMenu {
 
     // Extract display code to a separate method
     private void displayCustomersTable(List<User> regularCustomers) {
-        System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                              CUSTOMER LISTINGS                              │");
+        System.out.println("\n┌──────────────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                              CUSTOMER LISTINGS                               │");
         System.out.println("├────┬───────────────┬─────────────────────────┬────────────────┬──────────────┤");
         System.out.println("│ #  │ Customer ID   │ Name                    │ Email          │ Total Orders │");
         System.out.println("├────┼───────────────┼─────────────────────────┼────────────────┼──────────────┤");
@@ -550,13 +550,15 @@ public class UserMenu {
         }
         
         // Table footer
-        System.out.println("└────┴──────────────┴─────────────────────────┴────────────────┴──────────────┘");
+        System.out.println("└────┴───────────────┴─────────────────────────┴────────────────┴──────────────┘");
     }
 
     private void viewCustomerDetails(List<User> customers) {
-        System.out.print("Enter customer number to view details: ");
-        int customerIndex = MenuUtils.validateDigit(1, customers.size()) - 1;
-        
+        System.out.println("~ Enter customer number to view details (0 to go back) ~");
+        int customerIndex = MenuUtils.validateDigit(0, customers.size()) - 1;
+        if (customerIndex < 0){
+            return;
+        }
         Customer customer = (Customer) customers.get(customerIndex);
         
         // Calculate total spent
@@ -709,7 +711,7 @@ public class UserMenu {
                 String formattedId = String.format("%-12s", order.getOrderId());
                 String formattedCustomer = String.format("%-11s", customerName);
                 String formattedDate = String.format("%-10s", order.getFormattedOrderDate().substring(0, 10));
-                String formattedAmount = String.format("RM%-12.2f", order.getTotalAmount());
+                String formattedAmount = String.format("RM%-10.2f", order.getTotalAmount());
                 String formattedStatus = String.format("%-13s", order.getStatus());
 
                 System.out.printf("│ %-2d │ %s │ %s │ %s │ %s │ %s │%n",
@@ -798,8 +800,13 @@ public class UserMenu {
     }
 
     private void viewOrderDetailsAdmin(List<Order> allOrders) {
-        System.out.print("Enter order number to view details: ");
-        int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
+        System.out.println("~ Enter order number to view details (0 to go back) ~");
+        int orderIndex = MenuUtils.validateDigit(0, allOrders.size()) - 1;
+
+        if (orderIndex < 0) {
+            return;
+        }
+
         Order selectedOrder = allOrders.get(orderIndex);
 
         // Find customer name
@@ -813,15 +820,15 @@ public class UserMenu {
 
         // Display detailed information about the order
         System.out.println("\n┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                                 ORDER DETAILS                                │");
+        System.out.println("│                                 ORDER DETAILS                               │");
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
         System.out.println("│ Order ID: " + String.format("%-65s", selectedOrder.getOrderId()) + " │");
         System.out.println("│ Customer: " + String.format("%-65s", customerName) + " │");
-        System.out.println("│ Customer ID: " + String.format("%-63s", selectedOrder.getCustomer().getUserID()) + " │");
-        System.out.println("│ Order Date: " + String.format("%-64s", selectedOrder.getFormattedOrderDate()) + " │");
-        System.out.println("│ Status: " + String.format("%-68s", selectedOrder.getStatus()) + " │");
-        System.out.println("│ Total Amount: RM" + String.format("%-61.2f", selectedOrder.getTotalAmount()) + " │");
-        System.out.println("│ Shipping Address: " + String.format("%-59s", selectedOrder.getShippingAddress()) + " │");
+        System.out.println("│ Customer ID: " + String.format("%-62s", selectedOrder.getCustomer().getUserID()) + " │");
+        System.out.println("│ Order Date: " + String.format("%-63s", selectedOrder.getFormattedOrderDate()) + " │");
+        System.out.println("│ Status: " + String.format("%-67s", selectedOrder.getStatus()) + " │");
+        System.out.println("│ Total Amount: RM" + String.format("%-59.2f", selectedOrder.getTotalAmount()) + " │");
+        System.out.println("│ Shipping Address: " + String.format("%-57s", selectedOrder.getShippingAddress()) + " │");
 
         // Payment information
         Payment payment = payments.stream()
@@ -838,24 +845,25 @@ public class UserMenu {
         }
 
         System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-        System.out.println("│                                  ITEMS                                       │");
-        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-
+        System.out.println("│                                  ITEMS                                      │");
+        System.out.println("├─────┬──────────────────────────────┬────────────┬────────────┬──────────────┤");
+        System.out.printf("│ %-3s │ %-28s │ %-10s │ %-10s │ %-12s │\n", " # ", "Product Name", "Quantity", "Price (RM)", "Subtotal(RM)" );
+        System.out.println("├─────┼──────────────────────────────┼────────────┼────────────┼──────────────┤");
         // Display items in order
         List<CartItem> items = selectedOrder.getItems();
         for (int i = 0; i < items.size(); i++) {
             CartItem item = items.get(i);
-            System.out.println("│ " + String.format("%-2d", i + 1) + ". " +
-                    String.format("%-25s", item.getProduct().getProdName()) +
-                    " | Qty: " + String.format("%-3d", item.getQuantity()) +
-                    " | Price: RM" + String.format("%-8.2f", item.getProduct().getSellingPrice()) +
-                    " | Subtotal: RM" + String.format("%-8.2f", item.getSubtotal()) + " │");
+            System.out.println("│ " + String.format("%-3d", i + 1) + " │ " +
+                    String.format("%-28s", item.getProduct().getProdName()) +
+                    " │ " + String.format("%-10d", item.getQuantity()) +
+                    " │ " + String.format("%-10.2f", item.getProduct().getSellingPrice()) +
+                    " │ " + String.format("%-12.2f", item.getSubtotal()) + " │");
         }
 
-        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└─────┴──────────────────────────────┴────────────┴────────────┴──────────────┘");
 
         // Option to update status
-        System.out.println("\nWould you like to update the status of this order? (Y/N)");
+        System.out.print("\nWould you like to update the status of this order? (Y to confirm): ");
         String updateChoice = scanner.nextLine().trim().toUpperCase();
 
         if (updateChoice.equals("Y")) {
@@ -867,8 +875,11 @@ public class UserMenu {
     }
 
     private void updateOrderStatus(List<Order> allOrders) {
-        System.out.print("Enter order number to update status: ");
-        int orderIndex = MenuUtils.validateDigit(1, allOrders.size()) - 1;
+        System.out.println("~ Enter order number to update status (0 to go back) ~");
+        int orderIndex = MenuUtils.validateDigit(0, allOrders.size()) - 1;
+        if (orderIndex < 0){
+            return;
+        }
         Order selectedOrder = allOrders.get(orderIndex);
 
         updateSingleOrderStatus(selectedOrder);
@@ -1405,9 +1416,9 @@ public class UserMenu {
             case 1:
                 // Update quantity
                 displayCart(cart);
-                System.out.print("~ Select item index to update ~\n");
+                System.out.print("~ Select item index to update (0 to go back) ~\n");
                 int updateIndex = MenuUtils.validateDigit(0, cart.getItems().size()) - 1;
-                if (updateIndex <= 0) {
+                if (updateIndex < 0) {
                     break;
                 }
 
@@ -1476,8 +1487,13 @@ public class UserMenu {
             case 2:
                 // Remove item
                 displayCart(cart);
-                System.out.println("Enter item index to remove/reduce: ");
-                int removeIndex = MenuUtils.validateDigit(1, cart.getItems().size()) - 1;
+                System.out.println("~ Enter item index to remove/reduce (0 to go back) ~");
+                int removeIndex = MenuUtils.validateDigit(0, cart.getItems().size()) - 1;
+
+                if (removeIndex < 0) {
+                    break;
+                }
+
                 CartItem itemToModify = cart.getItems().get(removeIndex);
                 currentQuantity = itemToModify.getQuantity();
 
@@ -1541,11 +1557,11 @@ public class UserMenu {
         double total = subtotal + tax;
     
         // Adjusted table with proper spacing and column widths
-        System.out.println("\n┌──────────────────────────────────────────────────────────────────────┐");
-        System.out.println("│                          YOUR SHOPPING CART                          │");
-        System.out.println("├────┬───────────────────────────────┬──────────┬─────────┬────────────┤");
-        System.out.printf("│ #  │ %-29s │ %-8s │ %-7s │ %-10s │\n", "Product", "Price", "Qty", "Subtotal");
-        System.out.println("├────┼───────────────────────────────┼──────────┼─────────┼────────────┤");
+        System.out.println("\n┌───────────────────────────────────────────────────────────────────────┐");
+        System.out.println("│                           YOUR SHOPPING CART                          │");
+        System.out.println("├────┬───────────────────────────────┬───────────┬─────────┬────────────┤");
+        System.out.printf("│ #  │ %-29s │ %-9s │ %-7s │ %-10s │\n", "Product", "Price", "Qty", "Subtotal");
+        System.out.println("├────┼───────────────────────────────┼───────────┼─────────┼────────────┤");
         
         for (int i = 0; i < items.size(); i++) {
             CartItem item = items.get(i);
@@ -1553,7 +1569,7 @@ public class UserMenu {
                                 item.getProduct().getProdName().substring(0, 24) + "..." : 
                                 item.getProduct().getProdName();
                                 
-            System.out.printf("│ %-2d │ %-29s │ RM%-6.2f │ %-7d │ RM%-8.2f │\n", 
+            System.out.printf("│ %-2d │ %-29s │ RM%-7.2f │ %-7d │ RM%-8.2f │\n",
                     i + 1,                // Item number (1-based)
                     productName,          // Product name (shortened if needed)
                     item.getProduct().getSellingPrice(),
@@ -1562,11 +1578,11 @@ public class UserMenu {
         }
         
         // Footer with proper alignment matching the header
-        System.out.println("├────┴───────────────────────────────┴──────────┴─────────┼────────────┤");
-        System.out.printf("│ %55s │ RM%-8.2f │\n", "Subtotal:", subtotal);
-        System.out.printf("│ %55s │ RM%-8.2f │\n", "Tax (6%):", tax);
-        System.out.println("├─────────────────────────────────────────────────────────┼────────────┤");
-        System.out.printf("│ %55s │ RM%-8.2f │\n", "TOTAL:", total);
+        System.out.println("├────┴───────────────────────────────┴───────────┴─────────┼────────────┤");
+        System.out.printf("│ %56s │ RM%-8.2f │\n", "Subtotal:", subtotal);
+        System.out.printf("│ %56s │ RM%-8.2f │\n", "Tax (6%):", tax);
+        System.out.println("├──────────────────────────────────────────────────────────┼────────────┤");
+        System.out.printf("│ %56s │ RM%-8.2f │\n", "TOTAL:", total);
         System.out.println("└──────────────────────────────────────────────────────────┴────────────┘");
     }
 
@@ -1747,6 +1763,8 @@ public class UserMenu {
         if (choice > 0) {
             displayOrderDetails(userOrders.get(choice - 1));
         }
+
+        System.out.println("Returning to Homepage...");
     }
 
     public void checkout() {
@@ -1769,16 +1787,16 @@ public class UserMenu {
         double subtotal = cart.getTotalAmount();
         double tax = subtotal * Order.TAX_RATE; // 6% tax
         double total = subtotal + tax;
-        System.out.println("│ Subtotal: RM" + String.format("%-22.2f", subtotal) + " │");
-        System.out.println("│ Tax (6%): RM" + String.format("%-22.2f", tax) + " │");
-        System.out.println("│ Total   : RM" + String.format("%-22.2f", total) + " │");
+        System.out.println("│ Subtotal: RM" + String.format("%-21.2f", subtotal) + " │");
+        System.out.println("│ Tax (6%): RM" + String.format("%-21.2f", tax) + " │");
+        System.out.println("│ Total   : RM" + String.format("%-21.2f", total) + " │");
         System.out.println("=====================================");
 
 // Confirm shipping address
         System.out.println("\nCurrent shipping address: " + customer.getAddress());
         System.out.println("=====================================");
 
-        System.out.println("\nWould you like to use this address? (Y/N)");
+        System.out.print("\nWould you like to use this address? (Y/N): ");
         String addressChoice = scanner.nextLine().trim().toUpperCase();
 
         String shippingAddress;
@@ -1793,13 +1811,13 @@ public class UserMenu {
         }
 
         // Select payment method
-        System.out.println("\n=========================================");
-        System.out.println("|          Select Payment Method       |");
-        System.out.println("=========================================");
-        System.out.println("| 1. Credit Card                       |");
-        System.out.println("| 2. PayPal                            |");
-        System.out.println("| 3. Bank Transfer                  |");
-        System.out.println("=========================================");
+        System.out.println("\n=======================================");
+        System.out.println("|        Select Payment Method        |");
+        System.out.println("=======================================");
+        System.out.println("│ 1. Credit Card                      │");
+        System.out.println("│ 2. PayPal                           │");
+        System.out.println("│ 3. Bank Transfer                    │");
+        System.out.println("=======================================");
 
         int paymentChoice = MenuUtils.validateDigit(1, 3);
         Payment.PaymentMethod paymentMethod;
@@ -1844,7 +1862,7 @@ public class UserMenu {
                 paymentSuccess = payment.verifyAndCompletePayment(enteredOtp);
 
                 if (paymentSuccess) {
-                    System.out.println("Thank you for your payment!");
+                    System.out.println("Payment completed!");
                     // Proceed with order confirmation, etc.
                 } else if (attempts < MAX_ATTEMPTS) {
                     System.out.println("Invalid OTP. Please try again.");
@@ -2044,7 +2062,7 @@ public class UserMenu {
                 // Display ordered items with relevant details only
                 System.out.println("\n--- Ordered Items ---");
                 System.out.printf("%-30s %-10s %-10s %-10s\n", "Product", "Price", "Quantity", "Subtotal");
-                System.out.println("------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------");
         
                 for (CartItem item : order.getItems()) {
                     Product product = item.getProduct();
@@ -2055,7 +2073,8 @@ public class UserMenu {
                             item.getSubtotal());
                 }
         
-                System.out.println("------------------------------------------------------");
+                System.out.println("-------------------------------------------------2" +
+                        "t-----------------");
                 System.out.printf("Total: RM%.2f\n", order.getTotalAmount());
         
                 // Create a dedicated area for timer updates that won't interfere with input
@@ -2317,7 +2336,7 @@ private void requestRefund(Order order, Payment payment) {
 
             System.out.print("Enter Product Selling Price: ");
             double sellingPrice = Double.parseDouble(scanner.nextLine());
-            int stock = MenuUtils.validateDigit("Enter Product Stock: ", 0, 1000);
+            int stock = MenuUtils.validateDigit("Enter Product Stock ", 0, 1000);
             
             Product newProduct = null;
 

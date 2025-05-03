@@ -62,10 +62,90 @@
     "taxAmount" : 992.5799999999999,
     "finalAmount" : 17535.58,
     "shippingAddress" : "Skibidi ohio sigma",
-    "status" : "PAID",
-    "lastUpdated" : "2025-05-03T01:29:10.315774",
-    "remainingRefundTime" : 0,
-    "remainingTimeForStatusUpdate" : 0
+    "status" : "PROCESSING",
+    "lastUpdated" : "2025-05-03T03:52:20.3642595",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-852504FD" : {
+    "orderId" : "ORD-852504FD",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Accessory" : {
+              "prodID" : "P003",
+              "prodName" : "Fast Charger",
+              "prodDesc" : "20W fast charger",
+              "unitPrice" : 39.99,
+              "sellingPrice" : 49.99,
+              "stock" : 50,
+              "compatibleWith" : "All laptops",
+              "type" : "Charger",
+              "material" : "Plastic",
+              "color" : "White"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 49.99
+        } ],
+        "totalAmount" : 49.99,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P003",
+          "prodName" : "Fast Charger",
+          "prodDesc" : "20W fast charger",
+          "unitPrice" : 39.99,
+          "sellingPrice" : 49.99,
+          "stock" : 50,
+          "compatibleWith" : "All laptops",
+          "type" : "Charger",
+          "material" : "Plastic",
+          "color" : "White"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 49.99
+    } ],
+    "orderDate" : "2025-05-03T03:09:58.3013957",
+    "totalAmount" : 49.99,
+    "taxAmount" : 2.9994,
+    "finalAmount" : 52.9894,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T03:09:58.302907",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-04F97BF7" : {
     "orderId" : "ORD-04F97BF7",
@@ -133,8 +213,8 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "CANCELLED",
     "lastUpdated" : "2025-05-02T17:15:41.044415",
-    "remainingRefundTime" : 0,
-    "remainingTimeForStatusUpdate" : 0
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-EC8C7B2A" : {
     "orderId" : "ORD-EC8C7B2A",
@@ -183,8 +263,172 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "CANCELLED",
     "lastUpdated" : "2025-05-02T16:33:51.769542",
-    "remainingRefundTime" : 0,
-    "remainingTimeForStatusUpdate" : 0
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-9EF9D43C" : {
+    "orderId" : "ORD-9EF9D43C",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Laptop" : {
+              "prodID" : "P001",
+              "prodName" : "Asus ROG Strix",
+              "prodDesc" : "High-performance gaming laptop",
+              "unitPrice" : 6299.99,
+              "sellingPrice" : 7199.0,
+              "stock" : 16,
+              "processor" : "Intel i9",
+              "graphicsCard" : "NVIDIA RTX 3060",
+              "ramGB" : 16,
+              "storageGB" : 512,
+              "displaySize" : "15.6 inch",
+              "operatingSystem" : "Windows 11"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 7199.0
+        } ],
+        "totalAmount" : 7199.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P001",
+          "prodName" : "Asus ROG Strix",
+          "prodDesc" : "High-performance gaming laptop",
+          "unitPrice" : 6299.99,
+          "sellingPrice" : 7199.0,
+          "stock" : 16,
+          "processor" : "Intel i9",
+          "graphicsCard" : "NVIDIA RTX 3060",
+          "ramGB" : 16,
+          "storageGB" : 512,
+          "displaySize" : "15.6 inch",
+          "operatingSystem" : "Windows 11"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7199.0
+    } ],
+    "orderDate" : "2025-05-03T03:05:56.5731085",
+    "totalAmount" : 7199.0,
+    "taxAmount" : 431.94,
+    "finalAmount" : 7630.94,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T03:05:56.5740736",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-8055891B" : {
+    "orderId" : "ORD-8055891B",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Accessory" : {
+              "prodID" : "P008",
+              "prodName" : "Anker 737 GaNPrime Charger",
+              "prodDesc" : "High-speed USB-C charger with multi-device support",
+              "unitPrice" : 329.0,
+              "sellingPrice" : 399.0,
+              "stock" : 18,
+              "compatibleWith" : "Laptops, Smartphones, Tablets",
+              "type" : "Fast Charging USB-C GaN Charger",
+              "material" : "Polycarbonate",
+              "color" : "Black"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 399.0
+        } ],
+        "totalAmount" : 399.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P008",
+          "prodName" : "Anker 737 GaNPrime Charger",
+          "prodDesc" : "High-speed USB-C charger with multi-device support",
+          "unitPrice" : 329.0,
+          "sellingPrice" : 399.0,
+          "stock" : 18,
+          "compatibleWith" : "Laptops, Smartphones, Tablets",
+          "type" : "Fast Charging USB-C GaN Charger",
+          "material" : "Polycarbonate",
+          "color" : "Black"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 399.0
+    } ],
+    "orderDate" : "2025-05-03T02:44:02.7166543",
+    "totalAmount" : 399.0,
+    "taxAmount" : 23.939999999999998,
+    "finalAmount" : 422.94,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T02:44:02.7166543",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-9D932273" : {
     "orderId" : "ORD-9D932273",
@@ -280,8 +524,244 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PROCESSING",
     "lastUpdated" : "2025-05-02T16:32:39.352661",
-    "remainingRefundTime" : 0,
-    "remainingTimeForStatusUpdate" : 0
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-95733F6F" : {
+    "orderId" : "ORD-95733F6F",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Mouse" : {
+              "prodID" : "P016",
+              "prodName" : "Logitech MX Master 3S",
+              "prodDesc" : "Advanced productivity mouse with ergonomic design",
+              "unitPrice" : 499.0,
+              "sellingPrice" : 549.0,
+              "stock" : 12,
+              "dpi" : 8000,
+              "numButtons" : 7,
+              "connectivity" : "Bluetooth & USB Receiver",
+              "color" : "Graphite",
+              "wireless" : true
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 549.0
+        }, {
+          "product" : {
+            "Mouse" : {
+              "prodID" : "P015",
+              "prodName" : "SteelSeries Aerox 3 Wireless",
+              "prodDesc" : "Ultra-light wireless gaming mouse with AquaBarrier™ protection",
+              "unitPrice" : 379.0,
+              "sellingPrice" : 429.0,
+              "stock" : 6,
+              "dpi" : 18000,
+              "numButtons" : 6,
+              "connectivity" : "2.4GHz Wireless & Bluetooth",
+              "color" : "White",
+              "wireless" : true
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 429.0
+        }, {
+          "product" : {
+            "Laptop" : {
+              "prodID" : "P005",
+              "prodName" : "Alienware x17 R2",
+              "prodDesc" : "Next-gen gaming performance",
+              "unitPrice" : 6699.0,
+              "sellingPrice" : 7699.0,
+              "stock" : 3,
+              "processor" : "Intel i9-12900HK",
+              "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+              "ramGB" : 32,
+              "storageGB" : 2000,
+              "displaySize" : "17.3",
+              "operatingSystem" : "Windows"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 7699.0
+        } ],
+        "totalAmount" : 8677.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P016",
+          "prodName" : "Logitech MX Master 3S",
+          "prodDesc" : "Advanced productivity mouse with ergonomic design",
+          "unitPrice" : 499.0,
+          "sellingPrice" : 549.0,
+          "stock" : 12,
+          "dpi" : 8000,
+          "numButtons" : 7,
+          "connectivity" : "Bluetooth & USB Receiver",
+          "color" : "Graphite",
+          "wireless" : true
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 549.0
+    }, {
+      "product" : {
+        "Mouse" : {
+          "prodID" : "P015",
+          "prodName" : "SteelSeries Aerox 3 Wireless",
+          "prodDesc" : "Ultra-light wireless gaming mouse with AquaBarrier™ protection",
+          "unitPrice" : 379.0,
+          "sellingPrice" : 429.0,
+          "stock" : 6,
+          "dpi" : 18000,
+          "numButtons" : 6,
+          "connectivity" : "2.4GHz Wireless & Bluetooth",
+          "color" : "White",
+          "wireless" : true
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 429.0
+    }, {
+      "product" : {
+        "Laptop" : {
+          "prodID" : "P005",
+          "prodName" : "Alienware x17 R2",
+          "prodDesc" : "Next-gen gaming performance",
+          "unitPrice" : 6699.0,
+          "sellingPrice" : 7699.0,
+          "stock" : 3,
+          "processor" : "Intel i9-12900HK",
+          "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+          "ramGB" : 32,
+          "storageGB" : 2000,
+          "displaySize" : "17.3",
+          "operatingSystem" : "Windows"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 7699.0
+    } ],
+    "orderDate" : "2025-05-03T02:37:17.1653871",
+    "totalAmount" : 8677.0,
+    "taxAmount" : 520.62,
+    "finalAmount" : 9197.62,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T02:37:17.1673893",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
+  },
+  "ORD-FBB7B44A" : {
+    "orderId" : "ORD-FBB7B44A",
+    "customer" : {
+      "userID" : "CUST-3122FC4D",
+      "username" : "test",
+      "email" : "test@gmail.com",
+      "password" : "Abcd1234$",
+      "address" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+      "phoneNum" : "01231231223",
+      "cart" : {
+        "cartId" : "CART-b2a26930",
+        "items" : [ {
+          "product" : {
+            "Accessory" : {
+              "prodID" : "P008",
+              "prodName" : "Anker 737 GaNPrime Charger",
+              "prodDesc" : "High-speed USB-C charger with multi-device support",
+              "unitPrice" : 329.0,
+              "sellingPrice" : 399.0,
+              "stock" : 17,
+              "compatibleWith" : "Laptops, Smartphones, Tablets",
+              "type" : "Fast Charging USB-C GaN Charger",
+              "material" : "Polycarbonate",
+              "color" : "Black"
+            }
+          },
+          "quantity" : 1,
+          "subtotal" : 399.0
+        } ],
+        "totalAmount" : 399.0,
+        "empty" : false
+      },
+      "wishlist" : {
+        "wishlistId" : "WISH-0e831708",
+        "items" : [ {
+          "Laptop" : {
+            "prodID" : "P005",
+            "prodName" : "Alienware x17 R2",
+            "prodDesc" : "Next-gen gaming performance",
+            "unitPrice" : 6699.0,
+            "sellingPrice" : 7699.0,
+            "stock" : 3,
+            "processor" : "Intel i9-12900HK",
+            "graphicsCard" : "NVIDIA GeForce RTX 3080 Ti",
+            "ramGB" : 32,
+            "storageGB" : 2000,
+            "displaySize" : "17.3",
+            "operatingSystem" : "Windows"
+          }
+        } ]
+      }
+    },
+    "items" : [ {
+      "product" : {
+        "Accessory" : {
+          "prodID" : "P008",
+          "prodName" : "Anker 737 GaNPrime Charger",
+          "prodDesc" : "High-speed USB-C charger with multi-device support",
+          "unitPrice" : 329.0,
+          "sellingPrice" : 399.0,
+          "stock" : 17,
+          "compatibleWith" : "Laptops, Smartphones, Tablets",
+          "type" : "Fast Charging USB-C GaN Charger",
+          "material" : "Polycarbonate",
+          "color" : "Black"
+        }
+      },
+      "quantity" : 1,
+      "subtotal" : 399.0
+    } ],
+    "orderDate" : "2025-05-03T02:48:59.7180131",
+    "totalAmount" : 399.0,
+    "taxAmount" : 23.939999999999998,
+    "finalAmount" : 422.94,
+    "shippingAddress" : "No 23, Jalan Sutera, Taman Sungai ABONG",
+    "status" : "PENDING",
+    "lastUpdated" : "2025-05-03T02:48:59.719002",
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-B76A8AE8" : {
     "orderId" : "ORD-B76A8AE8",
@@ -432,8 +912,8 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "CANCELLED",
     "lastUpdated" : "2025-05-03T01:19:55.169496",
-    "remainingRefundTime" : 140,
-    "remainingTimeForStatusUpdate" : 0
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   },
   "ORD-0491FC92" : {
     "orderId" : "ORD-0491FC92",
@@ -501,7 +981,7 @@
     "shippingAddress" : "Skibidi ohio sigma",
     "status" : "PENDING",
     "lastUpdated" : "2025-05-02T21:07:19.576701",
-    "remainingRefundTime" : 0,
-    "remainingTimeForStatusUpdate" : 0
+    "remainingTimeForStatusUpdate" : 0,
+    "remainingRefundTime" : 0
   }
 }
